@@ -74,6 +74,7 @@
                     android:theme="@style/AppTheme.TextInputLayout">
 
                     <EditText
+                        android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
@@ -94,6 +95,7 @@
                     android:theme="@style/AppTheme.TextInputLayout">
 
                     <EditText
+                        android:id="@+id/surname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
@@ -123,6 +125,7 @@
                         android:theme="@style/AppTheme.TextInputLayout">
 
                         <EditText
+                            android:id="@+id/day"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
@@ -145,6 +148,7 @@
                         android:theme="@style/AppTheme.TextInputLayout">
 
                         <EditText
+                            android:id="@+id/month"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
@@ -167,6 +171,7 @@
                         android:theme="@style/AppTheme.TextInputLayout">
 
                         <EditText
+                            android:id="@+id/year"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
@@ -191,6 +196,7 @@
                     android:theme="@style/AppTheme.TextInputLayout">
 
                     <EditText
+                        android:id="@+id/email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
@@ -212,14 +218,15 @@
 
 
                     <EditText
+                        android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="17sp"
                         android:inputType="textPassword"
                         android:lines="1"
                         android:maxLength="60"
                         android:textColor="@android:color/white"
-                        android:theme="@style/AppTheme.EditText"/>
+                        android:textSize="17sp"
+                        android:theme="@style/AppTheme.EditText" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -232,6 +239,7 @@
 
 
                     <EditText
+                        android:id="@+id/password2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
