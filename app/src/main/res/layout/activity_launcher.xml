@@ -68,8 +68,6 @@
                 android:elevation="10dp"
                 app:iconGravity="start"
                 app:rippleColor="#10000000"
-                android:paddingStart="0dp"
-                android:paddingEnd="30dp"
                 android:text="@string/google_login"
                 android:textAllCaps="false"
                 android:textSize="17sp"
