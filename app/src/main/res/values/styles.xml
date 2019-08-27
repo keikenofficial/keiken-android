@@ -19,5 +19,10 @@
         <item name="android:windowContentTransitions">true</item>
     </style>
 
+    <style name="AppTheme.Splash" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
 
 </resources>
