@@ -8,16 +8,19 @@
     <string name="login">Accedi</string>
     <string name="condizioni">Registrandoti dichiari di accettare i nostri <u>Termini e Condizioni di utilizzo</u>.</string>
 
+    <!--SignupActivity-->
+    <string name="name">Nome</string>
+    <string name="surname">Cogome</string>
+    <string name="day">Giorno</string>
+    <string name="month">Mese</string>
+    <string name="year">Anno</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 
-    <string name="password_dimenticata"><u>Password dimenticata?</u></string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="salta"><u>Salta</u></string>
-    <string name="recensioni"><u>Visualizza recensioni</u></string>
+    <!--LoginActivity-->
+    <string name="forgot_password"><u>Password dimenticata?</u></string>
 
-    <string name="date"><u>Date disponibili</u></string>
-
+    <!--ForgotPasswordActivity-->
+    <string name="send_email_forgot_password">Invia email per recupero password</string>
 
 </resources>

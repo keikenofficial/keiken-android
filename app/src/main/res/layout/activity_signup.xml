@@ -33,7 +33,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="29dp"
+            android:paddingStart="29dp"
+            android:paddingEnd="29dp"
             android:layout_marginTop="50dp">
 
 
@@ -42,9 +43,9 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_close"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:color="#ffffff"
-                android:layout_marginLeft="-5dp"/>
+                android:layout_marginStart="-5dp"/>
 
         </LinearLayout>
 
@@ -55,7 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginHorizontal="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:gravity="center"
             android:layout_marginBottom="35dp">
 
@@ -68,7 +70,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nome"
+                    android:hint="@string/name"
                     app:hintAnimationEnabled="true"
                     android:textColorHint="#80ffffff"
                     android:theme="@style/AppTheme.TextInputLayout">
@@ -89,7 +91,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Cognome"
+                    android:hint="@string/surname"
                     app:hintAnimationEnabled="true"
                     android:textColorHint="#80ffffff"
                     android:theme="@style/AppTheme.TextInputLayout">
@@ -109,6 +111,7 @@
 
 
                 <LinearLayout
+                    android:baselineAligned="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -119,7 +122,7 @@
                         android:layout_weight="33"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="Giorno"
+                        android:hint="@string/day"
                         app:hintAnimationEnabled="true"
                         android:textColorHint="#80ffffff"
                         android:theme="@style/AppTheme.TextInputLayout">
@@ -142,7 +145,7 @@
                         android:layout_weight="33"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="Mese"
+                        android:hint="@string/month"
                         app:hintAnimationEnabled="true"
                         android:textColorHint="#80ffffff"
                         android:theme="@style/AppTheme.TextInputLayout">
@@ -165,7 +168,7 @@
                         android:layout_weight="33"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="Anno"
+                        android:hint="@string/year"
                         app:hintAnimationEnabled="true"
                         android:textColorHint="#80ffffff"
                         android:theme="@style/AppTheme.TextInputLayout">
@@ -190,7 +193,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     app:hintAnimationEnabled="true"
                     android:textColorHint="#80ffffff"
                     android:theme="@style/AppTheme.TextInputLayout">
@@ -212,7 +215,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:textColorHint="#80ffffff"
                     android:theme="@style/AppTheme.TextInputLayout">
 
@@ -233,7 +236,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:textColorHint="#80ffffff"
                     android:theme="@style/AppTheme.TextInputLayout">
 
@@ -255,16 +258,16 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/signup_button"
-                android:layout_gravity="bottom|right"
+                android:layout_gravity="bottom|end"
                 android:layout_width="wrap_content"
-                android:paddingHorizontal="14dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Registrati"
+                android:text="@string/signup"
                 android:textAllCaps="false"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:textColor="#ffffff"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 app:strokeColor="#ffffff"
                 app:strokeWidth="1dp"/>
 

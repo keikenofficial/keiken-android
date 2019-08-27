@@ -34,7 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingHorizontal="29dp"
+            android:paddingStart="29dp"
+            android:paddingEnd="29dp"
             android:layout_marginTop="50dp">
 
 
@@ -43,16 +44,16 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/ic_close"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:color="#ffffff"
-                android:layout_marginLeft="-5dp"/>
+                android:layout_marginStart="-5dp"/>
 
             <TextView
                 android:id="@+id/forgot_password_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/password_dimenticata"
-                android:gravity="right"
+                android:text="@string/forgot_password"
+                android:gravity="end"
                 android:layout_gravity="center_vertical"
                 android:textSize="17sp"
                 android:textColor="#ffffff"/>
@@ -66,7 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginHorizontal="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
             android:gravity="center"
             android:layout_marginBottom="35dp">
 
@@ -79,7 +81,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     app:hintAnimationEnabled="true"
                     android:textColorHint="#80ffffff"
                     android:theme="@style/AppTheme.TextInputLayout">
@@ -101,7 +103,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/password"
                     android:textColorHint="#80ffffff"
                     android:theme="@style/AppTheme.TextInputLayout">
 
@@ -123,16 +125,16 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login_button"
-                android:layout_gravity="bottom|right"
+                android:layout_gravity="bottom|end"
                 android:layout_width="wrap_content"
-                android:paddingHorizontal="14dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="Accedi"
+                android:text="@string/login"
                 android:textAllCaps="false"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:textColor="#ffffff"
-                android:textSize="17dp"
+                android:textSize="17sp"
                 app:strokeColor="#ffffff"
                 app:strokeWidth="1dp"/>
 
