@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "546078811112",
+    "firebase_url": "https://keiken-60d93.firebaseio.com",
+    "project_id": "keiken-60d93",
+    "storage_bucket": "keiken-60d93.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546078811112:android:d4d2ceea4f3a4be2",
+        "android_client_info": {
+          "package_name": "com.keiken"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546078811112-9hvpgqmhsa1ghlpsj731e0pf26cjjoip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx7gBn2o2p3iGSiFvKLzeHvd4T6UHGG6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546078811112-9hvpgqmhsa1ghlpsj731e0pf26cjjoip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
