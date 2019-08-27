@@ -11,18 +11,19 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name="SplashActivity"
-            android:icon="@mipmap/ic_launcher"
-            android:label="Keiken"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name=".LauncherActivity"/>
+        <activity
+            android:name=".LauncherActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode = "singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
