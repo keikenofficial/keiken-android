@@ -22,7 +22,17 @@
         <activity
             android:name=".LauncherActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode = "singleTop"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SignupActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
     </application>
 
