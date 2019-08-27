@@ -6,13 +6,131 @@
     android:layout_height="match_parent"
     tools:context=".LauncherActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/launcher_background" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.15"
+            android:background="@android:color/black" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="80dp"
+            android:adjustViewBounds="true"
+            android:src="@mipmap/logo_full_transparent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/facebook_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                app:icon="@drawable/facebook_icon"
+                app:iconTint="@null"
+                android:text="Continua con Facebook"
+                android:textAllCaps="false"
+                android:textSize="17sp"
+                android:textColor="#ffffff"
+                app:backgroundTint="#4167b2"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/google_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:backgroundTint="#ffffff"
+                android:layout_marginHorizontal="20dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                app:icon="@drawable/google_icon"
+                app:iconTint="@null"
+                android:elevation="10dp"
+                app:iconGravity="start"
+                app:rippleColor="#10000000"
+                android:paddingRight="30dp"
+                android:text="Continua con Google"
+                android:textAllCaps="false"
+                android:textSize="17sp"
+                android:textColor="#80000000"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="horizontal">
+
+
+
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/signup_button"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:text="Registrati"
+                                    android:textAllCaps="false"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    android:textColor="#ffffff"
+                                    android:textSize="17dp"
+                                    app:strokeColor="#ffffff"
+                                    app:strokeWidth="1dp"
+                                    android:layout_marginRight="4dp"/>
+
+
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/login_button"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:text="Accedi"
+                                    android:textAllCaps="false"
+                                    android:textColor="#ffffff"
+                                    android:textSize="17dp"
+                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                    app:strokeColor="#ffffff"
+                                    app:strokeWidth="1dp"
+                                    android:layout_marginLeft="4dp"/>
+
+
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="23dp"
+                                android:layout_marginTop="55dp"
+                                android:layout_marginBottom="35dp"
+                                android:gravity="center"
+                                android:text="@string/condizioni"
+                                android:textColor="#ffffff"
+                                android:textSize="16dp" />
+
+                        </LinearLayout>
+
+
+                    </FrameLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
