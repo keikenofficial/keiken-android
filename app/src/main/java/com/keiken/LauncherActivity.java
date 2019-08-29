@@ -59,6 +59,9 @@ public class LauncherActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        FacebookSdk.setApplicationId("419212508697049");
+        AppEventsLogger.activateApp(getApplication());
+
         mCallbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(mCallbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -121,14 +124,6 @@ public class LauncherActivity extends AppCompatActivity {
         });
 
 
-
-
-        FacebookSdk.setApplicationId("419212508697049");
-        AppEventsLogger.activateApp(getApplication());
-
-
-
-
     }
 
 
@@ -179,8 +174,7 @@ public class LauncherActivity extends AppCompatActivity {
                 Log.w("", "Google sign in failed", e);
                 // ...
             }
-        }
-        else
+        } else
             // Pass the activity result back to the Facebook SDK
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
