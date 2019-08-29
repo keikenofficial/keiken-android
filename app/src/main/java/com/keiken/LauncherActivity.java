@@ -59,29 +59,10 @@ public class LauncherActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mCallbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(mCallbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Log.d("Success", "Login");
-                        handleFacebookAccessToken(loginResult.getAccessToken());
-                    }
 
-                    @Override
-                    public void onCancel() {
-                        Toast t = Toast.makeText(LauncherActivity.this, "Cancellazione Login.", Toast.LENGTH_SHORT);
-                        t.setGravity(Gravity.TOP, 0, 160);
-                        t.show();
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        Toast t = Toast.makeText(getParent(), exception.getMessage(), Toast.LENGTH_SHORT);
-                        t.setGravity(Gravity.TOP, 0, 160);
-                        t.show();
-                    }
-                });
+        //
+        FacebookSdk.setApplicationId("419212508697049");
+        AppEventsLogger.activateApp(getApplication());
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -123,19 +104,75 @@ public class LauncherActivity extends AppCompatActivity {
 
 
 
-        FacebookSdk.setApplicationId("419212508697049");
-        AppEventsLogger.activateApp(getApplication());
 
 
+        mCallbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(mCallbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d("Success", "Login");
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast t = Toast.makeText(LauncherActivity.this, "Cancellazione Login.", Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.TOP, 0, 160);
+                        t.show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Toast t = Toast.makeText(getParent(), exception.getMessage(), Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.TOP, 0, 160);
+                        t.show();
+                    }
+                });
 
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            boolean externalProvider = false;
+            for (UserInfo user : (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())).getProviderData()) {
+                if (user.getProviderId().equals("facebook.com") || user.getProviderId().equals("google.com")) {
+                    externalProvider = true;
+                    //updateUI();
+                }
+            }
+            if (!externalProvider && currentUser.isEmailVerified())     ;//updateUI();
+        }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null)
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w("", "Google sign in failed", e);
+                // ...
+            }
+        }
+    }
+
+
+
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("", "firebaseAuthWithGoogle:" + acct.getId());
@@ -162,31 +199,6 @@ public class LauncherActivity extends AppCompatActivity {
                 });
     } //called by onActivityResult for Google auth
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("", "Google sign in failed", e);
-                // ...
-            }
-        }
-        else
-            // Pass the activity result back to the Facebook SDK
-            mCallbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("", "handleFacebookAccessToken:" + token);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -210,23 +222,9 @@ public class LauncherActivity extends AppCompatActivity {
                 });
     } //called by LoginManager callback for Facebook auth
 
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            boolean externalProvider = false;
-            for (UserInfo user : (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())).getProviderData()) {
-                if (user.getProviderId().equals("facebook.com") || user.getProviderId().equals("google.com")) {
-                    externalProvider = true;
-                    //updateUI();
-                }
-            }
-            if (!externalProvider && currentUser.isEmailVerified())     ;//updateUI();
-        }
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
 }
