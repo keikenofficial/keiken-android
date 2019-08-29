@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Keiken</string>
 
+    <!--Facebook-->
+    <string name="facebook_app_id">419212508697049</string> <string name="fb_login_protocol_scheme">fb419212508697049</string>
+
+
     <!--LauncherActivity-->
     <string name="facebook_login">Continua con Facebook</string>
     <string name="google_login">Continua con Google</string>
