@@ -59,7 +59,29 @@ public class LauncherActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        mCallbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(mCallbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d("Success", "Login");
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
 
+                    @Override
+                    public void onCancel() {
+                        Toast t = Toast.makeText(LauncherActivity.this, "Cancellazione Login.", Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.TOP, 0, 160);
+                        t.show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        Toast t = Toast.makeText(getParent(), exception.getMessage(), Toast.LENGTH_SHORT);
+                        t.setGravity(Gravity.TOP, 0, 160);
+                        t.show();
+                    }
+                });
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -104,29 +126,7 @@ public class LauncherActivity extends AppCompatActivity {
         FacebookSdk.setApplicationId("419212508697049");
         AppEventsLogger.activateApp(getApplication());
 
-        mCallbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(mCallbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Log.d("Success", "Login");
-                        handleFacebookAccessToken(loginResult.getAccessToken());
-                    }
 
-                    @Override
-                    public void onCancel() {
-                        Toast t = Toast.makeText(LauncherActivity.this, "Cancellazione Login.", Toast.LENGTH_SHORT);
-                        t.setGravity(Gravity.TOP, 0, 160);
-                        t.show();
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        Toast t = Toast.makeText(getParent(), exception.getMessage(), Toast.LENGTH_SHORT);
-                        t.setGravity(Gravity.TOP, 0, 160);
-                        t.show();
-                    }
-                });
 
 
     }
@@ -180,6 +180,9 @@ public class LauncherActivity extends AppCompatActivity {
                 // ...
             }
         }
+        else
+            // Pass the activity result back to the Facebook SDK
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 
