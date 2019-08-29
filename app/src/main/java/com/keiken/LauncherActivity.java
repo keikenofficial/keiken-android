@@ -80,7 +80,7 @@ public class LauncherActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Toast t = Toast.makeText(getParent(), exception.getMessage(), Toast.LENGTH_SHORT);
+                        Toast t = Toast.makeText(LauncherActivity.this, exception.getMessage(), Toast.LENGTH_SHORT);
                         t.setGravity(Gravity.TOP, 0, 160);
                         t.show();
                     }
