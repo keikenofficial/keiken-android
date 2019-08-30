@@ -18,6 +18,11 @@
         <item name="colorAccent">#ffffff</item>
     </style>
 
+    <style name="AppTheme.NoActionBar2" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="AppTheme.Splash" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
@@ -33,6 +38,15 @@
         <item name="colorAccent">#ffffff</item>
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlActivated">@android:color/white</item>
+    </style>
+
+    <style name="Chip" parent="Widget.MaterialComponents.Chip.Action">
+    <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="RatingTheme" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#000000</item>
+        <item name="colorControlActivated">#FFFDEC00</item>
     </style>
 
 

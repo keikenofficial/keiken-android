@@ -27,4 +27,7 @@
     <!--ForgotPasswordActivity-->
     <string name="send_email_forgot_password">Invia email per recupero password</string>
 
+    <string name="reviews"><u>Visualizza recensioni</u></string>
+
+
 </resources>

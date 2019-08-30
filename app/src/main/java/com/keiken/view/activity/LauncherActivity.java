@@ -1,4 +1,4 @@
-package com.keiken;
+package com.keiken.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.keiken.R;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -191,7 +192,7 @@ public class LauncherActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("", "signInWithCredential:success");
-                            //updateUI();
+                            startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("", "signInWithCredential:failure", task.getException());
@@ -217,10 +218,12 @@ public class LauncherActivity extends AppCompatActivity {
             for (UserInfo user : (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())).getProviderData()) {
                 if (user.getProviderId().equals("facebook.com") || user.getProviderId().equals("google.com")) {
                     externalProvider = true;
-                    //updateUI();
+                    startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
+
                 }
             }
-            if (!externalProvider && currentUser.isEmailVerified())     ;//updateUI();
+            if (!externalProvider && currentUser.isEmailVerified())
+                startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
         }
     }
 }
