@@ -103,35 +103,27 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="15dp"/>
 
-            <!-- NUOVA VERSIONE -->
+
             <com.jaygoo.widget.RangeSeekBar
                 android:id="@+id/seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:rsb_gravity="center"
+                app:rsb_gravity="bottom"
+                android:layout_marginBottom="6dp"
                 app:rsb_mode="range"
+                app:rsb_progress_color="@color/White"
+                app:rsb_progress_default_color="#3fb3d8"
+                app:rsb_indicator_background_color="@color/colorPrimary"
                 app:rsb_thumb_drawable="@drawable/thumb_gradient"
-                app:rsb_progress_drawable="@drawable/progress"
-
+                app:rsb_thumb_height="14dp"
+                app:rsb_thumb_width="14dp"
                 app:rsb_indicator_show_mode="alwaysShowAfterTouch"
+                app:rsb_indicator_text_color="@color/White"
                 app:rsb_indicator_width="wrap_content"
-                app:rsb_indicator_height="wrap_content"/>
-            <!-- !!!!!!!!! DA SISTEMARE QUESTA ULTIMA PARTE !!!!!!!   -->
-
-            <!--
-            <androidx.appcompat.widget.AppCompatSeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:thumbTint="#ffffff"
-                android:progressBackgroundTint="#ffffff"
-                android:progressTint="#ffffff"
-                android:backgroundTint="#ffffff"
-                android:foregroundTint="#ffffff"
-                android:tickMarkTint="#ffffff"
-                android:indeterminateTint="#ffffff"
-                android:layout_marginBottom="10dp"
+                app:rsb_indicator_height="wrap_content"
                 android:layout_marginHorizontal="15dp"/>
-            -->
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
