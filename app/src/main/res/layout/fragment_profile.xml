@@ -242,7 +242,7 @@
                                         android:textColor="#000000"
                                         android:textSize="16dp"
                                         android:id="@+id/email"
-                                        android:text="matrisch94@gmail.com"
+                                        android:text="mail"
                                         android:layout_marginBottom="7dp"/>
 
                                     <TextView
@@ -250,7 +250,7 @@
                                         android:layout_height="wrap_content"
                                         android:textColor="#000000"
                                         android:textSize="16dp"
-                                        android:text="16/06/1994"
+                                        android:text="Data"
                                         android:layout_marginBottom="7dp"/>
 
 
@@ -306,7 +306,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="#000000"
                             android:textSize="16dp"
-                            android:text="25 anni, Bologna, Ingegneria informatica. Appassionato di tecnologia, cinema, serie tv, viaggi e fotografia. Co-fondatore e sviluppatore di Keiken."
+                            android:text="Bio"
                             android:gravity="center"
                             android:paddingTop="20dp"
                             android:paddingHorizontal="15dp"

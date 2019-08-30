@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.keiken.R;
 
 import java.util.Objects;
@@ -81,7 +82,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-    private void signup(String name, String surname, String day, String month, String year, String email, String password) {
+    private void signup(final String name, final String surname, String day, String month, String year, String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -90,6 +91,13 @@ public class SignupActivity extends AppCompatActivity {
                             //Sign in success
                             Toast.makeText(SignupActivity.this, "Registrazione avvenuta con successo.\nControlla la tua email e fai click sul link di verifica dell'account.", Toast.LENGTH_LONG).show();
                             Log.d("", "createUserWithEmail:success");
+
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(name + " " + surname).build();
+                            if (user != null) {
+                                user.updateProfile(profileUpdates);
+                            }
 
                             sendVerificationEmail();
 

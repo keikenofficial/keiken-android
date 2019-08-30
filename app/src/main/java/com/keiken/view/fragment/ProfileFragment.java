@@ -22,6 +22,7 @@ import com.facebook.login.LoginManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
 import com.keiken.view.activity.LauncherActivity;
@@ -32,6 +33,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+
+import static com.keiken.controller.ImageController.setProfilePic;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,6 +115,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         TextView reviewsButton = c.findViewById(R.id.reviews_button);
         TextView logout = c.findViewById(R.id.logout);
+        TextView email = c.findViewById(R.id.email);
+        ImageView profilePic = c.findViewById(R.id.profile_pic);
 
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
@@ -210,7 +215,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         Toolbar toolbar = c.findViewById(R.id.toolbar);
         toolbar.setElevation(0);
-        toolbar.setTitle("Salvatore Matrisciano");
+        toolbar.setTitle("Profilo");
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
@@ -325,6 +330,29 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
+
+
+
+
+
+        FirebaseUser user = mAuth.getCurrentUser();
+
+
+
+
+        if (user != null) {
+            // Name, email address, and profileImageView photo Url
+            toolbar.setTitle(user.getDisplayName());
+            email.setText(user.getEmail());
+            setProfilePic(profilePic);
+        }
+
+
+
+
+
+
+
         return c;
 
 
@@ -422,6 +450,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             return false;
 
     }
+
+
+
 }
 
 
