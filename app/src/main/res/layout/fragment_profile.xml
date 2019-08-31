@@ -247,11 +247,12 @@
                                         android:layout_marginBottom="7dp"/>
 
                                     <TextView
+                                        android:id="@+id/date"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:textColor="#000000"
                                         android:textSize="16dp"
-                                        android:text="Data"
+                                        android:text=""
                                         android:layout_marginBottom="7dp"/>
 
 
@@ -307,7 +308,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="#000000"
                             android:textSize="16dp"
-                            android:text="Bio"
+                            android:text=""
                             android:gravity="center"
                             android:paddingTop="20dp"
                             android:paddingHorizontal="15dp"

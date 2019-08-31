@@ -47,7 +47,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LauncherActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    FirebaseFirestore db;
+    private FirebaseFirestore db;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     private CallbackManager mCallbackManager;

@@ -19,16 +19,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
 import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
@@ -52,6 +60,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
     private ImageView upArrow, downArrow;
     private LinearLayoutCompat header;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
 
 
 
@@ -112,12 +122,15 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
 
         TextView reviewsButton = c.findViewById(R.id.reviews_button);
         TextView logout = c.findViewById(R.id.logout);
         TextView email = c.findViewById(R.id.email);
         ImageView profilePic = c.findViewById(R.id.profile_pic);
         TextView contacts = c.findViewById(R.id.contacts);
+        TextView date = c.findViewById(R.id.date);
 
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
@@ -346,6 +359,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             toolbar.setTitle(user.getDisplayName());
             email.setText(user.getEmail());
             setProfilePic(profilePic);
+
+
+
         }
 
 

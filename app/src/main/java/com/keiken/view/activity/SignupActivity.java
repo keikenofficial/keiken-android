@@ -34,7 +34,7 @@ import jp.wasabeef.blurry.Blurry;
 public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    FirebaseFirestore db;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
