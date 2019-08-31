@@ -117,6 +117,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         TextView logout = c.findViewById(R.id.logout);
         TextView email = c.findViewById(R.id.email);
         ImageView profilePic = c.findViewById(R.id.profile_pic);
+        TextView contacts = c.findViewById(R.id.contacts);
 
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
@@ -346,6 +347,20 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             email.setText(user.getEmail());
             setProfilePic(profilePic);
         }
+
+
+
+        contacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:keiken@mail.com"));
+                startActivity(emailIntent);
+            }
+        });
+
+
+
 
 
 
