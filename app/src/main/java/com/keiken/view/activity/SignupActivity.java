@@ -11,14 +11,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.keiken.R;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -28,6 +34,7 @@ import jp.wasabeef.blurry.Blurry;
 public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,8 @@ public class SignupActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
 
         background.post(new Runnable() {
             @Override
@@ -83,7 +92,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
-    private void signup(final String name, final String surname, String day, String month, String year, String email, String password) {
+    private void signup(final String name, final String surname, final String day, final String month, final String year, final String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -99,6 +108,40 @@ public class SignupActivity extends AppCompatActivity {
                             if (user != null) {
                                 user.updateProfile(profileUpdates);
                             }
+
+
+                            // Create a new user with a first and last name
+                            Map<String, Object> userDb = new HashMap<>();
+                            userDb.put("name", name);
+                            userDb.put("surname", surname);
+                            userDb.put("day", day);
+                            userDb.put("month", month);
+                            userDb.put("year", year);
+                            userDb.put("email", email);
+                            userDb.put("id", user.getUid());
+
+
+
+
+                            // Add a new document with a generated ID
+                            db.collection("utenti")
+                                    .add(userDb)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("", "Error adding document", e);
+                                        }
+                                    });
+
+
+
+
 
                             sendVerificationEmail();
 
@@ -142,12 +185,13 @@ public class SignupActivity extends AppCompatActivity {
 
     boolean verifySignUpInformation(String name, String surname, String day, String month, String year, String email, String password, String password2) {
 
-        int dayInt = Integer.parseInt(day), monthInt = Integer.parseInt(month), yearInt = Integer.parseInt(year);
-
         if (name.equals("") || surname.equals("") || day.equals("") || month.equals("") || year.equals("") || email.equals("") || password.equals("") || password2.equals("")) {
             Toast.makeText(SignupActivity.this, "Tutti i campi devono essere compilati.", Toast.LENGTH_LONG).show();
             return false;
         }
+
+        int dayInt = Integer.parseInt(day), monthInt = Integer.parseInt(month), yearInt = Integer.parseInt(year);
+
 
         if (password.length() < 6) {
             Toast.makeText(SignupActivity.this, "La passowrd deve essere di almeno 6 caratteri.", Toast.LENGTH_LONG).show();

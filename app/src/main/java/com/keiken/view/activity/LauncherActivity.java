@@ -30,6 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.keiken.R;
 
 import java.util.Arrays;
@@ -59,6 +60,8 @@ public class LauncherActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
         FacebookSdk.setApplicationId("419212508697049");
         AppEventsLogger.activateApp(getApplication());
