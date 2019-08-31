@@ -5,12 +5,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.keiken.R;
@@ -23,7 +17,10 @@ import com.keiken.view.fragment.MessagingFragment;
 import com.keiken.view.fragment.ProfileFragment;
 import com.keiken.view.fragment.SavedFragment;
 
-import java.util.Calendar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -39,9 +36,6 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPagerAdapter viewPagerAdapter;
     private Animation fadeOut, fadeIn;
 
-    private CalendarListener calendar;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +44,6 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.navigation);
         viewPager = findViewById(R.id.viewpager);
-
-
-
-
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -130,20 +120,9 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
+
         setupViewPager(viewPager);
-
-
-        calendar.setCalendarListener(new DateRangeCalendarView.CalendarListener() {
-            @Override
-            public void onFirstDateSelected(Calendar startDate) {
-                Toast.makeText(HomeActivity.this, "Start Date: " + startDate.getTime().toString(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onDateRangeSelected(Calendar startDate, Calendar endDate) {
-                Toast.makeText(HomeActivity.this, "Start Date: " + startDate.getTime().toString() + " End date: " + endDate.getTime().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
     }
@@ -188,6 +167,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public void onBackPressed() {
