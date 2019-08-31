@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.keiken.R;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -140,6 +141,9 @@ public class SignupActivity extends AppCompatActivity {
 
 
     boolean verifySignUpInformation(String name, String surname, String day, String month, String year, String email, String password, String password2) {
+
+        int dayInt = Integer.parseInt(day), monthInt = Integer.parseInt(month), yearInt = Integer.parseInt(year);
+
         if (name.equals("") || surname.equals("") || day.equals("") || month.equals("") || year.equals("") || email.equals("") || password.equals("") || password2.equals("")) {
             Toast.makeText(SignupActivity.this, "Tutti i campi devono essere compilati.", Toast.LENGTH_LONG).show();
             return false;
@@ -155,13 +159,23 @@ public class SignupActivity extends AppCompatActivity {
             return false;
         }
 
-        if (Integer.parseInt(day) < 1 || Integer.parseInt(day) > 31 || Integer.parseInt(month) < 1 || Integer.parseInt(month) > 12 || Integer.parseInt(year) < 1800) {
+        if (dayInt < 1 || dayInt > 31 || monthInt < 1 || monthInt > 12 || yearInt < 1800) {
             Toast.makeText(SignupActivity.this, "La data inserita è sbagliata!", Toast.LENGTH_LONG).show();
-
-            //TODO: INSERIRE CONTROLLO DATE FUTURE E GIORNI MASSIMI DEI MESI
-
             return false;
         }
+
+
+        Calendar c = Calendar.getInstance();
+        int currentYear = c.get(Calendar.YEAR);
+        int currentMonth = c.get(Calendar.MONTH);
+        int currentDay = c.get(Calendar.DAY_OF_MONTH);
+
+        if (((yearInt > currentYear)) || (yearInt == currentYear && monthInt > currentMonth)
+                ||(yearInt == currentYear && monthInt == currentMonth && dayInt >= currentDay)){
+            Toast.makeText(SignupActivity.this, "La data inserita è sbagliata!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         return true;
     }
 }
