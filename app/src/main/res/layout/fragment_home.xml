@@ -286,7 +286,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:default_date_color="@color/White"
-                app:disable_date_color="@color/Black"
+                app:disable_date_color="@color/colorPrimaryDark"
                 app:range_date_color="@color/White"
                 app:week_color="@color/White"
                 app:range_color="@color/colorPrimaryLight"
