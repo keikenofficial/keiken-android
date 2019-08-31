@@ -142,7 +142,6 @@ public class SignupActivity extends AppCompatActivity {
 
 
 
-
                             sendVerificationEmail();
 
                         } else {
