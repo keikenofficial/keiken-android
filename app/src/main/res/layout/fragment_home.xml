@@ -112,7 +112,7 @@
                 android:layout_marginBottom="6dp"
                 app:rsb_mode="range"
                 app:rsb_progress_color="@color/White"
-                app:rsb_progress_default_color="#3fb3d8"
+                app:rsb_progress_default_color="@color/colorPrimaryLight"
                 app:rsb_indicator_background_color="@color/colorPrimary"
                 app:rsb_thumb_drawable="@drawable/thumb_gradient"
                 app:rsb_thumb_height="14dp"
@@ -276,10 +276,23 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="15dp"/>
 
-            <DatePicker
+           <!-- <DatePicker
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:datePickerMode="calendar"/>
+                android:datePickerMode="calendar"/>-->
+
+            <com.archit.calendardaterangepicker.customviews.DateRangeCalendarView
+                android:id="@+id/calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:default_date_color="@color/White"
+                app:disable_date_color="@color/colorPrimaryDark"
+                app:range_date_color="@color/White"
+                app:week_color="@color/White"
+                app:range_color="@color/colorPrimaryLight"
+                app:selected_date_circle_color="@color/colorPrimaryDark"
+                app:title_color="@color/White">
+            </com.archit.calendardaterangepicker.customviews.DateRangeCalendarView>
 
             <View
                 android:layout_width="match_parent"
