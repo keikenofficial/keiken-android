@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -151,7 +152,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         ImageView profilePic = c.findViewById(R.id.profile_pic);
         TextView contacts = c.findViewById(R.id.contacts);
         TextView date = c.findViewById(R.id.date);
-        ImageView changePhotoButton = c.findViewById(R.id.change_photo);
+        Button changePhotoButton = c.findViewById(R.id.change_photo);
 
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
