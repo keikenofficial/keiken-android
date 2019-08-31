@@ -153,6 +153,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         TextView contacts = c.findViewById(R.id.contacts);
         TextView date = c.findViewById(R.id.date);
         Button changePhotoButton = c.findViewById(R.id.change_photo);
+        profileImageView = c.findViewById(R.id.profile_pic);
 
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
@@ -408,7 +409,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             @Override
             public void onClick(View v) {
 
-                if (ContextCompat.checkSelfPermission(getContext(),
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
                         Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
 
                         || ContextCompat.checkSelfPermission(getContext(),
@@ -417,7 +418,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         || ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
 
-                    ActivityCompat.requestPermissions(getActivity(),
+                    ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                             0);
 
@@ -553,7 +554,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                     profileImageView.setImageURI(storageUrl);
                     Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                     mediaScanIntent.setData(storageUrl);
-                    getActivity().sendBroadcast(mediaScanIntent);
+                    Objects.requireNonNull(getActivity()).sendBroadcast(mediaScanIntent);
                 } catch (Exception e) {
                     Log.e("Error uploading file", e.getMessage());
                 }
@@ -574,7 +575,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             selectImage();
     }
@@ -633,7 +634,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
                                     .getTotalByteCount());
                             progressDialog.setMessage("Uploaded " + (int) progress + "%");
