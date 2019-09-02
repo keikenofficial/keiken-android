@@ -15,7 +15,7 @@
 
     <!--SignupActivity-->
     <string name="name">Nome</string>
-    <string name="surname">Cogome</string>
+    <string name="surname">Cognome</string>
     <string name="day">Giorno</string>
     <string name="month">Mese</string>
     <string name="year">Anno</string>
