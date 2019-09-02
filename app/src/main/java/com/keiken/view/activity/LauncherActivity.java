@@ -159,8 +159,9 @@ public class LauncherActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("", "signInWithCredential:success");
 
-                            String name = acct.getDisplayName();
-                            String surname = acct.getGivenName();
+
+                            String name = acct.getGivenName();
+                            String surname = acct.getFamilyName();
 
                             uploadUserToDb(name, surname);
                             startActivity(new Intent(getBaseContext(), HomeActivity.class));
