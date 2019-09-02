@@ -1,7 +1,11 @@
 package com.keiken.view.activity;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -21,6 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import static com.keiken.controller.ImageController.createVoidImageFile;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -180,6 +186,8 @@ public class HomeActivity extends AppCompatActivity {
             } else super.onBackPressed();
         }
     }
+
+
 }
 
 

@@ -421,10 +421,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         || ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
-                    ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()),
+                    requestPermissions(
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                             0);
-                    selectImage();
                 }
                 else selectImage();
             }
