@@ -13,6 +13,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -44,6 +46,9 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LauncherActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -69,9 +74,12 @@ public class LauncherActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
 
+        //Configure Facebook application
         FacebookSdk.setApplicationId("419212508697049");
         AppEventsLogger.activateApp(getApplication());
 
+
+        //loginManager to handle Facebook login request
         mCallbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(mCallbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -101,7 +109,6 @@ public class LauncherActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
@@ -129,18 +136,54 @@ public class LauncherActivity extends AppCompatActivity {
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager.getInstance().logInWithReadPermissions(LauncherActivity.this, Arrays.asList("public_profile", "email"));
+                LoginManager.getInstance().logInWithReadPermissions(LauncherActivity.this, Arrays.asList("public_profile", "email", "user_birthday"));
             }
         });
 
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            boolean externalProvider = false;
+            for (UserInfo user : (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())).getProviderData()) {
+                if (user.getProviderId().equals("facebook.com") || user.getProviderId().equals("google.com")) {
+                    externalProvider = true;
+                    startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
+
+                }
+            }
+            if (!externalProvider && currentUser.isEmailVerified())
+                startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
+        }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) { //standard signIn
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w("", "Google sign in failed", e);
+                // ...
+            }
+        } else
+            // Pass the activity result back to the Facebook SDK
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("", "firebaseAuthWithGoogle:" + acct.getId());
@@ -169,31 +212,7 @@ public class LauncherActivity extends AppCompatActivity {
                 });
     } //called by onActivityResult for Google auth
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("", "Google sign in failed", e);
-                // ...
-            }
-        } else
-            // Pass the activity result back to the Facebook SDK
-            mCallbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-
-    private void handleFacebookAccessToken(AccessToken token) {
+    private void handleFacebookAccessToken(final AccessToken token) { //AAA: token final?!?!?
         Log.d("", "handleFacebookAccessToken:" + token);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
@@ -203,6 +222,27 @@ public class LauncherActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("", "signInWithCredential:success");
+
+                            GraphRequest request = GraphRequest.newMeRequest(
+                                    token,
+                                    new GraphRequest.GraphJSONObjectCallback() {
+                                        @Override
+                                        public void onCompleted(JSONObject object, GraphResponse response) {
+                                            Log.v("LoginActivity", response.toString());
+
+                                            // Application code
+                                            try {
+                                                String email = object.getString("email");
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            try {
+                                                String birthday = object.getString("birthday"); // 01/31/1980 format
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
 
 
                             uploadUserToDb();
@@ -221,31 +261,13 @@ public class LauncherActivity extends AppCompatActivity {
     } //called by LoginManager callback for Facebook auth
 
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            boolean externalProvider = false;
-            for (UserInfo user : (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())).getProviderData()) {
-                if (user.getProviderId().equals("facebook.com") || user.getProviderId().equals("google.com")) {
-                    externalProvider = true;
-                    startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
-
-                }
-            }
-            if (!externalProvider && currentUser.isEmailVerified())
-                startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
-        }
+    private void signIn() { //called by standard for mail signIn
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
 
-
     private void uploadUserToDb(){
-
         // Create a new user with a first and last name
         FirebaseUser user = mAuth.getCurrentUser();
         Map<String, Object> userDb = new HashMap<>();
@@ -276,5 +298,5 @@ public class LauncherActivity extends AppCompatActivity {
                         Log.w("", "Error adding document", e);
                     }
                 });
-    }
+    } //create a reference document of the user on Firestore
 }

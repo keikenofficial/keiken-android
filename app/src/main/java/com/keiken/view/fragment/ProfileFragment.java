@@ -136,7 +136,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FrameLayout c = (FrameLayout) inflater.inflate(R.layout.fragment_profile, container, false);
@@ -460,7 +459,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         };
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -481,9 +479,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
-  /*  public void recursiveLoopChildren(boolean enable, ViewGroup parent) {
+    /*  public void recursiveLoopChildren(boolean enable, ViewGroup parent) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             final View child = parent.getChildAt(i);
 
@@ -530,19 +526,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -580,7 +563,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             selectImage();
     }
 
-
     private void selectImage() {
 
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -593,7 +575,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         startActivityForResult(chooser, REQUEST_PHOTO);
     }
-
 
     private void uploadProfileImage(Uri filePath) {
 
