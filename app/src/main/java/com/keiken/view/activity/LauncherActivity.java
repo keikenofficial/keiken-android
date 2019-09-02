@@ -33,8 +33,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.keiken.R;
 
 import java.util.Arrays;
@@ -207,11 +211,24 @@ public class LauncherActivity extends AppCompatActivity {
 
 
                             Profile profile= Profile.getCurrentProfile();
-                            String name = profile.getName();
-                            String surname = profile.getLastName();
+                            final String name = profile.getName();
+                            final String surname = profile.getLastName();
+
+                            //checks firestore database in order to see if user already exists, if so, do nothing
+                            CollectionReference utenti = db.collection("utenti");
+                            Query query = utenti.whereEqualTo("id", mAuth.getCurrentUser().getUid());
+                            Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        if(task.getResult().isEmpty())
+                                                uploadUserToDb(name, surname);
+                                        }
+
+                                    }
+                            });
 
 
-                            uploadUserToDb(name, surname);
                             startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
 
                         } else {
