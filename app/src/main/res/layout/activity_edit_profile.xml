@@ -73,10 +73,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Conversazioni"
+                        android:text="Modifica profilo"
                         android:textColor="#000000"
                         android:textSize="17sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
 
                     <ImageView
