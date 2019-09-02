@@ -72,8 +72,8 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Modifica profilo"
+                        android:layout_height="match_parent"
+                        android:text="Modifica Profilo"
                         android:textColor="#000000"
                         android:textSize="17sp"
                         android:textStyle="bold" />
@@ -152,8 +152,7 @@
                                         android:inputType="textEmailAddress"
                                         android:lines="1"
                                         android:maxLength="60"
-                                        android:textColor="@android:color/white"
-                                        android:theme="@style/AppTheme.EditText"/>
+                                        android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -173,8 +172,7 @@
                                         android:inputType="textEmailAddress"
                                         android:lines="1"
                                         android:maxLength="60"
-                                        android:textColor="@android:color/white"
-                                        android:theme="@style/AppTheme.EditText"/>
+                                        android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -204,8 +202,7 @@
                                             android:inputType="number"
                                             android:lines="1"
                                             android:maxLength="4"
-                                            android:textColor="@android:color/white"
-                                            android:theme="@style/AppTheme.EditText"/>
+                                            android:theme="@style/AppTheme.EditText.Black"/>
 
                                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -227,8 +224,7 @@
                                             android:inputType="number"
                                             android:lines="1"
                                             android:maxLength="4"
-                                            android:textColor="@android:color/white"
-                                            android:theme="@style/AppTheme.EditText"/>
+                                            android:theme="@style/AppTheme.EditText.Black"/>
 
                                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,6 +238,7 @@
                                         android:textColorHint="#80ffffff"
                                         android:theme="@style/AppTheme.TextInputLayout">
 
+
                                         <EditText
                                             android:id="@+id/year"
                                             android:layout_width="match_parent"
@@ -250,8 +247,7 @@
                                             android:inputType="number"
                                             android:lines="1"
                                             android:maxLength="4"
-                                            android:textColor="@android:color/white"
-                                            android:theme="@style/AppTheme.EditText"/>
+                                            android:theme="@style/AppTheme.EditText.Black"/>
 
                                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -275,8 +271,7 @@
                                         android:inputType="textEmailAddress"
                                         android:lines="1"
                                         android:maxLength="60"
-                                        android:textColor="@android:color/white"
-                                        android:theme="@style/AppTheme.EditText"/>
+                                        android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -296,9 +291,8 @@
                                         android:inputType="textPassword"
                                         android:lines="1"
                                         android:maxLength="60"
-                                        android:textColor="@android:color/white"
                                         android:textSize="17sp"
-                                        android:theme="@style/AppTheme.EditText" />
+                                        android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -318,34 +312,32 @@
                                         android:inputType="textPassword"
                                         android:lines="1"
                                         android:maxLength="60"
-                                        android:textColor="@android:color/white"
-                                        android:theme="@style/AppTheme.EditText"/>
+                                        android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
                             </LinearLayout>
 
-                            <com.google.android.material.button.MaterialButton
-                                android:id="@+id/signup_button"
-                                android:layout_gravity="bottom|end"
-                                android:layout_width="wrap_content"
-                                android:paddingStart="14dp"
-                                android:paddingEnd="14dp"
-                                android:layout_height="wrap_content"
-                                android:text="@string/signup"
-                                android:textAllCaps="false"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                android:textColor="#ffffff"
-                                android:textSize="17sp"
-                                app:strokeColor="#ffffff"
-                                app:strokeWidth="1dp"/>
-
 
                         </FrameLayout>
 
 
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_gravity="bottom|end"
+                            android:layout_width="wrap_content"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_height="wrap_content"
+                            android:text="Modifica Profilo"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="17sp"/>
+
+
 
                     </LinearLayout>
+
 
 
 
