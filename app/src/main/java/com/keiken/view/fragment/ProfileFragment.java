@@ -162,7 +162,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         TextView reviewsButton = c.findViewById(R.id.reviews_button);
         TextView logout = c.findViewById(R.id.logout);
         TextView email = c.findViewById(R.id.email);
-        ImageView profilePic = c.findViewById(R.id.profile_pic);
         TextView contacts = c.findViewById(R.id.contacts);
         final TextView date = c.findViewById(R.id.date);
         Button changePhotoButton = c.findViewById(R.id.change_photo);
