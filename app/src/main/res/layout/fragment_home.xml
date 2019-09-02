@@ -246,7 +246,6 @@
                 android:textColor="#ffffff"
                 android:text="Persone:"
                 android:textSize="17sp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="15dp"/>
 
             <EditText
@@ -276,11 +275,6 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="15dp"/>
 
-           <!-- <DatePicker
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:datePickerMode="calendar"/>-->
-
             <com.archit.calendardaterangepicker.customviews.DateRangeCalendarView
                 android:id="@+id/calendar"
                 android:layout_width="wrap_content"
@@ -298,7 +292,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#40ffffff"
-                android:layout_marginTop="-10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginHorizontal="15dp" />
 

@@ -217,22 +217,12 @@ public class LauncherActivity extends AppCompatActivity {
                             final String name = profile.getName();
                             final String surname = profile.getLastName();
 
-                            //checks firestore database in order to see if user already exists, if so, do nothing
-                            CollectionReference utenti = db.collection("utenti");
-                            Query query = utenti.whereEqualTo("id", mAuth.getCurrentUser().getUid());
-                            Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        if(task.getResult().isEmpty())
-                                                uploadUserToDb(name, surname);
-                                        }
 
-                                    }
-                            });
-
+                            uploadUserToDb(name, surname);
 
                             startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
+
+
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -270,33 +260,57 @@ public class LauncherActivity extends AppCompatActivity {
 
 
 
-    private void uploadUserToDb(String name, String surname){
-
-        // Create a new user with a first and last name
-        FirebaseUser user = mAuth.getCurrentUser();
-        Map<String, Object> userDb = new HashMap<>();
+    private void uploadUserToDb(final String name, final String surname){
 
 
-        userDb.put("name", name);
-        userDb.put("surname", surname);
-        userDb.put("email", user.getEmail());
-        userDb.put("id", user.getUid());
+        //checks firestore database in order to see if user already exists, if so, do nothing
+        CollectionReference utenti = db.collection("utenti");
+        Query query = utenti.whereEqualTo("id", mAuth.getCurrentUser().getUid());
+        Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if(task.getResult().isEmpty()) {
 
-        
-        // Add a new document with a generated ID
-        db.collection("utenti")
-                .add(userDb)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+
+
+                        // Create a new user with a first and last name
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Map<String, Object> userDb = new HashMap<>();
+
+
+                        userDb.put("name", name);
+                        userDb.put("surname", surname);
+                        userDb.put("email", user.getEmail());
+                        userDb.put("id", user.getUid());
+
+
+                        // Add a new document with a generated ID
+                        db.collection("utenti")
+                                .add(userDb)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("", "Error adding document", e);
+                                    }
+                                });
+
+
+
+
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("", "Error adding document", e);
-                    }
-                });
+                }
+
+            }
+        });
+
+
+
     }
 }
