@@ -404,8 +404,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                     if (task.isSuccessful()) {
                         String day, month, year;
                         QuerySnapshot result = task.getResult();
-                        List<DocumentSnapshot> documents = result.getDocuments();
                         try {
+                            List<DocumentSnapshot> documents = result.getDocuments();
                             DocumentSnapshot document = documents.get(0);
                             day=document.getString("day");
                             month=document.getString("month");
