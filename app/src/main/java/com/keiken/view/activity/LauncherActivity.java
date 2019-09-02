@@ -220,7 +220,7 @@ public class LauncherActivity extends AppCompatActivity {
                             startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
 
 
-                            
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("", "signInWithCredential:failure", task.getException());
