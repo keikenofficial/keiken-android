@@ -215,7 +215,7 @@ public class LauncherActivity extends AppCompatActivity {
 
 
                             Profile profile= Profile.getCurrentProfile();
-                            final String name = profile.getFirstName();
+                            final String name = profile.getFirstName() + "" + profile.getMiddleName();
                             final String surname = profile.getLastName();
 
 
