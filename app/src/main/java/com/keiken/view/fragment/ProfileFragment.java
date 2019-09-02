@@ -393,7 +393,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             // Name, email address, and profileImageView photo Url
             toolbar.setTitle(user.getDisplayName());
             email.setText(user.getEmail());
-            setProfilePic(profilePic);
+            setProfilePic(profileImageView);
 
             CollectionReference yourCollRef = db.collection("utenti");
             Query query = yourCollRef.whereEqualTo("id", user.getUid());
