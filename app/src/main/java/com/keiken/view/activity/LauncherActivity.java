@@ -261,11 +261,8 @@ public class LauncherActivity extends AppCompatActivity {
         userDb.put("surname", surname);
         userDb.put("email", user.getEmail());
         userDb.put("id", user.getUid());
-        userDb.put("photoUrl", user.getPhotoUrl());
 
-
-
-
+        
         // Add a new document with a generated ID
         db.collection("utenti")
                 .add(userDb)
