@@ -25,14 +25,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -43,6 +51,8 @@ import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -154,7 +164,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         TextView email = c.findViewById(R.id.email);
         ImageView profilePic = c.findViewById(R.id.profile_pic);
         TextView contacts = c.findViewById(R.id.contacts);
-        TextView date = c.findViewById(R.id.date);
+        final TextView date = c.findViewById(R.id.date);
         Button changePhotoButton = c.findViewById(R.id.change_photo);
         profileImageView = c.findViewById(R.id.profile_pic);
 
@@ -386,7 +396,24 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             email.setText(user.getEmail());
             setProfilePic(profilePic);
 
+            CollectionReference yourCollRef = db.collection("utenti");
+            Query query = yourCollRef.whereEqualTo("id", user.getUid());
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        String day, month, year;
+                        QuerySnapshot result = task.getResult();
+                        List<DocumentSnapshot> documents = result.getDocuments();
+                        DocumentSnapshot document = documents.get(0);
+                        day=document.getString("day");
+                        month=document.getString("month");
+                        year=document.getString("year");
 
+                        date.setText(day+"/"+month+"/"+year);
+                    }
+                }
+            });
 
         }
 
