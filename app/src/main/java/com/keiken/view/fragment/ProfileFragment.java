@@ -409,8 +409,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         day=document.getString("day");
                         month=document.getString("month");
                         year=document.getString("year");
-
-                        date.setText(day+"/"+month+"/"+year);
+                        if(day != null && month != null && year != null)
+                            date.setText(day+"/"+month+"/"+year);
                     }
                 }
             });
