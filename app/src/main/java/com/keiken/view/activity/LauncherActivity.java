@@ -13,6 +13,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -155,7 +156,7 @@ public class LauncherActivity extends AppCompatActivity {
                             Log.d("", "signInWithCredential:success");
 
 
-                            uploadUserToDb();
+                            uploadUserToDb("", "");
                             startActivity(new Intent(getBaseContext(), HomeActivity.class));
 
 
@@ -205,7 +206,12 @@ public class LauncherActivity extends AppCompatActivity {
                             Log.d("", "signInWithCredential:success");
 
 
-                            uploadUserToDb();
+                            Profile profile= Profile.getCurrentProfile();
+                            String name = profile.getFirstName();
+                            String surname = profile.getLastName();
+
+
+                            uploadUserToDb(name, surname);
                             startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
 
                         } else {
@@ -244,15 +250,14 @@ public class LauncherActivity extends AppCompatActivity {
 
 
 
-    private void uploadUserToDb(){
+    private void uploadUserToDb(String name, String surname){
 
         // Create a new user with a first and last name
         FirebaseUser user = mAuth.getCurrentUser();
         Map<String, Object> userDb = new HashMap<>();
-        userDb.put("name", user.getDisplayName().split(" ")[0]);
-        String surname = "";
-        for (int i = 0; i < user.getDisplayName().split(" ").length; i++)
-            if (i>0) surname += user.getDisplayName().split(" ")[i];
+
+
+        userDb.put("name", name);
         userDb.put("surname", surname);
         userDb.put("email", user.getEmail());
         userDb.put("id", user.getUid());
