@@ -21,8 +21,6 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_gravity="right">
-
-
         </LinearLayout>
 
 
@@ -122,7 +120,228 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <FrameLayout
+                            android:id="@+id/email_login_form"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:gravity="center"
+                            android:layout_marginBottom="35dp">
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/name"
+                                    app:hintAnimationEnabled="true"
+                                    android:textColorHint="#80ffffff"
+                                    android:theme="@style/AppTheme.TextInputLayout">
+
+                                    <EditText
+                                        android:id="@+id/name"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:textColor="@android:color/white"
+                                        android:theme="@style/AppTheme.EditText"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/surname"
+                                    app:hintAnimationEnabled="true"
+                                    android:textColorHint="#80ffffff"
+                                    android:theme="@style/AppTheme.TextInputLayout">
+
+                                    <EditText
+                                        android:id="@+id/surname"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:textColor="@android:color/white"
+                                        android:theme="@style/AppTheme.EditText"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+                                <LinearLayout
+                                    android:baselineAligned="false"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center"
+                                    android:weightSum="99">
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/day"
+                                        app:hintAnimationEnabled="true"
+                                        android:textColorHint="#80ffffff"
+                                        android:theme="@style/AppTheme.TextInputLayout">
+
+                                        <EditText
+                                            android:id="@+id/day"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:textColor="@android:color/white"
+                                            android:theme="@style/AppTheme.EditText"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/month"
+                                        app:hintAnimationEnabled="true"
+                                        android:textColorHint="#80ffffff"
+                                        android:theme="@style/AppTheme.TextInputLayout">
+
+                                        <EditText
+                                            android:id="@+id/month"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:textColor="@android:color/white"
+                                            android:theme="@style/AppTheme.EditText"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/year"
+                                        app:hintAnimationEnabled="true"
+                                        android:textColorHint="#80ffffff"
+                                        android:theme="@style/AppTheme.TextInputLayout">
+
+                                        <EditText
+                                            android:id="@+id/year"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:textColor="@android:color/white"
+                                            android:theme="@style/AppTheme.EditText"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/email"
+                                    app:hintAnimationEnabled="true"
+                                    android:textColorHint="#80ffffff"
+                                    android:theme="@style/AppTheme.TextInputLayout">
+
+                                    <EditText
+                                        android:id="@+id/email"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:textColor="@android:color/white"
+                                        android:theme="@style/AppTheme.EditText"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/password"
+                                    android:textColorHint="#80ffffff"
+                                    android:theme="@style/AppTheme.TextInputLayout">
+
+
+                                    <EditText
+                                        android:id="@+id/password"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="textPassword"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:textColor="@android:color/white"
+                                        android:textSize="17sp"
+                                        android:theme="@style/AppTheme.EditText" />
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/password"
+                                    android:textColorHint="#80ffffff"
+                                    android:theme="@style/AppTheme.TextInputLayout">
+
+
+                                    <EditText
+                                        android:id="@+id/password2"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textPassword"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:textColor="@android:color/white"
+                                        android:theme="@style/AppTheme.EditText"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/signup_button"
+                                android:layout_gravity="bottom|end"
+                                android:layout_width="wrap_content"
+                                android:paddingStart="14dp"
+                                android:paddingEnd="14dp"
+                                android:layout_height="wrap_content"
+                                android:text="@string/signup"
+                                android:textAllCaps="false"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:textColor="#ffffff"
+                                android:textSize="17sp"
+                                app:strokeColor="#ffffff"
+                                app:strokeWidth="1dp"/>
+
+
+                        </FrameLayout>
 
 
 
