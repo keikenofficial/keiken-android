@@ -147,7 +147,7 @@ public class LauncherActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d("", "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -159,8 +159,10 @@ public class LauncherActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("", "signInWithCredential:success");
 
+                            String name = acct.getDisplayName();
+                            String surname = acct.getGivenName();
 
-                            uploadUserToDb("", "");
+                            uploadUserToDb(name, surname);
                             startActivity(new Intent(getBaseContext(), HomeActivity.class));
 
 
@@ -183,9 +185,10 @@ public class LauncherActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
+                // Google Sign In was successful, authenticate with Firebase (auth with google credential)
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                if (account != null)
+                    firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("", "Google sign in failed", e);
