@@ -33,6 +33,7 @@
         <item name="colorPrimaryDark">@android:color/white</item>
     </style>
 
+
     <style name="AppTheme.EditText" parent="Theme.MaterialComponents.Light">
         <item name="android:textColor">#ffffff</item>
         <item name="colorAccent">#ffffff</item>
@@ -43,7 +44,8 @@
     <style name="AppTheme.EditText.Black" parent="Theme.MaterialComponents.Light">
         <item name="android:textColor">#000000</item>
         <item name="colorAccent">#000000</item>
-        <item name="colorControlActivated">@android:color/black</item>
+        <item name="colorControlActivated">#000000</item>
+        <item name="android:textColorHint">#50000000</item>
     </style>
 
     <style name="Chip" parent="Widget.MaterialComponents.Chip.Action">

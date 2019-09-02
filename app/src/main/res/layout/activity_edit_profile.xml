@@ -141,7 +141,6 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/name"
                                     app:hintAnimationEnabled="true"
-                                    android:theme="@style/AppTheme.TextInputLayout"
                                     android:layout_marginTop="20dp">
 
                                     <EditText
@@ -160,8 +159,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/surname"
-                                    app:hintAnimationEnabled="true"
-                                    android:theme="@style/AppTheme.TextInputLayout">
+                                    app:hintAnimationEnabled="true">
 
                                     <EditText
                                         android:id="@+id/surname"
@@ -170,8 +168,7 @@
                                         android:textSize="17sp"
                                         android:inputType="textEmailAddress"
                                         android:lines="1"
-                                        android:maxLength="60"
-                                        android:theme="@style/AppTheme.EditText.Black"/>
+                                        android:maxLength="60"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -189,8 +186,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:hint="@string/day"
-                                        app:hintAnimationEnabled="true"
-                                        android:theme="@style/AppTheme.TextInputLayout">
+                                        app:hintAnimationEnabled="true">
 
                                         <EditText
                                             android:id="@+id/day"
@@ -210,8 +206,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:hint="@string/month"
-                                        app:hintAnimationEnabled="true"
-                                        android:theme="@style/AppTheme.TextInputLayout">
+                                        app:hintAnimationEnabled="true">
 
                                         <EditText
                                             android:id="@+id/month"
@@ -231,8 +226,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:hint="@string/year"
-                                        app:hintAnimationEnabled="true"
-                                        android:theme="@style/AppTheme.TextInputLayout">
+                                        app:hintAnimationEnabled="true">
 
 
                                         <EditText
@@ -255,8 +249,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/email"
-                                    app:hintAnimationEnabled="true"
-                                    android:theme="@style/AppTheme.TextInputLayout">
+                                    app:hintAnimationEnabled="true">
 
                                     <EditText
                                         android:id="@+id/email"
@@ -274,8 +267,7 @@
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="@string/password"
-                                    android:theme="@style/AppTheme.TextInputLayout">
+                                    android:hint="@string/password">
 
 
                                     <EditText
@@ -293,8 +285,7 @@
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="@string/password"
-                                    android:theme="@style/AppTheme.TextInputLayout">
+                                    android:hint="@string/password">
 
 
                                     <EditText
