@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:elevation="0dp"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:id="@id/background_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="right">
+
+
+        </LinearLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <!--Backdrop back layer-->
+        <LinearLayout
+            android:id="@+id/background_frame_x"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="0dp"
+            android:padding="10dp">
+
+
+        </LinearLayout>
+
+        <!--Backdrop first layer  -->
+        <com.keiken.view.backdrop.BackdropFrontLayer
+            android:id="@+id/backdrop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="1dp"
+            app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
+
+            <!--Layer subheader-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="8dp"
+                android:background="@drawable/backdrop_background"
+                app:behavior_peekHeight="56dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Conversazioni"
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+
+
+                    <ImageView
+                        android:id="@+id/up_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/white_to_black_up_arrow"
+                        android:layout_gravity="right"/>
+
+
+                </FrameLayout>
+
+                <View
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dddddd"/>
+
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <!--Layer contente body-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:id="@+id/swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="1200dp"
+                android:background="#ffffff">
+
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+
+
+
+                    </LinearLayout>
+
+
+
+                </ScrollView>
+
+
+
+
+
+                <!--The content's body goes here-->
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.keiken.view.backdrop.BackdropFrontLayer>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+
+
+
+</FrameLayout>
+
+
+
+
+
+
+

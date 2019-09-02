@@ -47,6 +47,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
+import com.keiken.view.activity.EditProfileActivity;
 import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
@@ -166,6 +167,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         final TextView date = c.findViewById(R.id.date);
         Button changePhotoButton = c.findViewById(R.id.change_photo);
         profileImageView = c.findViewById(R.id.profile_pic);
+        Button editProfile = c.findViewById(R.id.edit_profile);
 
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
@@ -363,7 +365,12 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), EditProfileActivity.class));
+            }
+        });
 
 
 
