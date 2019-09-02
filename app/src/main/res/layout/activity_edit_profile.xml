@@ -141,8 +141,8 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/name"
                                     app:hintAnimationEnabled="true"
-                                    android:textColorHint="#80ffffff"
-                                    android:theme="@style/AppTheme.TextInputLayout">
+                                    android:theme="@style/AppTheme.TextInputLayout"
+                                    android:layout_marginTop="20dp">
 
                                     <EditText
                                         android:id="@+id/name"
@@ -161,7 +161,6 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/surname"
                                     app:hintAnimationEnabled="true"
-                                    android:textColorHint="#80ffffff"
                                     android:theme="@style/AppTheme.TextInputLayout">
 
                                     <EditText
@@ -191,7 +190,6 @@
                                         android:layout_height="wrap_content"
                                         android:hint="@string/day"
                                         app:hintAnimationEnabled="true"
-                                        android:textColorHint="#80ffffff"
                                         android:theme="@style/AppTheme.TextInputLayout">
 
                                         <EditText
@@ -213,7 +211,6 @@
                                         android:layout_height="wrap_content"
                                         android:hint="@string/month"
                                         app:hintAnimationEnabled="true"
-                                        android:textColorHint="#80ffffff"
                                         android:theme="@style/AppTheme.TextInputLayout">
 
                                         <EditText
@@ -235,7 +232,6 @@
                                         android:layout_height="wrap_content"
                                         android:hint="@string/year"
                                         app:hintAnimationEnabled="true"
-                                        android:textColorHint="#80ffffff"
                                         android:theme="@style/AppTheme.TextInputLayout">
 
 
@@ -260,7 +256,6 @@
                                     android:layout_height="wrap_content"
                                     android:hint="@string/email"
                                     app:hintAnimationEnabled="true"
-                                    android:textColorHint="#80ffffff"
                                     android:theme="@style/AppTheme.TextInputLayout">
 
                                     <EditText
@@ -280,7 +275,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/password"
-                                    android:textColorHint="#80ffffff"
                                     android:theme="@style/AppTheme.TextInputLayout">
 
 
@@ -300,7 +294,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="@string/password"
-                                    android:textColorHint="#80ffffff"
                                     android:theme="@style/AppTheme.TextInputLayout">
 
 
