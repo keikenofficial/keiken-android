@@ -405,12 +405,16 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         String day, month, year;
                         QuerySnapshot result = task.getResult();
                         List<DocumentSnapshot> documents = result.getDocuments();
-                        DocumentSnapshot document = documents.get(0);
-                        day=document.getString("day");
-                        month=document.getString("month");
-                        year=document.getString("year");
-                        if(day != null && month != null && year != null)
-                            date.setText(day+"/"+month+"/"+year);
+                        try {
+                            DocumentSnapshot document = documents.get(0);
+                            day=document.getString("day");
+                            month=document.getString("month");
+                            year=document.getString("year");
+                            if(day != null && month != null && year != null)
+                                date.setText(day+"/"+month+"/"+year);
+                        }
+                        catch (Exception e) {};
+
                     }
                 }
             });
