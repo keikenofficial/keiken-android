@@ -168,7 +168,9 @@
                                         android:textSize="17sp"
                                         android:inputType="textEmailAddress"
                                         android:lines="1"
-                                        android:maxLength="60"/>
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
