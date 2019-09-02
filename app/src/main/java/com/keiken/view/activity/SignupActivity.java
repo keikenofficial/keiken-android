@@ -35,6 +35,8 @@ public class SignupActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private static final String NON_NORMAL_CHARACTERS_PATTERN = "\\W|[^!@#\\$%\\^&\\*\\(\\)]";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,12 +184,35 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
+    //verifica presenza di simboli // TRUE = PRESENZA /// FALSE = ASSENZA
+    public static boolean hasSymbols(String input) {
+        return input.matches(NON_NORMAL_CHARACTERS_PATTERN);
+    }
+    public static boolean isBisestile(int anno){
+        if ( anno>1800 &&
+                ( (anno%400==0) ||
+                        (anno%4==0 && anno%100!=0) ) )
+                            return true;
+        else return false;
+    }
+
     boolean verifySignUpInformation(String name, String surname, String day, String month, String year, String email, String password, String password2) {
 
         if (name.equals("") || surname.equals("") || day.equals("") || month.equals("") || year.equals("") || email.equals("") || password.equals("") || password2.equals("")) {
             Toast.makeText(SignupActivity.this, "Tutti i campi devono essere compilati.", Toast.LENGTH_LONG).show();
             return false;
         }
+        //controllo sui caratteri in ingresso
+        if (hasSymbols(name) || hasSymbols(surname) || hasSymbols(day) || hasSymbols(month) || hasSymbols(year) || hasSymbols(email)) {
+            Toast.makeText(SignupActivity.this, "I campi compilati non possono contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if(hasSymbols(password) || hasSymbols(password2)){
+            Toast.makeText(SignupActivity.this, "La password non può contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        //
+
 
         int dayInt = Integer.parseInt(day), monthInt = Integer.parseInt(month), yearInt = Integer.parseInt(year);
 
@@ -202,11 +227,30 @@ public class SignupActivity extends AppCompatActivity {
             return false;
         }
 
+        //controllo date
         if (dayInt < 1 || dayInt > 31 || monthInt < 1 || monthInt > 12 || yearInt < 1800) {
-            Toast.makeText(SignupActivity.this, "La data inserita è sbagliata!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SignupActivity.this, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
             return false;
         }
-
+        if(monthInt == 2){
+            if(isBisestile(yearInt)){
+                if(dayInt>29){
+                    Toast.makeText(SignupActivity.this, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            } else {
+                if(dayInt>28){
+                    Toast.makeText(SignupActivity.this, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            }
+        }
+        if(monthInt == 11 && monthInt == 4 && monthInt == 6 && monthInt == 9)
+            if(dayInt>30){
+                Toast.makeText(SignupActivity.this, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        //
 
         Calendar c = Calendar.getInstance();
         int currentYear = c.get(Calendar.YEAR);
