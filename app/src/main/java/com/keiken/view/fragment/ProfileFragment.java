@@ -78,10 +78,10 @@ import static com.keiken.controller.ImageController.*;
 public class ProfileFragment extends Fragment implements IOnBackPressed {
 
     private LinearLayout  backgroundFrame;
-    private BackdropFrontLayerBehavior sheetBehavior, sheetBehaviorReviews;
+    private BackdropFrontLayerBehavior sheetBehavior, sheetBehaviorReviews, sheetBehaviorEdit;
     private MaterialButton menuButton;
-    private ImageView upArrow, downArrow;
-    private LinearLayoutCompat header;
+    private ImageView upArrow, downArrow, downArrowEdit;
+    private LinearLayoutCompat header, headerEdit;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -172,6 +172,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
         final BackdropFrontLayer contentLayoutReviews = c.findViewById(R.id.backdrop_reviews);
+        final BackdropFrontLayer contentLayoutEdit = c.findViewById(R.id.backdrop_edit);
 
 
         sheetBehavior = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayout);
@@ -180,10 +181,16 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
 
 
-        sheetBehaviorReviews = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayoutReviews);
+        sheetBehaviorReviews = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayoutEdit);
         sheetBehaviorReviews.setFitToContents(false);
         //sheetBehaviorReviews.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
         sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);//initially state to fully expanded
+
+
+        sheetBehaviorEdit = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayoutEdit);
+        sheetBehaviorEdit.setFitToContents(false);
+        //sheetBehaviorEdit.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
+        sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);//initially state to fully expanded
 
 
 
@@ -191,7 +198,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         menuButton = c.findViewById(R.id.menu_button);
         upArrow = c.findViewById(R.id.up_arrow);
         downArrow = c.findViewById(R.id.down_arrow);
+        downArrowEdit = c.findViewById(R.id.down_arrow_edit);
         header = c.findViewById(R.id.header);
+        headerEdit = c.findViewById(R.id.header_edit);
 
         contentLayout.setBehavior(sheetBehavior);
         contentLayout.setButton(menuButton);
@@ -204,6 +213,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
         contentLayoutReviews.setBehavior(sheetBehaviorReviews);
+        contentLayoutEdit.setBehavior(sheetBehaviorEdit);
         contentLayout.setButton(menuButton);
         contentLayout.setDrawable((AnimatedVectorDrawable)getResources().getDrawable(R.drawable.cross_to_points));
 
@@ -245,6 +255,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                     int marginPx = (int)( 20 * (displayMetrics.densityDpi / 160f));
                     sheetBehaviorReviews.setPeekHeight(0);
+                    sheetBehaviorEdit.setPeekHeight(0);
 
                 }
             });
@@ -287,33 +298,44 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                 else {
 
-
-                    if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-                        //  recursiveLoopChildren(false, contentLayout);
-                        menuButton.setIcon(getResources().getDrawable(R.drawable.points_to_cross));
-                        AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
-                        ic.start();
-
-                        upArrow.setImageDrawable((getResources().getDrawable(R.drawable.white_to_black_up_arrow)));
-                        AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
-                        ic2.start();
-
-                        sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    } else {
+                    if (sheetBehaviorEdit.getState() == BottomSheetBehavior.STATE_EXPANDED) {
 
                         menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
-                        AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                        AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)menuButton.getIcon();
                         ic.start();
 
-                        upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
-                        AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
-                        ic2.start();
-
-                        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                        // recursiveLoopChildren(true, contentLayout);
-
+                        sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     }
 
+                    else {
+
+
+                        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                            //  recursiveLoopChildren(false, contentLayout);
+                            menuButton.setIcon(getResources().getDrawable(R.drawable.points_to_cross));
+                            AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                            ic.start();
+
+                            upArrow.setImageDrawable((getResources().getDrawable(R.drawable.white_to_black_up_arrow)));
+                            AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
+                            ic2.start();
+
+                            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                        } else {
+
+                            menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+                            AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                            ic.start();
+
+                            upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+                            AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
+                            ic2.start();
+
+                            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                            // recursiveLoopChildren(true, contentLayout);
+
+                        }
+                    }
                 }
 
 
@@ -333,6 +355,19 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             }
         });
 
+        downArrowEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+                AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                ic.start();
+
+                sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+
         header.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -344,6 +379,20 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
+
+
+        headerEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+                AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                ic.start();
+
+                sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
 
 
         reviewsButton.setOnClickListener(new View.OnClickListener() {
@@ -368,7 +417,15 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), EditProfileActivity.class));
+                //startActivity(new Intent(getContext(), EditProfileActivity.class));
+
+                menuButton.setIcon(getResources().getDrawable(R.drawable.points_to_cross));
+                AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                ic.start();
+
+                sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
             }
         });
 
