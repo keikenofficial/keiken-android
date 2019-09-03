@@ -642,6 +642,14 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
+                                    menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+                                    AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                                    ic.start();
+                                    sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+
+
+
 
                                     //userID = document.getId();
                                 }
