@@ -106,7 +106,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
     private OnFragmentInteractionListener mListener;
 
-
     // activity listener interface
     private OnPageListener pageListener;
     public interface OnPageListener {
@@ -143,7 +142,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -343,7 +341,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         }
                     }
                 }
-
 
             }
         });
@@ -561,7 +558,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }
     }
 
-
     // onAttach : set activity listener
     @Override
     public void onAttach(Activity activity) {
@@ -578,7 +574,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             }
         };
     }
-
 
     @Override
     public void onDetach() {
@@ -601,8 +596,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         void onFragmentInteraction(Uri uri);
     }
 
-
-  /*  public void recursiveLoopChildren(boolean enable, ViewGroup parent) {
+    /*  public void recursiveLoopChildren(boolean enable, ViewGroup parent) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             final View child = parent.getChildAt(i);
 
@@ -615,52 +609,10 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
     }  */
 
     @Override
-    public boolean onBackPressed() {
-        if (sheetBehaviorReviews.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-
-            menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
-            AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)menuButton.getIcon();
-            ic.start();
-
-            sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
-            return true;
-        }
-
-        else if (sheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-            //action not popBackStack
-
-            menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
-            AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)menuButton.getIcon();
-            ic.start();
-
-            upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
-            AnimatedVectorDrawable ic2 =  (AnimatedVectorDrawable)upArrow.getDrawable();
-            ic2.start();
-
-            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-
-            return true;
-        } else
-            return false;
-
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            selectImage();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -691,13 +643,48 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             progressDialog.dismiss();
         }
         super.onDestroy();
+    } @Override
+
+    public boolean onBackPressed() {
+
+        if (sheetBehaviorReviews.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+
+            menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+            AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)menuButton.getIcon();
+            ic.start();
+
+            sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+            return true;
+        } //close reviews backdrop frontlayer
+        if (sheetBehaviorEdit.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+
+            menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+            AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)menuButton.getIcon();
+            ic.start();
+
+            sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+            return true;
+        } //close edit profile backdrop frontlayer
+        else if (sheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            //action not popBackStack
+
+            menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+            AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)menuButton.getIcon();
+            ic.start();
+
+            upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+            AnimatedVectorDrawable ic2 =  (AnimatedVectorDrawable)upArrow.getDrawable();
+            ic2.start();
+
+            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            return true;
+        } else
+            return false;
+
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            selectImage();
-    }
 
 
     private void selectImage() {
@@ -711,8 +698,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, storageUrl);
 
         startActivityForResult(chooser, REQUEST_PHOTO);
-    }
-
+    } //start an activity calling camera and gallety intent to edit profile photo
 
     private void uploadProfileImage(Uri filePath) {
 
@@ -762,6 +748,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }
 
     }
+
 }
 
 
