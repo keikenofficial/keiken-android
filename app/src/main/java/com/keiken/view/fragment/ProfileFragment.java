@@ -34,6 +34,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -689,8 +690,23 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-                        if (!password.equals("")) user.updatePassword(password);
+                        if (!password.equals("")) {
 
+                            boolean externalProvider = false;
+                                for (UserInfo info : user.getProviderData()) {
+                                    if (info.getProviderId().equals("facebook.com")) {
+                                        externalProvider = true;
+                                    }
+                                    if (info.getProviderId().equals("google.com")) {
+                                        externalProvider = true;
+                                    }
+                                }
+                                if (!externalProvider)
+                                    user.updatePassword(password);
+                        }
+
+
+                        
                     menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
                     AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
                     ic.start();
@@ -1023,8 +1039,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 || (day.equals("") && month.equals("") && !year.equals(""))
                 || (!day.equals("") && month.equals("") && year.equals(""))
                 || (day.equals("") && !month.equals("") && year.equals(""))) {
-                Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
-                return false;
+                    Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                    return false;
             }
         }
 
