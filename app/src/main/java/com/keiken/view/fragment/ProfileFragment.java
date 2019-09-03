@@ -1013,9 +1013,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             }
 
 
-
-
-        }
+        } else return false;
 
         return true;
     }
