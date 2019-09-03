@@ -36,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -81,6 +82,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
     private LinearLayoutCompat header, headerEdit;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+
+    private String userID;
 
 
     static final int REQUEST_PHOTO = 1889;
@@ -527,6 +530,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 String password2 = password2EditText.getText().toString();
 
 
+
+
                 if (verifyProfileInformations(name, surname, day, month, year, email, biografia, password, password2)) {
 
                     CollectionReference yourCollRef = db.collection("utenti");
@@ -535,34 +540,125 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+
                                 String name, surname, day, month, year;
                                 QuerySnapshot result = task.getResult();
                                 try {
                                     List<DocumentSnapshot> documents = result.getDocuments();
                                     DocumentSnapshot document = documents.get(0);
+                                    userID = document.getId();
 
-                                    name = document.getString("name");
-                                    surname = document.getString("surname");
-                                    if (name != null && surname != null) {
-                                        nameEditText.setText(name);
-                                        surnameEditText.setText(surname);
-                                    }
 
-                                    day = document.getString("day");
-                                    month = document.getString("month");
-                                    year = document.getString("year");
-                                    if (day != null && month != null && year != null) {
-                                        date.setText(day + "/" + month + "/" + year);
-                                        dayEditText.setText(day);
-                                        monthEditText.setText(month);
-                                        yearEditText.setText(year);
-                                    }
                                 }
                                 catch (Exception e) {}
 
                             }
                         }
                     });
+
+
+                    DocumentReference ref = db.collection("utenti").document(userID);
+
+                    // Set the "isCapital" field of the city 'DC'
+                    ref
+                            .update("nome",name)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("", "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("", "Error updating document", e);
+                                }
+                            });
+                    ref
+                            .update("surname",surname)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("", "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("", "Error updating document", e);
+                                }
+                            });
+                    ref
+                            .update("email",email)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("", "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("", "Error updating document", e);
+                                }
+                            });
+                    ref
+                            .update("giorno",day)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("", "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("", "Error updating document", e);
+                                }
+                            });
+                    ref
+                            .update("mese",month)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("", "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("", "Error updating document", e);
+                                }
+                            });
+                    ref
+                            .update("anno",year)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("", "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("", "Error updating document", e);
+                                }
+                            });
+                    ref
+                            .update("biografia",biografia)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("", "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("", "Error updating document", e);
+                                }
+                            });
+
 
                     menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
                     AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
