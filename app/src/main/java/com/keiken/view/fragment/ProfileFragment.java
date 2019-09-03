@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,11 +36,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -47,12 +46,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
-import com.keiken.view.activity.EditProfileActivity;
 import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,7 +57,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -168,6 +164,16 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         Button changePhotoButton = c.findViewById(R.id.change_photo);
         profileImageView = c.findViewById(R.id.profile_pic);
         Button editProfile = c.findViewById(R.id.edit_profile);
+
+
+        final EditText nameEditText = c.findViewById(R.id.name_edit);
+        final EditText surnameEditText = c.findViewById(R.id.surname_edit);
+        final EditText dayEditText = c.findViewById(R.id.day_edit);
+        final EditText monthEditText = c.findViewById(R.id.month_edit);
+        final EditText yearEditText = c.findViewById(R.id.year_edit);
+        final EditText emailEditText = c.findViewById(R.id.email_edit);
+        final EditText passwordEditText = c.findViewById(R.id.password_edit);
+        final EditText password2EditText = c.findViewById(R.id.password2_edit);
 
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
@@ -459,22 +465,38 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             email.setText(user.getEmail());
             setProfilePic(profileImageView);
 
+            emailEditText.setText(user.getEmail());
+
+
+
             CollectionReference yourCollRef = db.collection("utenti");
             Query query = yourCollRef.whereEqualTo("id", user.getUid());
             query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-                        String day, month, year;
+                        String name, surname, day, month, year;
                         QuerySnapshot result = task.getResult();
                         try {
                             List<DocumentSnapshot> documents = result.getDocuments();
                             DocumentSnapshot document = documents.get(0);
-                            day=document.getString("day");
-                            month=document.getString("month");
-                            year=document.getString("year");
-                            if(day != null && month != null && year != null)
-                                date.setText(day+"/"+month+"/"+year);
+
+                            name = document.getString("name");
+                            surname = document.getString("surname");
+                            if (name != null && surname != null) {
+                                nameEditText.setText(name);
+                                surnameEditText.setText(surname);
+                            }
+
+                            day = document.getString("day");
+                            month = document.getString("month");
+                            year = document.getString("year");
+                            if (day != null && month != null && year != null) {
+                                date.setText(day + "/" + month + "/" + year);
+                                dayEditText.setText(day);
+                                monthEditText.setText(month);
+                                yearEditText.setText(year);
+                            }
                         }
                         catch (Exception e) {};
 

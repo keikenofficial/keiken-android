@@ -70,11 +70,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar2" />
-        <activity android:name=".view.activity.EditProfileActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar2"
-            android:parentActivityName=".view.activity.HomeActivity"/>
+       
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

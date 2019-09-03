@@ -494,42 +494,222 @@
                     android:layout_height="match_parent"
                     android:scrollbars="none">
 
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
-
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1000dp"
-                                android:background="@android:color/white"/>
+                        android:orientation="vertical">
 
                         <FrameLayout
+                            android:id="@+id/email_login_form"
                             android:layout_width="match_parent"
-                            android:layout_height="5dp"/>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:gravity="center"
+                            android:layout_marginBottom="35dp">
+
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/name"
+                                    app:hintAnimationEnabled="true"
+                                    android:layout_marginTop="20dp">
+
+                                    <EditText
+                                        android:id="@+id/name_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/surname"
+                                    app:hintAnimationEnabled="true">
+
+                                    <EditText
+                                        android:id="@+id/surname_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+                                <LinearLayout
+                                    android:baselineAligned="false"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center"
+                                    android:weightSum="99">
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/day"
+                                        app:hintAnimationEnabled="true">
+
+                                        <EditText
+                                            android:id="@+id/day_edit"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:theme="@style/AppTheme.EditText.Black"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/month"
+                                        app:hintAnimationEnabled="true">
+
+                                        <EditText
+                                            android:id="@+id/month_edit"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:theme="@style/AppTheme.EditText.Black"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/year"
+                                        app:hintAnimationEnabled="true">
+
+
+                                        <EditText
+                                            android:id="@+id/year_edit"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:theme="@style/AppTheme.EditText.Black"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/email"
+                                    app:hintAnimationEnabled="true">
+
+                                    <EditText
+                                        android:id="@+id/email_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/password">
+
+
+                                    <EditText
+                                        android:id="@+id/password_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="textPassword"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:textSize="17sp"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/password">
+
+
+                                    <EditText
+                                        android:id="@+id/password2_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textPassword"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
 
                             </LinearLayout>
 
-                        </RelativeLayout>
 
+                        </FrameLayout>
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_gravity="bottom|end"
+                            android:layout_width="wrap_content"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_height="wrap_content"
+                            android:text="Modifica Profilo"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="17sp"/>
 
 
 
                     </LinearLayout>
 
+
+
+
                 </ScrollView>
+
+
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
