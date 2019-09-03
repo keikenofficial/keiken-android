@@ -447,7 +447,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
 
-                            String name, surname, day, month, year;
+                            String name, surname, day, month, year, bio;
                             QuerySnapshot result = task.getResult();
                             try {
                                 List<DocumentSnapshot> documents = result.getDocuments();
@@ -470,6 +470,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     monthEditText.setText(month);
                                     yearEditText.setText(year);
                                 }
+                                bio = document.getString("bio");
+                                if(bio != null)
+                                    biografiaEditText.setText(bio);
                             }
                             catch (Exception e) {};
 
