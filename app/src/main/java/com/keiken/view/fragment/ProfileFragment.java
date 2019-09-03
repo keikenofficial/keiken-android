@@ -41,7 +41,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -53,7 +55,9 @@ import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -523,14 +527,14 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
                 /////////////
-                String name = nameEditText.getText().toString();
-                String surname = surnameEditText.getText().toString();
-                String day = dayEditText.getText().toString();
-                String month = monthEditText.getText().toString();
-                String year = yearEditText.getText().toString();
-                String mail = emailEditText.getText().toString();
-                String biografia = biografiaEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                final String name = nameEditText.getText().toString();
+                final String surname = surnameEditText.getText().toString();
+                final String day = dayEditText.getText().toString();
+                final String month = monthEditText.getText().toString();
+                final String year = yearEditText.getText().toString();
+                final String mail = emailEditText.getText().toString();
+                final String biografia = biografiaEditText.getText().toString();
+                final String password = passwordEditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
 
 
@@ -538,7 +542,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                 if (verifyProfileInformations(name, surname, day, month, year, mail, biografia, password, password2)) {
 
-                    CollectionReference yourCollRef = db.collection("utenti");
+                    final CollectionReference yourCollRef = db.collection("utenti");
                     Query query = yourCollRef.whereEqualTo("id", user.getUid());
                     query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -549,15 +553,106 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                 try {
                                     List<DocumentSnapshot> documents = result.getDocuments();
                                     DocumentSnapshot document = documents.get(0);
-                                    userID = document.getId();
 
 
+
+
+                                    Map<Object, String> map = new HashMap<>();
+                                    map.put("name", name);
+                                    yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+                                    map = new HashMap<>();
+                                    map.put("surname", surname);
+                                    yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(name + " " + surname).build();
+                                    user.updateProfile(profileUpdates);
+
+                                    toolbar.setTitle(name + " " + surname);
+
+
+
+
+
+                                    map = new HashMap<>();
+                                    map.put("email", mail);
+                                    yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+                                    email.setText(mail);
+
+
+
+
+                                    if ( (!day.equals("")) && (!month.equals("")) && (!year.equals(" ")) ) {
+
+
+                                        map = new HashMap<>();
+                                        map.put("day", day);
+                                        yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+
+                                        map = new HashMap<>();
+                                        map.put("month", month);
+                                        yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+
+                                        map = new HashMap<>();
+                                        map.put("year", year);
+                                        yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+
+                                        date.setText(day + "/" + month + "/" + year);
+
+
+
+
+
+                                        if (!biografia.equals("")) {
+
+
+                                            map = new HashMap<>();
+                                            map.put("bio", biografia);
+                                            yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+
+                                        }
+                                        bio.setText(biografia);
+                                    }
+
+
+
+
+
+                                    if (!password.equals("")) {
+
+                                        boolean externalProvider = false;
+                                        for (UserInfo info : user.getProviderData()) {
+                                            if (info.getProviderId().equals("facebook.com")) {
+                                                externalProvider = true;
+                                            }
+                                            if (info.getProviderId().equals("google.com")) {
+                                                externalProvider = true;
+                                            }
+                                        }
+                                        if (!externalProvider)
+                                            user.updatePassword(password);
+                                    }
+
+
+
+
+                                    //userID = document.getId();
                                 }
                                 catch (Exception e) {}
 
                             }
                         }
                     });
+
+
+/*
 
 
                     try {
@@ -717,7 +812,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), "Errore, riprova", Toast.LENGTH_SHORT).show();
                     }
-
+*/
                 }
 
 
