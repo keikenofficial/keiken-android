@@ -573,7 +573,7 @@
                                             android:inputType="number"
                                             android:lines="1"
                                             android:maxLength="4"
-                                            android:nextFocusForward="@+id/month_edit"
+                                            android:nextFocusDown="@+id/month_edit"
                                             android:theme="@style/AppTheme.EditText.Black"/>
 
                                     </com.google.android.material.textfield.TextInputLayout>
@@ -594,7 +594,7 @@
                                             android:inputType="number"
                                             android:lines="1"
                                             android:maxLength="4"
-                                            android:nextFocusForward="@+id/year_edit"
+                                            android:nextFocusDown="@+id/year_edit"
                                             android:theme="@style/AppTheme.EditText.Black"/>
 
                                     </com.google.android.material.textfield.TextInputLayout>
