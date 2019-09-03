@@ -564,8 +564,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         }
                     });
 
-
-
                     menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
                     AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
                     ic.start();
@@ -573,6 +571,10 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
                 }
+
+
+
+
 
 
 
@@ -879,7 +881,10 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 }
 
             }
-            catch (Exception e) {return false;}
+            catch (Exception e) {
+                Toast.makeText(getContext(), "ERRORE!!!!", Toast.LENGTH_LONG).show();
+                return false;
+            }
 
 
 
