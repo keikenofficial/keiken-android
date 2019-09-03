@@ -839,44 +839,50 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         if (day != null && month != null && year != null) {
 
-            int dayInt = Integer.parseInt(day), monthInt = Integer.parseInt(month), yearInt = Integer.parseInt(year);
+            try {
+                int dayInt = Integer.parseInt(day), monthInt = Integer.parseInt(month), yearInt = Integer.parseInt(year);
 
-
-            //controllo date
-            if (dayInt < 1 || dayInt > 31 || monthInt < 1 || monthInt > 12 || yearInt < 1800) {
-                Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
-                return false;
-            }
-            if (monthInt == 2) {
-                if (isBisestile(yearInt)) {
-                    if (dayInt > 29) {
-                        Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
-                        return false;
-                    }
-                } else {
-                    if (dayInt > 28) {
-                        Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
-                        return false;
-                    }
-                }
-            }
-            if (monthInt == 11 || monthInt == 4 || monthInt == 6 || monthInt == 9)
-                if (dayInt > 30) {
+                //controllo date
+                if (dayInt < 1 || dayInt > 31 || monthInt < 1 || monthInt > 12 || yearInt < 1800) {
                     Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
                     return false;
                 }
-            //
+                if (monthInt == 2) {
+                    if (isBisestile(yearInt)) {
+                        if (dayInt > 29) {
+                            Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                    } else {
+                        if (dayInt > 28) {
+                            Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                            return false;
+                        }
+                    }
+                }
+                if (monthInt == 11 || monthInt == 4 || monthInt == 6 || monthInt == 9)
+                    if (dayInt > 30) {
+                        Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                //
 
-            Calendar c = Calendar.getInstance();
-            int currentYear = c.get(Calendar.YEAR);
-            int currentMonth = c.get(Calendar.MONTH);
-            int currentDay = c.get(Calendar.DAY_OF_MONTH);
+                Calendar c = Calendar.getInstance();
+                int currentYear = c.get(Calendar.YEAR);
+                int currentMonth = c.get(Calendar.MONTH);
+                int currentDay = c.get(Calendar.DAY_OF_MONTH);
 
-            if (((yearInt > currentYear)) || (yearInt == currentYear && monthInt > currentMonth)
-                    || (yearInt == currentYear && monthInt == currentMonth && dayInt >= currentDay)) {
-                Toast.makeText(getContext(), "La data inserita è sbagliata!", Toast.LENGTH_LONG).show();
-                return false;
+                if (((yearInt > currentYear)) || (yearInt == currentYear && monthInt > currentMonth)
+                        || (yearInt == currentYear && monthInt == currentMonth && dayInt >= currentDay)) {
+                    Toast.makeText(getContext(), "La data inserita è sbagliata!", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+
             }
+            catch (Exception e) {return false;}
+
+
+
 
         }
 
