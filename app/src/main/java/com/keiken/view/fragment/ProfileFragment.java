@@ -812,18 +812,17 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
         //controllo sui caratteri in ingresso
-        if (hasSymbols(name) || hasSymbols(surname) || ((day != null) && hasSymbols(day)) || ((month!=null) && hasSymbols(month)) || ((year!=null) && hasSymbols(year)) || hasSymbols(email)
-            || ((biografia != null) && hasSymbols(biografia)) ) {
+        if (hasSymbols(name) || hasSymbols(surname) || hasSymbols(day) || hasSymbols(month) || hasSymbols(year)|| hasSymbols(email) || hasSymbols(biografia) || hasSymbols(password) || hasSymbols(password2)  )  {
             Toast.makeText(getContext(), "I campi compilati non possono contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(((password != null) && (hasSymbols(password)))  || ((password2 != null) && (hasSymbols(password2)))) {
+        if((hasSymbols(password)) || hasSymbols(password2)) {
             Toast.makeText(getContext(), "La password non può contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
             return false;
         }
         //
 
-        if (password != null && password2 != null && !(password.equals("Password"))) {
+        if (!password.equals("")) {
             if (password.length() < 6) {
                 Toast.makeText(getContext(), "La passowrd deve essere di almeno 6 caratteri.", Toast.LENGTH_LONG).show();
                 return false;
