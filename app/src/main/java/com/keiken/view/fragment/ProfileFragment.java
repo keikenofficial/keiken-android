@@ -663,7 +663,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)menuButton.getIcon();
             ic.start();
 
-            sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
             return true;
         } //close edit profile backdrop frontlayer
