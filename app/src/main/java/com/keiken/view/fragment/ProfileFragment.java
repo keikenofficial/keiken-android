@@ -167,7 +167,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         final TextView email = c.findViewById(R.id.email);
         TextView contacts = c.findViewById(R.id.contacts);
         final TextView date = c.findViewById(R.id.date);
-        final TextView bio = c.findViewById(R.id.date);
+        final TextView bio = c.findViewById(R.id.bio);
 
 
         profileImageView = c.findViewById(R.id.profile_pic);
@@ -595,7 +595,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(name + "" + surname).build();
+                                .setDisplayName(name + " " + surname).build();
                         user.updateProfile(profileUpdates);
 
                         toolbar.setTitle(name + " " + surname);
