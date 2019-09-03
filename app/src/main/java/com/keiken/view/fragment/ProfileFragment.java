@@ -168,7 +168,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         profileImageView = c.findViewById(R.id.profile_pic);
         Button changePhotoButton = c.findViewById(R.id.change_photo);
         Button editProfileButton = c.findViewById(R.id.edit_profile);
-        Button  confirmEditProfile= c.findViewById(R.id.confirm_edit_profile);
+        final Button  confirmEditProfile= c.findViewById(R.id.confirm_edit_profile);
 
 
         final EditText nameEditText = c.findViewById(R.id.name_edit);
@@ -557,11 +557,13 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                     });
 
 
-                    DocumentReference ref = db.collection("utenti").document(userID);
+                    try {
+                        DocumentReference ref = db.collection("utenti").document(userID);
+
 
                     // Set the "isCapital" field of the city 'DC'
                     ref
-                            .update("nome",name)
+                            .update("name",name)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -603,7 +605,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                 }
                             });
                     ref
-                            .update("giorno",day)
+                            .update("day",day)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -617,7 +619,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                 }
                             });
                     ref
-                            .update("mese",month)
+                            .update("month",month)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -631,7 +633,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                 }
                             });
                     ref
-                            .update("anno",year)
+                            .update("year",year)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -645,7 +647,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                 }
                             });
                     ref
-                            .update("biografia",biografia)
+                            .update("bio",biografia)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -665,6 +667,11 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                     ic.start();
                     sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
+
+
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), "Errore, riprova", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
 
