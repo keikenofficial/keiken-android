@@ -153,7 +153,10 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         FrameLayout c = (FrameLayout) inflater.inflate(R.layout.fragment_profile, container, false);
 
 
+
         mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = mAuth.getCurrentUser();
+
         db = FirebaseFirestore.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -430,6 +433,48 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             public void onClick(View v) { //open editProfile layer
                 //startActivity(new Intent(getContext(), EditProfileActivity.class));
 
+
+
+                CollectionReference yourCollRef = db.collection("utenti");
+                Query query = yourCollRef.whereEqualTo("id", user.getUid());
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            String name, surname, day, month, year;
+                            QuerySnapshot result = task.getResult();
+                            try {
+                                List<DocumentSnapshot> documents = result.getDocuments();
+                                DocumentSnapshot document = documents.get(0);
+
+                                name = document.getString("name");
+                                surname = document.getString("surname");
+                                if (name != null && surname != null) {
+                                    nameEditText.setText(name);
+                                    surnameEditText.setText(surname);
+                                }
+                                emailEditText.setText(user.getEmail());
+
+                                day = document.getString("day");
+                                month = document.getString("month");
+                                year = document.getString("year");
+                                if (day != null && month != null && year != null) {
+                                    date.setText(day + "/" + month + "/" + year);
+                                    dayEditText.setText(day);
+                                    monthEditText.setText(month);
+                                    yearEditText.setText(year);
+                                }
+                            }
+                            catch (Exception e) {};
+
+                        }
+                    }
+                });
+
+
+
+
                 menuButton.setIcon(getResources().getDrawable(R.drawable.points_to_cross));
                 AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
                 ic.start();
@@ -464,51 +509,13 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-        final FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             // Name, email address, and profileImageView photo Url
             toolbar.setTitle(user.getDisplayName());
-            email.setText(user.getEmail());
             setProfilePic(profileImageView);
-
-            emailEditText.setText(user.getEmail());
-
+            email.setText(user.getEmail());
 
 
-            CollectionReference yourCollRef = db.collection("utenti");
-            Query query = yourCollRef.whereEqualTo("id", user.getUid());
-            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        String name, surname, day, month, year;
-                        QuerySnapshot result = task.getResult();
-                        try {
-                            List<DocumentSnapshot> documents = result.getDocuments();
-                            DocumentSnapshot document = documents.get(0);
-
-                            name = document.getString("name");
-                            surname = document.getString("surname");
-                            if (name != null && surname != null) {
-                                nameEditText.setText(name);
-                                surnameEditText.setText(surname);
-                            }
-
-                            day = document.getString("day");
-                            month = document.getString("month");
-                            year = document.getString("year");
-                            if (day != null && month != null && year != null) {
-                                date.setText(day + "/" + month + "/" + year);
-                                dayEditText.setText(day);
-                                monthEditText.setText(month);
-                                yearEditText.setText(year);
-                            }
-                        }
-                        catch (Exception e) {};
-
-                    }
-                }
-            });
 
         } //set default values for edit text of "modify profile"
 
