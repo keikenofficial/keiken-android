@@ -595,7 +595,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(name + "" + surname).build();
+                                .setDisplayName(name + " " + surname).build();
                         user.updateProfile(profileUpdates);
 
                         toolbar.setTitle(name + " " + surname);
