@@ -839,7 +839,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-        if (day != null && month != null && year != null) {
+        if (!day.equals("") && !month.equals("") && !year.equals("")) {
 
             try {
                 int dayInt = Integer.parseInt(day), monthInt = Integer.parseInt(month), yearInt = Integer.parseInt(year);
@@ -882,7 +882,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
             }
             catch (Exception e) {
-                Toast.makeText(getContext(), "ERRORE!!!!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
                 return false;
             }
 
