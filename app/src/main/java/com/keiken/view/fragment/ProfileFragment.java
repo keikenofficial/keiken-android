@@ -164,9 +164,11 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         TextView reviewsButton = c.findViewById(R.id.reviews_button);
         TextView logout = c.findViewById(R.id.logout);
-        TextView email = c.findViewById(R.id.email);
+        final TextView email = c.findViewById(R.id.email);
         TextView contacts = c.findViewById(R.id.contacts);
         final TextView date = c.findViewById(R.id.date);
+        final TextView bio = c.findViewById(R.id.date);
+
 
         profileImageView = c.findViewById(R.id.profile_pic);
         Button changePhotoButton = c.findViewById(R.id.change_photo);
@@ -525,7 +527,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 String day = dayEditText.getText().toString();
                 String month = monthEditText.getText().toString();
                 String year = yearEditText.getText().toString();
-                String email = emailEditText.getText().toString();
+                String mail = emailEditText.getText().toString();
                 String biografia = biografiaEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
@@ -533,7 +535,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-                if (verifyProfileInformations(name, surname, day, month, year, email, biografia, password, password2)) {
+                if (verifyProfileInformations(name, surname, day, month, year, mail, biografia, password, password2)) {
 
                     CollectionReference yourCollRef = db.collection("utenti");
                     Query query = yourCollRef.whereEqualTo("id", user.getUid());
@@ -542,7 +544,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
 
-                                String name, surname, day, month, year;
                                 QuerySnapshot result = task.getResult();
                                 try {
                                     List<DocumentSnapshot> documents = result.getDocuments();
@@ -598,11 +599,11 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         user.updateProfile(profileUpdates);
 
                         toolbar.setTitle(name + " " + surname);
-                        
+
 
 
                     ref
-                            .update("email",email)
+                            .update("email",mail)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -615,6 +616,11 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     Log.w("", "Error updating document", e);
                                 }
                             });
+                    email.setText(mail);
+
+
+
+
                         if ( (!day.equals("")) && (!month.equals("")) && (!year.equals(" ")) ) {
                             ref
                                     .update("day", day)
@@ -661,6 +667,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                             Log.w("", "Error updating document", e);
                                         }
                                     });
+                            date.setText(day + "/" + month + "/" + year);
                         }
                         if (!biografia.equals("")) {
                             ref
@@ -678,6 +685,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                         }
                                     });
                         }
+                        bio.setText(biografia);
 
 
                     menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
