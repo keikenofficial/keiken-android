@@ -707,7 +707,7 @@
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="@string/password">
+                                    android:hint="@string/newPassword">
 
 
                                     <EditText
@@ -725,7 +725,7 @@
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:hint="@string/password">
+                                    android:hint="@string/newPassword2">
 
 
                                     <EditText

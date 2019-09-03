@@ -22,6 +22,10 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
 
+    <!--HomeActivity-->
+    <string name="newPassword">Nuova password</string>
+    <string name="newPassword2">Conferma nuova password</string>
+
     <!--ProfileFragment-->
     <string name="bio">Biografia</string>
 
