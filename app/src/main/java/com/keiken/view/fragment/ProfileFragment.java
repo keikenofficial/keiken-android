@@ -517,6 +517,32 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             email.setText(user.getEmail());
 
 
+            // lettura di data e bio dal database per la stampa sul profilo
+            final CollectionReference yourCollRef = db.collection("utenti");
+            Query query = yourCollRef.whereEqualTo("id", user.getUid());
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        QuerySnapshot result = task.getResult();
+                        try {
+                            List<DocumentSnapshot> documents = result.getDocuments();
+                            DocumentSnapshot document = documents.get(0);
+                            date.setText(document.getString("day")+"/"+document.getString("month")+"/"+document.getString("year"));
+                            bio.setText(document.getString("bio"));
+
+                        }
+                        catch (Exception e) {}
+
+                    }
+                }
+            });
+
+
+
+
+
 
         } //set default values for edit text of "modify profile"
 
@@ -606,7 +632,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                         date.setText(day + "/" + month + "/" + year);
 
 
-
+                                    }
 
 
                                         if (!biografia.equals("")) {
@@ -619,7 +645,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                                         }
                                         bio.setText(biografia);
-                                    }
+
 
 
 
@@ -832,6 +858,37 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
             }
         });
+
+
+
+
+
+
+
+
+
+            boolean externalProvider = false;
+            for (UserInfo info : user.getProviderData()) {
+                if (info.getProviderId().equals("facebook.com")) {
+                    externalProvider = true;
+                }
+                if (info.getProviderId().equals("google.com")) {
+                    externalProvider = true;
+                }
+            }
+            if (externalProvider) {
+                password2EditText.setVisibility(View.GONE);
+                passwordEditText.setVisibility(View.GONE);
+            }
+
+
+
+
+
+
+
+
+
 
 
         return c;

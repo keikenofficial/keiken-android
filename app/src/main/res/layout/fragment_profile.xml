@@ -404,6 +404,43 @@
         </com.keiken.view.backdrop.BackdropFrontLayer>
 
 
+
+
+
+
+
+
+
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fab"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="0dp"
+            android:text="Crea"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            app:backgroundTint="@color/colorPrimary"
+            app:cornerRadius="32dp"
+            app:icon="@drawable/ic_add"
+            app:iconTint="#ffffff" />
+
+
+
+
+
+
+
+
         <!--Backdrop third layer //modifica profilo -->
         <com.keiken.view.backdrop.BackdropFrontLayer
             android:id="@+id/backdrop_edit"
@@ -869,25 +906,6 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.button.MaterialButton
-            android:id="@+id/fab"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="15dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:elevation="48dp"
-            android:text="Crea"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            app:backgroundTint="@color/colorPrimary"
-            app:cornerRadius="32dp"
-            app:icon="@drawable/ic_add"
-            app:iconTint="#ffffff" />
 
 
 </FrameLayout>
