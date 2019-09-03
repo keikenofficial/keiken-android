@@ -1013,7 +1013,10 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             }
 
 
-        } else return false;
+        } else {
+            Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         return true;
     }
