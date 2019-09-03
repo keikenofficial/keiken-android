@@ -605,7 +605,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     Log.w("", "Error updating document", e);
                                 }
                             });
-                        if (!day.equals("")) {
+                        if ( (!day.equals("")) && (!month.equals("")) && (!year.equals(" ")) ) {
                             ref
                                     .update("day", day)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -620,8 +620,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                             Log.w("", "Error updating document", e);
                                         }
                                     });
-                        }
-                        if (!month.equals("")) {
+
+
                             ref
                                     .update("month", month)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -636,8 +636,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                             Log.w("", "Error updating document", e);
                                         }
                                     });
-                        }
-                        if (!year.equals("")) {
+
                             ref
                                     .update("year", year)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
