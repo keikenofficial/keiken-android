@@ -277,7 +277,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }
 
 
-        Toolbar toolbar = c.findViewById(R.id.toolbar);
+        final Toolbar toolbar = c.findViewById(R.id.toolbar);
         toolbar.setElevation(0);
         toolbar.setTitle("Profilo");
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
@@ -562,7 +562,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         DocumentReference ref = db.collection("utenti").document(userID);
 
 
-                    // Set the "isCapital" field of the city 'DC'
                     ref
                             .update("name",name)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -591,6 +590,17 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     Log.w("", "Error updating document", e);
                                 }
                             });
+
+
+
+                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(name + "" + surname).build();
+                        user.updateProfile(profileUpdates);
+
+                        toolbar.setTitle(name + " " + surname);
+                        
+
+
                     ref
                             .update("email",email)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
