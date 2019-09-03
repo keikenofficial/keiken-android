@@ -181,7 +181,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
 
 
-        sheetBehaviorReviews = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayoutEdit);
+        sheetBehaviorReviews = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayoutReviews);
         sheetBehaviorReviews.setFitToContents(false);
         //sheetBehaviorReviews.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
         sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);//initially state to fully expanded

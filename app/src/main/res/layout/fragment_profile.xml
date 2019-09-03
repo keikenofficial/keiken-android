@@ -447,7 +447,7 @@
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:text="Recensioni"
+                        android:text="Modifica profilo"
                         android:gravity="left"/>
 
 
@@ -580,7 +580,7 @@
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:text="Modifica Profilo"
+                        android:text="Recensioni"
                         android:gravity="left"/>
 
 
