@@ -50,6 +50,7 @@ import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,7 +63,6 @@ import androidx.fragment.app.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 import static com.keiken.controller.ImageController.*;
-import static com.keiken.view.activity.SignupActivity.verifyProfileInformations;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -84,6 +84,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
     static final int REQUEST_PHOTO = 1889;
+    private static final String NON_NORMAL_CHARACTERS_PATTERN = "\\W|[^!@#\\$%\\^&\\*\\(\\)]";
 
     private ImageView profileImageView;
 
@@ -173,6 +174,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         final EditText monthEditText = c.findViewById(R.id.month_edit);
         final EditText yearEditText = c.findViewById(R.id.year_edit);
         final EditText emailEditText = c.findViewById(R.id.email_edit);
+        final EditText biografiaEditText = c.findViewById(R.id.bio_edit);
         final EditText passwordEditText = c.findViewById(R.id.password_edit);
         final EditText password2EditText = c.findViewById(R.id.password2_edit);
 
@@ -511,10 +513,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             @Override
             public void onClick(View v) { //confirm profile changes on database
 
-                menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
-                AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
-                ic.start();
-                sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
 
                 /////////////
                 String name = nameEditText.getText().toString();
@@ -523,11 +522,12 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 String month = monthEditText.getText().toString();
                 String year = yearEditText.getText().toString();
                 String email = emailEditText.getText().toString();
+                String biografia = biografiaEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
 
 
-                if (verifyProfileInformations(name, surname, day, month, year, email, password, password2, getContext())) {
+                if (verifyProfileInformations(name, surname, day, month, year, email, biografia, password, password2)) {
 
                     CollectionReference yourCollRef = db.collection("utenti");
                     Query query = yourCollRef.whereEqualTo("id", user.getUid());
@@ -558,11 +558,18 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                         yearEditText.setText(year);
                                     }
                                 }
-                                catch (Exception e) {};
+                                catch (Exception e) {}
 
                             }
                         }
                     });
+
+
+
+                    menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+                    AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                    ic.start();
+                    sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
 
                 }
@@ -774,6 +781,113 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }
 
     }
+
+
+
+
+
+
+
+
+
+
+    //verifica presenza di simboli // TRUE = PRESENZA /// FALSE = ASSENZA
+    public static boolean hasSymbols(String input) {
+        return input.matches(NON_NORMAL_CHARACTERS_PATTERN);
+    }
+    public static boolean isBisestile(int anno){
+        if ( anno>1800 &&
+                ( (anno%400==0) ||
+                        (anno%4==0 && anno%100!=0) ) )
+            return true;
+        else return false;
+    }
+
+    public boolean verifyProfileInformations(String name, String surname, String day, String month, String year, String email, String biografia, String password, String password2) {
+
+        if (name.equals("") || surname.equals("") || email.equals("")) {
+            Toast.makeText(getContext(), "Nome, cognome ed email non possono essere vuoti.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+
+        //controllo sui caratteri in ingresso
+        if (hasSymbols(name) || hasSymbols(surname) || ((day != null) && hasSymbols(day)) || ((month!=null) && hasSymbols(month)) || ((year!=null) && hasSymbols(year)) || hasSymbols(email)
+            || ((biografia != null) && hasSymbols(biografia)) ) {
+            Toast.makeText(getContext(), "I campi compilati non possono contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if(((password != null) && (hasSymbols(password)))  || ((password2 != null) && (hasSymbols(password2)))) {
+            Toast.makeText(getContext(), "La password non può contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        //
+
+        if (password != null && password2 != null && !(password.equals("Password"))) {
+            if (password.length() < 6) {
+                Toast.makeText(getContext(), "La passowrd deve essere di almeno 6 caratteri.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+            if (!password.equals(password2)) {
+                Toast.makeText(getContext(), "Le password non corrispondono!", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+
+
+
+        if (day != null && month != null && year != null) {
+
+            int dayInt = Integer.parseInt(day), monthInt = Integer.parseInt(month), yearInt = Integer.parseInt(year);
+
+
+            //controllo date
+            if (dayInt < 1 || dayInt > 31 || monthInt < 1 || monthInt > 12 || yearInt < 1800) {
+                Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                return false;
+            }
+            if (monthInt == 2) {
+                if (isBisestile(yearInt)) {
+                    if (dayInt > 29) {
+                        Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                } else {
+                    if (dayInt > 28) {
+                        Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                }
+            }
+            if (monthInt == 11 || monthInt == 4 || monthInt == 6 || monthInt == 9)
+                if (dayInt > 30) {
+                    Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            //
+
+            Calendar c = Calendar.getInstance();
+            int currentYear = c.get(Calendar.YEAR);
+            int currentMonth = c.get(Calendar.MONTH);
+            int currentDay = c.get(Calendar.DAY_OF_MONTH);
+
+            if (((yearInt > currentYear)) || (yearInt == currentYear && monthInt > currentMonth)
+                    || (yearInt == currentYear && monthInt == currentMonth && dayInt >= currentDay)) {
+                Toast.makeText(getContext(), "La data inserita è sbagliata!", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+        }
+
+        return true;
+    }
+
+
+
+
+
 
 }
 
