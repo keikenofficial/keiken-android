@@ -246,13 +246,15 @@ public class LauncherActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        try {
+            currentUser.reload();
+        } catch (Exception e) {};
         if (currentUser != null) {
             boolean externalProvider = false;
             for (UserInfo user : (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())).getProviderData()) {
                 if (user.getProviderId().equals("facebook.com") || user.getProviderId().equals("google.com")) {
                     externalProvider = true;
                     startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
-
                 }
             }
             if (!externalProvider && currentUser.isEmailVerified())
