@@ -611,62 +611,70 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     Log.w("", "Error updating document", e);
                                 }
                             });
-                    ref
-                            .update("day",day)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("", "DocumentSnapshot successfully updated!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("", "Error updating document", e);
-                                }
-                            });
-                    ref
-                            .update("month",month)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("", "DocumentSnapshot successfully updated!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("", "Error updating document", e);
-                                }
-                            });
-                    ref
-                            .update("year",year)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("", "DocumentSnapshot successfully updated!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("", "Error updating document", e);
-                                }
-                            });
-                    ref
-                            .update("bio",biografia)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("", "DocumentSnapshot successfully updated!");
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("", "Error updating document", e);
-                                }
-                            });
+                        if (!day.equals("")) {
+                            ref
+                                    .update("day", day)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("", "DocumentSnapshot successfully updated!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("", "Error updating document", e);
+                                        }
+                                    });
+                        }
+                        if (!month.equals("")) {
+                            ref
+                                    .update("month", month)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("", "DocumentSnapshot successfully updated!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("", "Error updating document", e);
+                                        }
+                                    });
+                        }
+                        if (!year.equals("")) {
+                            ref
+                                    .update("year", year)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("", "DocumentSnapshot successfully updated!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("", "Error updating document", e);
+                                        }
+                                    });
+                        }
+                        if (!biografia.equals("")) {
+                            ref
+                                    .update("bio", biografia)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("", "DocumentSnapshot successfully updated!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("", "Error updating document", e);
+                                        }
+                                    });
+                        }
 
 
                     menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
@@ -900,9 +908,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-
-
-
     //verifica presenza di simboli // TRUE = PRESENZA /// FALSE = ASSENZA
     public static boolean hasSymbols(String input) {
         return input.matches(NON_NORMAL_CHARACTERS_PATTERN);
@@ -935,7 +940,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         //
 
         if (!password.equals("")) {
-            if (password.length() < 6) {
+            if (password.   length() < 6) {
                 Toast.makeText(getContext(), "La passowrd deve essere di almeno 6 caratteri.", Toast.LENGTH_LONG).show();
                 return false;
             }
