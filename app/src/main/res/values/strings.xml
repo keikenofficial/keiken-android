@@ -31,7 +31,7 @@
 
     <!--CreateExperienceActivity-->
     <string name="titolo">Titolo</string>
-    <string name="luogo">Luogo</string>
+    <string name="luogo">Località</string>
     <string name="descrizione">Descrizione</string>
     <string name="categorie">Categorie</string>
     <string name="date">Date</string>

@@ -50,6 +50,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
+import com.keiken.view.activity.CreateExperienceActivity;
 import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
@@ -178,6 +179,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         profileImageView = c.findViewById(R.id.profile_pic);
         Button changePhotoButton = c.findViewById(R.id.change_photo);
         Button editProfileButton = c.findViewById(R.id.edit_profile);
+        Button fab = c.findViewById(R.id.fab);
         final Button  confirmEditProfile= c.findViewById(R.id.confirm_edit_profile);
 
 
@@ -369,6 +371,19 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             }
         });
 
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { //backlayer button
+                startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+            }
+        });
+
+
+
+
+
         downArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -418,6 +433,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
+
 
 
 
