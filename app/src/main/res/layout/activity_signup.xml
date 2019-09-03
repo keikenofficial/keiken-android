@@ -136,7 +136,8 @@
                             android:lines="1"
                             android:maxLength="4"
                             android:textColor="@android:color/white"
-                            android:theme="@style/AppTheme.EditText"/>
+                            android:theme="@style/AppTheme.EditText"
+                            android:nextFocusForward="@+id/month" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,7 +160,9 @@
                             android:lines="1"
                             android:maxLength="4"
                             android:textColor="@android:color/white"
-                            android:theme="@style/AppTheme.EditText"/>
+                            android:theme="@style/AppTheme.EditText"
+                            android:nextFocusForward="@+id/year" />
+
 
                     </com.google.android.material.textfield.TextInputLayout>
 

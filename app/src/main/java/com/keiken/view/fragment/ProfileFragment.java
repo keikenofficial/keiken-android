@@ -433,8 +433,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             public void onClick(View v) { //open editProfile layer
                 //startActivity(new Intent(getContext(), EditProfileActivity.class));
 
-
-
                 CollectionReference yourCollRef = db.collection("utenti");
                 Query query = yourCollRef.whereEqualTo("id", user.getUid());
                 query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -473,15 +471,11 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 });
 
 
-
-
                 menuButton.setIcon(getResources().getDrawable(R.drawable.points_to_cross));
                 AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
                 ic.start();
 
                 sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-
             }
         });
 
