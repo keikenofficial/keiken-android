@@ -29,6 +29,16 @@
     <!--ProfileFragment-->
     <string name="bio">Biografia</string>
 
+    <!--CreateExperienceActivity-->
+    <string name="titolo">Titolo</string>
+    <string name="luogo">Luogo</string>
+    <string name="descrizione">Descrizione</string>
+    <string name="categorie">Categorie</string>
+    <string name="date">Date</string>
+    <string name="orario">Orario</string>
+    <string name="nPostiDisponibili">Posti disponibili</string>
+    <string name="prezzo">Prezzo</string>
+
     <!--LoginActivity-->
     <string name="forgot_password"><u>Password dimenticata?</u></string>
 

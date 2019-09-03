@@ -561,9 +561,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textSize="17sp"
-                                        android:inputType="textEmailAddress"
+                                        android:inputType="textCapSentences"
                                         android:lines="1"
-                                        android:maxLength="60"
+                                        android:maxLength="32"
                                         android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
@@ -579,9 +579,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textSize="17sp"
-                                        android:inputType="textEmailAddress"
+                                        android:inputType="textCapSentences"
                                         android:lines="1"
-                                        android:maxLength="60"
+                                        android:maxLength="32"
                                         android:theme="@style/AppTheme.EditText.Black"/>
 
 
@@ -610,7 +610,7 @@
                                             android:textSize="17sp"
                                             android:inputType="number"
                                             android:lines="1"
-                                            android:maxLength="4"
+                                            android:maxLength="2"
                                             android:nextFocusDown="@+id/month_edit"
                                             android:theme="@style/AppTheme.EditText.Black"/>
 
@@ -631,7 +631,7 @@
                                             android:textSize="17sp"
                                             android:inputType="number"
                                             android:lines="1"
-                                            android:maxLength="4"
+                                            android:maxLength="2"
                                             android:nextFocusDown="@+id/year_edit"
                                             android:theme="@style/AppTheme.EditText.Black"/>
 
@@ -675,7 +675,7 @@
                                         android:textSize="17sp"
                                         android:inputType="textEmailAddress"
                                         android:lines="1"
-                                        android:maxLength="60"
+                                        android:maxLength="56"
                                         android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
@@ -694,9 +694,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textSize="17sp"
-                                        android:inputType="textEmailAddress"
+                                        android:inputType="textCapSentences|textAutoCorrect"
                                         android:lines="5"
-                                        android:maxLength="300"
+                                        android:maxLength="250"
                                         android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
@@ -716,7 +716,7 @@
                                         android:layout_height="wrap_content"
                                         android:inputType="textPassword"
                                         android:lines="1"
-                                        android:maxLength="60"
+                                        android:maxLength="56"
                                         android:textSize="17sp"
                                         android:theme="@style/AppTheme.EditText.Black"/>
 
@@ -735,7 +735,7 @@
                                         android:textSize="17sp"
                                         android:inputType="textPassword"
                                         android:lines="1"
-                                        android:maxLength="60"
+                                        android:maxLength="56"
                                         android:theme="@style/AppTheme.EditText.Black"/>
 
                                 </com.google.android.material.textfield.TextInputLayout>
