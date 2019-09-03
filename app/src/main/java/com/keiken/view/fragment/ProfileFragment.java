@@ -62,6 +62,7 @@ import androidx.fragment.app.Fragment;
 
 import static android.app.Activity.RESULT_OK;
 import static com.keiken.controller.ImageController.*;
+import static com.keiken.view.activity.SignupActivity.verifyProfileInformations;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -159,9 +160,11 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         TextView email = c.findViewById(R.id.email);
         TextView contacts = c.findViewById(R.id.contacts);
         final TextView date = c.findViewById(R.id.date);
-        Button changePhotoButton = c.findViewById(R.id.change_photo);
+
         profileImageView = c.findViewById(R.id.profile_pic);
-        Button editProfile = c.findViewById(R.id.edit_profile);
+        Button changePhotoButton = c.findViewById(R.id.change_photo);
+        Button editProfileButton = c.findViewById(R.id.edit_profile);
+        Button  confirmEditProfile= c.findViewById(R.id.confirm_edit_profile);
 
 
         final EditText nameEditText = c.findViewById(R.id.name_edit);
@@ -266,19 +269,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         Toolbar toolbar = c.findViewById(R.id.toolbar);
         toolbar.setElevation(0);
         toolbar.setTitle("Profilo");
@@ -345,6 +335,24 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             }
         });
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { //backlayer button
+                mAuth.signOut();
+                LoginManager.getInstance().logOut();
+                startActivity(new Intent(getContext(), LauncherActivity.class));
+            }
+        });
+
+
+        contacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { //backlayer button
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                emailIntent.setData(Uri.parse("mailto:keiken@mail.com"));
+                startActivity(emailIntent);
+            }
+        });
 
         downArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,7 +408,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         reviewsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) { //open reviews layer
 
                 menuButton.setIcon(getResources().getDrawable(R.drawable.points_to_cross));
                 AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
@@ -412,14 +420,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             }
         });
 
-
-
-
-
-
-        editProfile.setOnClickListener(new View.OnClickListener() {
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //open editProfile layer
                 //startActivity(new Intent(getContext(), EditProfileActivity.class));
 
                 menuButton.setIcon(getResources().getDrawable(R.drawable.points_to_cross));
@@ -432,30 +435,31 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             }
         });
 
+        changePhotoButton.setOnClickListener(new View.OnClickListener() {
 
-
-
-        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut();
-                LoginManager.getInstance().logOut();
-                startActivity(new Intent(getContext(), LauncherActivity.class));
+
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+
+                        || ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+
+                        || ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                    requestPermissions(
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                            0);
+                }
+                else selectImage();
             }
         });
 
 
 
-
-
-
-
-
-        FirebaseUser user = mAuth.getCurrentUser();
-
-
-
-
+        final FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             // Name, email address, and profileImageView photo Url
             toolbar.setTitle(user.getDisplayName());
@@ -501,54 +505,76 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 }
             });
 
-        }
+        } //set default values for edit text of "modify profile"
 
-
-
-        contacts.setOnClickListener(new View.OnClickListener() {
+        confirmEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-                emailIntent.setData(Uri.parse("mailto:keiken@mail.com"));
-                startActivity(emailIntent);
-            }
-        });
+            public void onClick(View v) { //confirm profile changes on database
+
+                menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
+                AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                ic.start();
+                sheetBehaviorEdit.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+                /////////////
+                String name = nameEditText.getText().toString();
+                String surname = surnameEditText.getText().toString();
+                String day = dayEditText.getText().toString();
+                String month = monthEditText.getText().toString();
+                String year = yearEditText.getText().toString();
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                String password2 = password2EditText.getText().toString();
 
 
+                if (verifyProfileInformations(name, surname, day, month, year, email, password, password2, getContext())) {
+
+                    CollectionReference yourCollRef = db.collection("utenti");
+                    Query query = yourCollRef.whereEqualTo("id", user.getUid());
+                    query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                String name, surname, day, month, year;
+                                QuerySnapshot result = task.getResult();
+                                try {
+                                    List<DocumentSnapshot> documents = result.getDocuments();
+                                    DocumentSnapshot document = documents.get(0);
+
+                                    name = document.getString("name");
+                                    surname = document.getString("surname");
+                                    if (name != null && surname != null) {
+                                        nameEditText.setText(name);
+                                        surnameEditText.setText(surname);
+                                    }
+
+                                    day = document.getString("day");
+                                    month = document.getString("month");
+                                    year = document.getString("year");
+                                    if (day != null && month != null && year != null) {
+                                        date.setText(day + "/" + month + "/" + year);
+                                        dayEditText.setText(day);
+                                        monthEditText.setText(month);
+                                        yearEditText.setText(year);
+                                    }
+                                }
+                                catch (Exception e) {};
+
+                            }
+                        }
+                    });
 
 
-
-
-
-        changePhotoButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-
-                        || ContextCompat.checkSelfPermission(getContext(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-
-                        || ContextCompat.checkSelfPermission(getContext(),
-                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
-                    requestPermissions(
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
-                            0);
                 }
-                else selectImage();
+
+
+
+
             }
         });
-
-
-
 
 
         return c;
-
-
     }
 
     // TODO: Rename method, update argument and hook method into UI event

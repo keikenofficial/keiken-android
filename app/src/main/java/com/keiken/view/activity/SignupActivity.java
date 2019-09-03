@@ -1,5 +1,6 @@
 package com.keiken.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -86,7 +87,7 @@ public class SignupActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
 
-                if (verifySignUpInformation(name, surname, day, month, year, email, password, password2)) {
+                if (verifyProfileInformations(name, surname, day, month, year, email, password, password2, getApplicationContext())) {
                     signup(name, surname, day, month, year, email, password);
                 }
             }
@@ -196,19 +197,19 @@ public class SignupActivity extends AppCompatActivity {
         else return false;
     }
 
-    boolean verifySignUpInformation(String name, String surname, String day, String month, String year, String email, String password, String password2) {
+    public static boolean verifyProfileInformations(String name, String surname, String day, String month, String year, String email, String password, String password2, Context context) {
 
         if (name.equals("") || surname.equals("") || day.equals("") || month.equals("") || year.equals("") || email.equals("") || password.equals("") || password2.equals("")) {
-            Toast.makeText(SignupActivity.this, "Tutti i campi devono essere compilati.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Tutti i campi devono essere compilati.", Toast.LENGTH_LONG).show();
             return false;
         }
         //controllo sui caratteri in ingresso
         if (hasSymbols(name) || hasSymbols(surname) || hasSymbols(day) || hasSymbols(month) || hasSymbols(year) || hasSymbols(email)) {
-            Toast.makeText(SignupActivity.this, "I campi compilati non possono contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "I campi compilati non possono contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
             return false;
         }
         if(hasSymbols(password) || hasSymbols(password2)){
-            Toast.makeText(SignupActivity.this, "La password non può contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "La password non può contenere caratteri speciali. ", Toast.LENGTH_LONG).show();
             return false;
         }
         //
@@ -218,36 +219,36 @@ public class SignupActivity extends AppCompatActivity {
 
 
         if (password.length() < 6) {
-            Toast.makeText(SignupActivity.this, "La passowrd deve essere di almeno 6 caratteri.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "La passowrd deve essere di almeno 6 caratteri.", Toast.LENGTH_LONG).show();
             return false;
         }
 
         if ( !password.equals(password2) ) {
-            Toast.makeText(SignupActivity.this, "Le password non corrispondono!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Le password non corrispondono!", Toast.LENGTH_LONG).show();
             return false;
         }
 
         //controllo date
         if (dayInt < 1 || dayInt > 31 || monthInt < 1 || monthInt > 12 || yearInt < 1800) {
-            Toast.makeText(SignupActivity.this, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
             return false;
         }
         if(monthInt == 2){
             if(isBisestile(yearInt)){
                 if(dayInt>29){
-                    Toast.makeText(SignupActivity.this, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
                     return false;
                 }
             } else {
                 if(dayInt>28){
-                    Toast.makeText(SignupActivity.this, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
                     return false;
                 }
             }
         }
         if(monthInt == 11 && monthInt == 4 && monthInt == 6 && monthInt == 9)
             if(dayInt>30){
-                Toast.makeText(SignupActivity.this, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
                 return false;
             }
         //
@@ -259,7 +260,7 @@ public class SignupActivity extends AppCompatActivity {
 
         if (((yearInt > currentYear)) || (yearInt == currentYear && monthInt > currentMonth)
                 ||(yearInt == currentYear && monthInt == currentMonth && dayInt >= currentDay)){
-            Toast.makeText(SignupActivity.this, "La data inserita è sbagliata!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "La data inserita è sbagliata!", Toast.LENGTH_LONG).show();
             return false;
         }
 

@@ -403,10 +403,6 @@
         </com.keiken.view.backdrop.BackdropFrontLayer>
 
 
-
-
-
-
         <!--Backdrop third layer //modifica profilo -->
         <com.keiken.view.backdrop.BackdropFrontLayer
             android:id="@+id/backdrop_edit"
@@ -645,6 +641,29 @@
                                 </com.google.android.material.textfield.TextInputLayout>
 
 
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/bio"
+                                    app:hintAnimationEnabled="true">
+
+                                    <EditText
+                                        android:id="@+id/bio_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="5"
+                                        android:maxLength="300"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -688,6 +707,7 @@
 
 
                         <com.google.android.material.button.MaterialButton
+                            android:id="@+id/confirm_edit_profile"
                             android:layout_gravity="bottom|end"
                             android:layout_width="wrap_content"
                             android:paddingStart="14dp"
@@ -714,10 +734,6 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </com.keiken.view.backdrop.BackdropFrontLayer>
-
-
-
-
 
 
         <!--Backdrop second layer //recensioni -->
@@ -848,15 +864,9 @@
 
         </com.keiken.view.backdrop.BackdropFrontLayer>
 
-
-
-
-
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <com.google.android.material.button.MaterialButton
+    <com.google.android.material.button.MaterialButton
             android:id="@+id/fab"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"

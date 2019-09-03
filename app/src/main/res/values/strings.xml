@@ -22,6 +22,9 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
 
+    <!--ProfileFragment-->
+    <string name="bio">Biografia</string>
+
     <!--LoginActivity-->
     <string name="forgot_password"><u>Password dimenticata?</u></string>
 
