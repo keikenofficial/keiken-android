@@ -688,6 +688,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         bio.setText(biografia);
 
 
+
+                        if (!password.equals("")) user.updatePassword(password);
+
                     menuButton.setIcon(getResources().getDrawable(R.drawable.cross_to_points));
                     AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
                     ic.start();
@@ -1014,8 +1017,15 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
         } else {
-            Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
-            return false;
+            if (  (day.equals("") && !month.equals("") && !year.equals(""))
+                || (!day.equals("") && month.equals("") && !year.equals(""))
+                || (!day.equals("") && !month.equals("") && year.equals(""))
+                || (day.equals("") && month.equals("") && !year.equals(""))
+                || (!day.equals("") && month.equals("") && year.equals(""))
+                || (day.equals("") && !month.equals("") && year.equals(""))) {
+                Toast.makeText(getContext(), "Controlla la data inserita. ", Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
 
         return true;
