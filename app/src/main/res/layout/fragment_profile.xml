@@ -1,0 +1,911 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:elevation="0dp"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:id="@id/background_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="right">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/menu_button"
+                app:rippleColor="#20ffffff"
+                android:layout_width="34dp"
+                android:layout_height="46dp"
+                android:textAllCaps="false"
+                android:layout_marginRight="10dp"
+                android:paddingLeft="5dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorPrimary"
+                android:elevation="0dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:textColor="#ffffff"
+                android:textSize="17sp"
+                app:cornerRadius="100dp"
+                app:icon="@drawable/ic_menu"
+                app:strokeColor="#00000000"
+                app:iconTint="#ffffff"/>
+
+        </LinearLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <!--Backdrop back layer-->
+        <LinearLayout
+            android:id="@+id/background_frame_x"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="0dp"
+            android:padding="10dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/contacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeWidth="0dp"
+                app:rippleColor="#10ffffff"
+                android:text="Contatta assistenza"
+                android:textColor="#ffffff"
+                android:textAllCaps="false"
+                android:textSize="17sp"
+                android:gravity="left"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/logout"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeWidth="0dp"
+                app:rippleColor="#10ffffff"
+                android:text="Logout"
+                android:textColor="#ffffff"
+                android:textAllCaps="false"
+                android:textSize="17sp"
+                android:gravity="left"/>
+
+            </LinearLayout>
+
+        <!--Backdrop first layer //profilo -->
+        <com.keiken.view.backdrop.BackdropFrontLayer
+            android:id="@+id/backdrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:elevation="1dp"
+            app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
+
+            <!--Layer subheader-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="8dp"
+                android:background="@drawable/backdrop_background"
+                app:behavior_peekHeight="56dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Profilo"
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+
+
+                    <ImageView
+                        android:id="@+id/up_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/white_to_black_up_arrow"
+                        android:layout_gravity="right"/>
+
+
+                </FrameLayout>
+
+                <View
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dddddd"/>
+
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <!--Layer contente body-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:id="@+id/swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff">
+
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+
+                    <!--Profilo-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!--Foto profilo e dati-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="15dp"
+                            android:paddingTop="15dp"
+                            android:layout_gravity="center">
+
+
+                            <!--Foto profilo-->
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <FrameLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center">
+
+                                    <androidx.cardview.widget.CardView
+                                            android:layout_width="162dp"
+                                            android:layout_height="162dp"
+                                            android:elevation="24.3dp"
+                                            android:id="@+id/view2"
+                                            app:cardCornerRadius="81dp"
+                                            android:innerRadius="0dp"
+                                            android:shape="ring"
+                                            android:thicknessRatio="1.9">
+
+
+                                            <ImageView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="162dp"
+                                                android:id="@+id/profile_pic"
+                                                android:layout_centerHorizontal="true"
+                                                android:scaleType="centerCrop"
+                                                android:src="@mipmap/avatar"/>
+                                        </androidx.cardview.widget.CardView>
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:theme="@style/Widget.MaterialComponents.Button.Icon"
+                                        app:backgroundTint="@color/colorPrimary"
+                                        android:layout_width="44dp"
+                                        android:layout_height="56dp"
+                                        android:layout_marginTop="112dp"
+                                        android:layout_marginLeft="118dp"
+                                        app:cornerRadius="100dp"
+                                        android:id="@+id/change_photo"
+                                        app:icon="@drawable/ic_photo"
+                                        android:paddingLeft="24dp"
+                                        app:iconGravity="textStart"/>
+
+                                </FrameLayout>
+                            </FrameLayout>
+
+                            <!--Dati Profilo-->
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center"
+                                    android:layout_gravity="center">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:textAlignment="center"
+                                        android:textColor="#000000"
+                                        android:textSize="16dp"
+                                        android:id="@+id/email"
+                                        android:text="mail"
+                                        android:layout_marginBottom="7dp"/>
+
+                                    <TextView
+                                        android:id="@+id/date"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="#000000"
+                                        android:textSize="16dp"
+                                        android:text=""
+                                        android:layout_marginBottom="7dp"/>
+
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layout_gravity="center"
+                                        android:layout_marginBottom="10dp">
+
+
+                                        <ImageView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/ic_verified_user"/>
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Utente verificato"
+                                            android:textSize="16dp"
+                                            android:textColor="#000000"
+                                            android:paddingRight="1dp"/>
+
+                                    </LinearLayout>
+
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/edit_profile"
+                                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="center"
+                                        android:backgroundTint="@color/colorPrimary"
+                                        android:text="Modifica\nProfilo"
+                                        android:textAllCaps="false"
+                                        app:rippleColor="#40ffffff"
+                                        android:textColor="#ffffff"
+                                        android:textSize="14sp"
+                                        app:icon="@drawable/ic_edit"
+                                        android:paddingHorizontal="10dp"
+                                        app:iconPadding="9dp"
+                                        app:iconTint="#FFFFFF"
+                                        app:iconSize="25dp"/>
+
+                                </LinearLayout>
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <!--Bio-->
+                        <TextView
+                            android:id="@+id/bio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000000"
+                            android:textSize="16dp"
+                            android:text=""
+                            android:gravity="center"
+                            android:paddingTop="20dp"
+                            android:paddingHorizontal="15dp"
+                            android:paddingBottom="14dp"/>
+
+
+
+
+                        <!--Recensioni-->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000000"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:text="14 Recensioni" />
+
+                            <RatingBar
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="-15dp"
+                                android:layout_marginBottom="-15dp"
+                                android:isIndicator="true"
+                                android:rating="3.4"
+                                android:stepSize="0.01"
+                                android:numStars="5"
+                                android:scaleX="0.4"
+                                android:scaleY="0.4"
+                                android:outlineSpotShadowColor="@color/colorPrimary"
+                                android:theme="@style/RatingTheme"
+                                android:outlineAmbientShadowColor="@color/colorPrimary"/>
+
+                            <TextView
+                                android:id="@+id/reviews_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000000"
+                                android:textSize="16sp"
+                                android:text="@string/reviews"
+                                android:layout_marginBottom="10dp"/>
+                        </LinearLayout>
+
+
+
+
+
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#dddddd"
+                            android:layout_marginHorizontal="15dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"/>
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#000000"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:text="Esperienze"
+                            android:layout_marginBottom="5dp" />
+
+
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+
+
+
+
+                <!--The content's body goes here-->
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.keiken.view.backdrop.BackdropFrontLayer>
+
+
+
+
+
+
+
+
+
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fab"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="0dp"
+            android:text="Crea"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            app:backgroundTint="@color/colorPrimary"
+            app:cornerRadius="32dp"
+            app:icon="@drawable/ic_add"
+            app:iconTint="#ffffff" />
+
+
+
+
+
+
+
+
+        <!--Backdrop third layer //modifica profilo -->
+        <com.keiken.view.backdrop.BackdropFrontLayer
+            android:id="@+id/backdrop_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="1dp"
+            app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
+
+
+
+
+
+            <!--This is the backdrop's header with a title and icon-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/header_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="15dp"
+                android:layout_marginTop="24dp"
+                android:elevation="4dp"
+                android:background="@drawable/backdrop_background"
+                app:behavior_peekHeight="56dp">
+                <!-- android:layout_marginTop="45dp"-->
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:text="Modifica profilo"
+                        android:gravity="left"/>
+
+
+
+
+
+
+                    <ImageView
+                        android:id="@+id/down_arrow_edit"
+                        android:layout_width="wrap_content"
+                        android:elevation="10dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_down_arrow"
+                        android:tint="#000000"
+                        android:layout_gravity="right|top"/>
+
+                </FrameLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
+            <!--And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:id="@+id/swiperefresh_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:behavior_peekHeight="64dp"
+                android:elevation="4dp"
+                android:background="#ffffff">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dddddd"
+                    android:layout_marginHorizontal="15dp"/>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:id="@+id/email_login_form"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:gravity="center"
+                            android:layout_marginBottom="35dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/name"
+                                    app:hintAnimationEnabled="true"
+                                    android:layout_marginTop="20dp">
+
+                                    <EditText
+                                        android:id="@+id/name_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/surname"
+                                    app:hintAnimationEnabled="true">
+
+                                    <EditText
+                                        android:id="@+id/surname_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+                                <LinearLayout
+                                    android:baselineAligned="false"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center"
+                                    android:weightSum="99">
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/day"
+                                        app:hintAnimationEnabled="true">
+
+                                        <EditText
+                                            android:id="@+id/day_edit"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:nextFocusDown="@+id/month_edit"
+                                            android:theme="@style/AppTheme.EditText.Black"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/month"
+                                        app:hintAnimationEnabled="true">
+
+                                        <EditText
+                                            android:id="@+id/month_edit"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:nextFocusDown="@+id/year_edit"
+                                            android:theme="@style/AppTheme.EditText.Black"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:layout_weight="33"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:hint="@string/year"
+                                        app:hintAnimationEnabled="true">
+
+
+                                        <EditText
+                                            android:id="@+id/year_edit"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="17sp"
+                                            android:inputType="number"
+                                            android:lines="1"
+                                            android:maxLength="4"
+                                            android:theme="@style/AppTheme.EditText.Black"/>
+
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                </LinearLayout>
+
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/email"
+                                    app:hintAnimationEnabled="true">
+
+                                    <EditText
+                                        android:id="@+id/email_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/bio"
+                                    app:hintAnimationEnabled="true">
+
+                                    <EditText
+                                        android:id="@+id/bio_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textEmailAddress"
+                                        android:lines="5"
+                                        android:maxLength="300"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/newPassword">
+
+
+                                    <EditText
+                                        android:id="@+id/password_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="textPassword"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:textSize="17sp"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/newPassword2">
+
+
+                                    <EditText
+                                        android:id="@+id/password2_edit"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="17sp"
+                                        android:inputType="textPassword"
+                                        android:lines="1"
+                                        android:maxLength="60"
+                                        android:theme="@style/AppTheme.EditText.Black"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                            </LinearLayout>
+
+
+                        </FrameLayout>
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/confirm_edit_profile"
+                            android:layout_gravity="bottom|end"
+                            android:layout_width="wrap_content"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_height="wrap_content"
+                            android:text="Modifica Profilo"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="17sp"/>
+
+
+
+                    </LinearLayout>
+
+
+
+
+                </ScrollView>
+
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.keiken.view.backdrop.BackdropFrontLayer>
+
+
+        <!--Backdrop second layer //recensioni -->
+        <com.keiken.view.backdrop.BackdropFrontLayer
+            android:id="@+id/backdrop_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="1dp"
+            app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
+
+
+
+
+
+            <!--This is the backdrop's header with a title and icon-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:clickable="true"
+                android:paddingVertical="8dp"
+                android:paddingHorizontal="15dp"
+                android:layout_marginTop="24dp"
+                android:elevation="4dp"
+                android:background="@drawable/backdrop_background"
+                app:behavior_peekHeight="56dp">
+                <!-- android:layout_marginTop="45dp"-->
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:text="Recensioni"
+                        android:gravity="left"/>
+
+
+
+
+
+
+                    <ImageView
+                        android:id="@+id/down_arrow"
+                        android:layout_width="wrap_content"
+                        android:elevation="10dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_down_arrow"
+                        android:tint="#000000"
+                        android:layout_gravity="right|top"/>
+
+                </FrameLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+
+
+            <!--And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:id="@+id/swiperefresh_reviews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:behavior_peekHeight="64dp"
+                android:elevation="4dp"
+                android:background="#ffffff">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dddddd"
+                    android:layout_marginHorizontal="15dp"/>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal">
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1000dp"
+                                android:background="@android:color/white"/>
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="5dp"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+
+
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.keiken.view.backdrop.BackdropFrontLayer>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+</FrameLayout>

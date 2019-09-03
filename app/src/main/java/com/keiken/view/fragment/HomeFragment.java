@@ -1,0 +1,351 @@
+package com.keiken.view.fragment;
+
+
+
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.button.MaterialButton;
+import com.keiken.R;
+import com.keiken.view.IOnBackPressed;
+import com.keiken.view.backdrop.BackdropFrontLayer;
+import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.fragment.app.Fragment;
+
+
+public class HomeFragment extends Fragment implements IOnBackPressed {
+
+    private LinearLayout  backgroundFrame;
+    private BackdropFrontLayerBehavior sheetBehavior;
+    private MaterialButton filterButton;
+    private ImageView upArrow;
+    private TextView header1;
+    private LinearLayout header2, header3;
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    private OnFragmentInteractionListener mListener;
+
+
+    // activity listener interface
+    private OnPageListener pageListener;
+    public interface OnPageListener {
+        public void onPage1(String s);
+    }
+
+    public HomeFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment StoricoGiorno1Fragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
+        FrameLayout c = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
+
+        header1 = c.findViewById(R.id.header1);
+        header2 = c.findViewById(R.id.header2);
+        header3 = c.findViewById(R.id.header3);
+
+        final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
+        contentLayout.setTouchIntercept(BackdropFrontLayer.NONE);
+
+        sheetBehavior = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayout);
+        sheetBehavior.setFitToContents(false);
+        sheetBehavior.setHideable(true);//prevents the boottom sheet from completely hiding off the screen
+        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
+
+
+
+        filterButton = c.findViewById(R.id.filter_button);
+        upArrow = c.findViewById(R.id.up_arrow);
+
+
+
+        contentLayout.setBehavior(sheetBehavior);
+        contentLayout.setButton(filterButton);
+        contentLayout.setDrawable((AnimatedVectorDrawable)getResources().getDrawable(R.drawable.cross_to_filter));
+
+        contentLayout.setImageView(upArrow);
+        contentLayout.setDrawable2((AnimatedVectorDrawable)getResources().getDrawable(R.drawable.black_to_white_up_arrow));
+
+
+
+
+
+        final DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+
+       backgroundFrame = c.findViewById(R.id.background_frame);
+        final int bFrameHeight = backgroundFrame.getBottom();
+
+        //sheetBehavior.setPeekHeight(displayMetrics.heightPixels-bFrameHeight);
+
+
+        ViewTreeObserver viewTreeObserver = backgroundFrame.getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    backgroundFrame.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int viewHeight = backgroundFrame.getBottom();
+
+                    int toolbarPx = (int)( 80 * (displayMetrics.densityDpi / 160f));
+                    int bottomPx = (int)( 38 * (displayMetrics.densityDpi / 160f));
+
+
+                    sheetBehavior.setPeekHeight(bottomPx);
+
+                }
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+        Toolbar toolbar = c.findViewById(R.id.toolbar);
+        toolbar.setElevation(0);
+        toolbar.setTitle("");
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
+
+
+
+
+
+
+
+
+        //float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+         backgroundFrame = c.findViewById(R.id.background_frame);
+        //final int bFrameHeight = backgroundFrame.getBottom();
+        //sheetBehavior.setPeekHeight(displayMetrics.heightPixels-bFrameHeight);
+
+
+
+
+
+
+        upArrow.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+               filterButton.setIcon(getResources().getDrawable(R.drawable.cross_to_filter));
+               AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)filterButton.getIcon();
+               ic.start();
+
+
+               upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+               AnimatedVectorDrawable ic2 =  (AnimatedVectorDrawable)upArrow.getDrawable();
+               ic2.start();
+
+
+               header1.setVisibility(View.GONE);
+               header2.setVisibility(View.VISIBLE);
+               header3.setVisibility(View.GONE);
+
+           }
+       });
+
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+
+                    //  recursiveLoopChildren(false, contentLayout);
+
+                    filterButton.setIcon(getResources().getDrawable(R.drawable.filter_to_cross));
+                    AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)filterButton.getIcon();
+                    ic.start();
+
+                    upArrow.setImageDrawable((getResources().getDrawable(R.drawable.white_to_black_up_arrow)));
+                    AnimatedVectorDrawable ic2 =  (AnimatedVectorDrawable)upArrow.getDrawable();
+                    ic2.start();
+
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+
+
+                    header1.setVisibility(View.GONE);
+                    header2.setVisibility(View.GONE);
+                    header3.setVisibility(View.VISIBLE);
+
+                }
+                else {
+
+                    filterButton.setIcon(getResources().getDrawable(R.drawable.cross_to_filter));
+                    AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)filterButton.getIcon();
+                    ic.start();
+
+                    upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+                    AnimatedVectorDrawable ic2 =  (AnimatedVectorDrawable)upArrow.getDrawable();
+                    ic2.start();
+
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    // recursiveLoopChildren(true, contentLayout);
+
+                    header1.setVisibility(View.GONE);
+                    header2.setVisibility(View.VISIBLE);
+                    header3.setVisibility(View.GONE);
+
+                }
+            }
+        });
+
+
+        return c;
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+
+    // onAttach : set activity listener
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // if implemented by activity, set listener
+        if(activity instanceof OnPageListener) {
+            pageListener = (OnPageListener) activity;
+        }
+        // else create local listener (code never executed in this example)
+        else pageListener = new OnPageListener() {
+            @Override
+            public void onPage1(String s) {
+                Log.d("PAG1","Button event from page 1 : "+s);
+            }
+        };
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
+
+
+
+  /*  public void recursiveLoopChildren(boolean enable, ViewGroup parent) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            final View child = parent.getChildAt(i);
+
+            child.setEnabled(enable);
+
+            if (child instanceof ViewGroup) {
+                recursiveLoopChildren(enable, (ViewGroup) child);
+            }
+        }
+    }*/
+
+    @Override
+    public boolean onBackPressed() {
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            //action not popBackStack
+
+            filterButton.setIcon(getResources().getDrawable(R.drawable.cross_to_filter));
+            AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)filterButton.getIcon();
+            ic.start();
+
+            upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+            AnimatedVectorDrawable ic2 =  (AnimatedVectorDrawable)upArrow.getDrawable();
+            ic2.start();
+
+            sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
+
+            header1.setVisibility(View.GONE);
+            header2.setVisibility(View.VISIBLE);
+            header3.setVisibility(View.GONE);
+
+
+            return true;
+        } else return true;
+    }
+
+
+    }
+

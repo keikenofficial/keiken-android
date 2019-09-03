@@ -2,7 +2,8 @@
     <string name="app_name">Keiken</string>
 
     <!--Facebook-->
-    <string name="facebook_app_id">419212508697049</string> <string name="fb_login_protocol_scheme">fb419212508697049</string>
+    <string name="facebook_app_id">419212508697049</string>
+    <string name="fb_login_protocol_scheme">fb419212508697049</string>
 
 
     <!--LauncherActivity-->
@@ -14,17 +15,27 @@
 
     <!--SignupActivity-->
     <string name="name">Nome</string>
-    <string name="surname">Cogome</string>
+    <string name="surname">Cognome</string>
     <string name="day">Giorno</string>
     <string name="month">Mese</string>
     <string name="year">Anno</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
 
+    <!--HomeActivity-->
+    <string name="newPassword">Nuova password</string>
+    <string name="newPassword2">Conferma nuova password</string>
+
+    <!--ProfileFragment-->
+    <string name="bio">Biografia</string>
+
     <!--LoginActivity-->
     <string name="forgot_password"><u>Password dimenticata?</u></string>
 
     <!--ForgotPasswordActivity-->
     <string name="send_email_forgot_password">Invia email per recupero password</string>
+
+    <string name="reviews"><u>Visualizza recensioni</u></string>
+
 
 </resources>

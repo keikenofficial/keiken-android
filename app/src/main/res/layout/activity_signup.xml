@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LauncherActivity">
+    tools:context=".view.activity.LauncherActivity">
 
     <LinearLayout
         android:id="@+id/cont"
@@ -136,7 +136,8 @@
                             android:lines="1"
                             android:maxLength="4"
                             android:textColor="@android:color/white"
-                            android:theme="@style/AppTheme.EditText"/>
+                            android:theme="@style/AppTheme.EditText"
+                            android:nextFocusDown="@+id/month" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -159,7 +160,9 @@
                             android:lines="1"
                             android:maxLength="4"
                             android:textColor="@android:color/white"
-                            android:theme="@style/AppTheme.EditText"/>
+                            android:theme="@style/AppTheme.EditText"
+                            android:nextFocusDown="@+id/year" />
+
 
                     </com.google.android.material.textfield.TextInputLayout>
 

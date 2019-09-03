@@ -1,4 +1,4 @@
-package com.keiken;
+package com.keiken.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -22,6 +23,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -30,8 +33,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.keiken.R;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -40,6 +52,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LauncherActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     private CallbackManager mCallbackManager;
@@ -58,6 +71,8 @@ public class LauncherActivity extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
 
         FacebookSdk.setApplicationId("419212508697049");
         AppEventsLogger.activateApp(getApplication());
@@ -132,7 +147,7 @@ public class LauncherActivity extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d("", "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -144,6 +159,11 @@ public class LauncherActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("", "signInWithCredential:success");
 
+
+                            String name = acct.getGivenName();
+                            String surname = acct.getFamilyName();
+
+                            uploadUserToDb(name, surname);
                             startActivity(new Intent(getBaseContext(), HomeActivity.class));
 
 
@@ -166,9 +186,10 @@ public class LauncherActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
+                // Google Sign In was successful, authenticate with Firebase (auth with google credential)
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                if (account != null)
+                    firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("", "Google sign in failed", e);
@@ -191,7 +212,19 @@ public class LauncherActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("", "signInWithCredential:success");
-                            //updateUI();
+
+
+                            Profile profile= Profile.getCurrentProfile();
+                            final String name = profile.getFirstName() + " " + profile.getMiddleName();
+                            final String surname = profile.getLastName();
+
+
+                            uploadUserToDb(name, surname);
+
+                            startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
+
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("", "signInWithCredential:failure", task.getException());
@@ -211,16 +244,77 @@ public class LauncherActivity extends AppCompatActivity {
         super.onStart();
 
         // Check if user is signed in (non-null) and update UI accordingly.
+        mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        try {
+            currentUser.reload();
+        } catch (Exception e) {};
         if (currentUser != null) {
             boolean externalProvider = false;
             for (UserInfo user : (Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())).getProviderData()) {
                 if (user.getProviderId().equals("facebook.com") || user.getProviderId().equals("google.com")) {
                     externalProvider = true;
-                    //updateUI();
+                    startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
                 }
             }
-            if (!externalProvider && currentUser.isEmailVerified())     ;//updateUI();
+            if (!externalProvider && currentUser.isEmailVerified())
+                startActivity(new Intent(LauncherActivity.this, HomeActivity.class));
         }
+    }
+
+
+
+    private void uploadUserToDb(final String name, final String surname){
+
+
+        //checks firestore database in order to see if user already exists, if so, do nothing
+        CollectionReference utenti = db.collection("utenti");
+        Query query = utenti.whereEqualTo("id", mAuth.getCurrentUser().getUid());
+        Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if(task.getResult().isEmpty()) {
+
+
+
+                        // Create a new user with a first and last name
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Map<String, Object> userDb = new HashMap<>();
+
+
+                        userDb.put("name", name);
+                        userDb.put("surname", surname);
+                        userDb.put("email", user.getEmail());
+                        userDb.put("id", user.getUid());
+
+
+                        // Add a new document with a generated ID
+                        db.collection("utenti")
+                                .add(userDb)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("", "Error adding document", e);
+                                    }
+                                });
+
+
+
+
+                    }
+                }
+
+            }
+        });
+
+
+
     }
 }
