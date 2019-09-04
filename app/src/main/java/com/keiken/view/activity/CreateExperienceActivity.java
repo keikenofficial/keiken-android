@@ -18,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,8 +57,10 @@ import com.keiken.R;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,6 +197,11 @@ public class CreateExperienceActivity extends AppCompatActivity {
         events.add(new EventDay(calendar, R.drawable.thumb_primary_color));
         final CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setEvents(events);
+        try {
+            calendarView.setDate(calendar);
+        } catch (OutOfDateRangeException e) {
+            e.printStackTrace();
+        }
 
         calendarView.setOnDayClickListener(new OnDayClickListener() {
             @Override
@@ -231,9 +240,6 @@ public class CreateExperienceActivity extends AppCompatActivity {
         confirmCreaEsperienza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //confirm profile changes on database
-
-
-
                 /////////////
                 final String titolo = titoloEditText.getText().toString();
                 final String descrizione = descrizioneEditText.getText().toString();
@@ -252,17 +258,22 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 }
                 //////////////
 
+                //CALENDARIO
+                List<Calendar> selectedDates = calendarView.getSelectedDates();
+                ///////////
+
                 //ORARIO
                 final TimePicker timePicker = findViewById(R.id.timePicker);
                 int ore = timePicker.getHour(); //restituisce le ore in formato 24H
                 int minuti = timePicker.getMinute();
                 //////////////
 
+                String ID_CREATORE = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 final NumberPicker pickerPosti = findViewById(R.id.posti_disponibili);
                 int nPostiDisponibili = pickerPosti.getValue();
 
-                if(verifyInformations(titolo, descrizione, luogo) && isPhotoSelected) {
+                if(verifyInformations(titolo, descrizione, luogo) && isPrezzoValid(prezzo) && isCategorieValid(categorie) && isDateValid(selectedDates, ore, minuti) && isPhotoValid()) {
                     confirmCreaEsperienza.setEnabled(false);
                     //upload dell'immagine da eseguire previa verifica di tutti i dati
                     uploadEsperienzaImage(uri_definitivo);
@@ -272,6 +283,8 @@ public class CreateExperienceActivity extends AppCompatActivity {
                     FirebaseUser user = mAuth.getCurrentUser();
                     Map<String, Object> esperienzeDb = new HashMap<>();
 
+                    esperienzeDb.put("ID_CREATORE", ID_CREATORE);
+
                     esperienzeDb.put("titolo", titolo);
                     esperienzeDb.put("descrizione", descrizione);
                     esperienzeDb.put("luogo", luogo);
@@ -280,7 +293,6 @@ public class CreateExperienceActivity extends AppCompatActivity {
                     esperienzeDb.put("categorie", categorie);
 
                     //date
-                    List<Calendar> selectedDates = calendarView.getSelectedDates();
                     esperienzeDb.put("date", selectedDates);
                     //orario
                     esperienzeDb.put("ore", ore);
@@ -305,11 +317,67 @@ public class CreateExperienceActivity extends AppCompatActivity {
                                     confirmCreaEsperienza.setEnabled(true);
                                 }
                             });
-                } else Toast.makeText(getApplicationContext(), "Inserisci una foto.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
 
+    private boolean isPrezzoValid(String prezzo){
+        if (prezzo.equals("")){
+                Toast.makeText(getApplicationContext(), "Inserisci il prezzo.", Toast.LENGTH_LONG).show();
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isPhotoValid(){
+        if(isPhotoSelected){
+            return true;
+        } else {
+            Toast.makeText(getApplicationContext(), "Inserisci una foto.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+    private boolean isCategorieValid(ArrayList<String> categorie){
+        if(categorie.size() == 0){
+            Toast.makeText(getApplicationContext(), "Seleziona almeno una categoria.", Toast.LENGTH_LONG).show();
+            return false;
+        } else return true;
+    }
+
+    private boolean isDateValid(List<Calendar> dates, int hour, int minute){
+        if(dates.size() == 0){
+            Toast.makeText(getApplicationContext(), "Seleziona almeno una data.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if(dates.size() > 20){          //IMPOSTA LIMITE DATE SELEZIONABILI
+            Toast.makeText(getApplicationContext(), "Seleziona al massimo 20 date.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        Calendar c = Calendar.getInstance();
+        int currentYear = c.get(Calendar.YEAR);
+        int currentMonth = c.get(Calendar.MONTH);
+        int currentDay = c.get(Calendar.DAY_OF_MONTH);
+        int currentHour = c.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = c.get(Calendar.MINUTE);
+
+         for (Calendar selectedDate : dates){
+             int sYear = selectedDate.get(Calendar.YEAR);
+             int sMonth = selectedDate.get(Calendar.MONTH);
+             int sDay = selectedDate.get(Calendar.DAY_OF_MONTH);
+             if( (sYear < currentYear) || (sYear == currentYear && sMonth < currentMonth)
+                     || (sYear == currentYear && sMonth == currentMonth && sDay < currentDay)
+                     || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && hour < currentHour)
+                     || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && hour == currentHour && minute < currentMinute)) {
+                 Toast.makeText(getApplicationContext(), "Le date selezionate non possono essere nel passato.", Toast.LENGTH_LONG).show();
+                 return false;
+             }
+
+         }
+        return true;
+    }
     private boolean verifyInformations(String titolo, String descrizione, String luogo){
         if(titolo.equals("")){
             Toast.makeText(getApplicationContext(), "Il titolo non può essere vuoto o contenere caratteri speciali.", Toast.LENGTH_LONG).show();
