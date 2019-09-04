@@ -62,8 +62,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import static com.keiken.controller.ImageController.createVoidImageFile;
-import static com.keiken.view.fragment.ProfileFragment.hasSymbols;
+import static com.keiken.controller.ImageController.*;
 import static java.security.AccessController.getContext;
 
 public class CreateExperienceActivity extends AppCompatActivity {
@@ -80,6 +79,9 @@ public class CreateExperienceActivity extends AppCompatActivity {
     private ProgressDialog progressDialog = null;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+
+
+    private Uri uri_definitivo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +175,6 @@ public class CreateExperienceActivity extends AppCompatActivity {
         pickerPosti.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
-                //Display the newly selected number from picker
 
             }
         });
@@ -219,7 +220,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
                             0);
                 }
                 else {
-                    if(titoloEditText.getText().equals("") || hasSymbols(titoloEditText.getText().toString())){
+                    if(titoloEditText.getText().toString().equals("")){
                         Toast.makeText(getApplicationContext(), "Imposta un titolo prima di modificare l'immagine o controlla che non contenga caratteri speciali.", Toast.LENGTH_LONG).show();
                     } else selectImage();
                 }
@@ -261,25 +262,24 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 int nPostiDisponibili = pickerPosti.getValue();
 
 
-                if (verifyInformations(titolo, descrizione, luogo) && !categorie.isEmpty()) {
-                    //AGGIUNGO I DATI NEL DATABASE
+                //upload dell'immagine da eseguire previa verifica di tutti i dati
+                uploadEsperienzaImage(uri_definitivo);
 
-                }
             }
         });
     }
 
 
     private boolean verifyInformations(String titolo, String descrizione, String luogo){
-        if(hasSymbols(titolo) || titolo.equals("")){
+        if(titolo.equals("")){
             Toast.makeText(getApplicationContext(), "Il titolo non può essere vuoto o contenere caratteri speciali.", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(hasSymbols(descrizione) || descrizione.equals("")){
+        if(descrizione.equals("")){
             Toast.makeText(getApplicationContext(), "La descrizione non può essere vuota o contenere caratteri speciali.", Toast.LENGTH_LONG).show();
             return false;
         }
-        if(hasSymbols(luogo) || luogo.equals("")){
+        if(luogo.equals("")){
             Toast.makeText(getApplicationContext(), "Il luogo non può essere vuoto o contenere caratteri speciali.", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -294,7 +294,9 @@ public class CreateExperienceActivity extends AppCompatActivity {
         if (requestCode == REQUEST_PHOTO && resultCode == RESULT_OK) {
             if (data == null) { //camera
                 try {
-                    uploadEsperienzaImage(storageUrl);
+                    //uploadEsperienzaImage(storageUrl);
+                    uri_definitivo=storageUrl;
+
                     imageView.setImageURI(storageUrl);
                     Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                     mediaScanIntent.setData(storageUrl);
@@ -305,7 +307,8 @@ public class CreateExperienceActivity extends AppCompatActivity {
             } else { //gallery
                 Uri filePath = data.getData();
                 imageView.setImageURI(filePath);
-                uploadEsperienzaImage(filePath);
+                //uploadEsperienzaImage(filePath);
+                uri_definitivo=filePath;
             }
         }
     }
@@ -313,56 +316,11 @@ public class CreateExperienceActivity extends AppCompatActivity {
     private void uploadEsperienzaImage(Uri filePath) {
 
         if (filePath != null) {
-            progressDialog = new ProgressDialog(getApplicationContext());
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            //importa il titolo
-
             final EditText titoloEditText = findViewById(R.id.titolo_edit);
-            final String titolo = titoloEditText.getText().toString();
-            if (hasSymbols(titolo)){
-                //se per qualsiasi motivo qualche simbolo dovesse finire qui, lo elimina.
-                titolo.replaceAll(NON_NORMAL_CHARACTERS_PATTERN, "");
-            }
+            String titolo =  titoloEditText.getText().toString();
 
-            final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()+ "/esperienze/"+titolo);
-            ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                            .setPhotoUri(uri).build();
-                                    if (user != null) {
-                                        user.updateProfile(profileUpdates);
-                                    }
-
-                                    if (progressDialog != null && progressDialog.isShowing()) {
-                                        progressDialog.dismiss();
-                                    }
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                        }
-                    });
+            final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+titolo);
+            ref.putFile(filePath);
         }
 
     }
