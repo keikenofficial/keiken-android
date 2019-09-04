@@ -393,9 +393,11 @@
                                 <ImageView
                                     android:id = "@+id/photo"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="300dp"
                                     android:layout_weight="30"
-                                    android:src="@mipmap/avatar"/>
+                                    android:scaleType="fitCenter"
+                                    android:adjustViewBounds="true"
+                                    android:src="@mipmap/placeholder"/>
 
                                 <FrameLayout
                                     android:layout_width="match_parent"
@@ -424,11 +426,12 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/confirm_crea_esperienza"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
                             android:layout_gravity="bottom|end"
                             android:layout_width="wrap_content"
                             android:paddingStart="14dp"
                             android:paddingEnd="14dp"
-                            android:layout_marginEnd="30dp"
                             android:layout_height="wrap_content"
                             android:text="Crea Esperienza"
                             android:textAllCaps="false"
