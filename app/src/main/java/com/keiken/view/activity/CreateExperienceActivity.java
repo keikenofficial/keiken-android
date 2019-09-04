@@ -318,6 +318,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
             progressDialog.show();
 
             //importa il titolo
+
             final EditText titoloEditText = findViewById(R.id.titolo_edit);
             final String titolo = titoloEditText.getText().toString();
             if (hasSymbols(titolo)){
@@ -388,6 +389,11 @@ public class CreateExperienceActivity extends AppCompatActivity {
     } //start an activity calling camera and gallety intent to edit profile photo
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            selectImage();
+    }
 
 
    /* public void recursiveLoopChildren(boolean enable, ViewGroup parent) {
