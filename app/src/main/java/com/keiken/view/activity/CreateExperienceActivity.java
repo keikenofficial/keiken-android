@@ -8,11 +8,19 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.keiken.R;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class CreateExperienceActivity extends AppCompatActivity {
 
@@ -25,6 +33,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_experience);
 
 
+        NumberPicker pickerPosti = findViewById(R.id.posti_disponibili);
 
 
         final BackdropFrontLayer contentLayout = findViewById(R.id.backdrop);
@@ -76,6 +85,49 @@ public class CreateExperienceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
+
+
+
+        //posti disponibili
+
+        //Populate NumberPicker values from minimum and maximum value range
+        //Set the minimum value of NumberPicker
+        pickerPosti.setMinValue(1);
+        //Specify the maximum value/number of NumberPicker
+        pickerPosti.setMaxValue(99);
+
+        //Gets whether the selector wheel wraps when reaching the min/max value.
+        pickerPosti.setWrapSelectorWheel(true);
+
+        //Set a value change listener for NumberPicker
+        pickerPosti.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                //Display the newly selected number from picker
+            }
+        });
+
+
+
+
+
+
+        //date
+
+        List<EventDay> events = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        events.add(new EventDay(calendar, R.drawable.thumb_primary_color));
+        CalendarView calendarView = findViewById(R.id.calendarView);
+        calendarView.setEvents(events);
+
+        calendarView.setOnDayClickListener(new OnDayClickListener() {
+            @Override
+            public void onDayClick(EventDay eventDay) {
+                Calendar clickedDayCalendar = eventDay.getCalendar();
+            }
+        });
+
+        List<Calendar> selectedDates = calendarView.getSelectedDates();
 
 
 

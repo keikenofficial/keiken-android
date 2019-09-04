@@ -57,6 +57,10 @@
         <item name="colorControlActivated">#FFFDEC00</item>
     </style>
 
+    <style name="NumberPickerTheme" parent="AppTheme">
+        <item name="colorControlNormal">@color/Black</item>
+    </style>
+
 
 
 </resources>

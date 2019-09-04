@@ -22,6 +22,15 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
 
+
+    <!--Categorie-->
+    <string name="cultura">Cultura</string>
+    <string name="sport">Sport</string>
+    <string name="musica">Musica</string>
+    <string name="cibo">Cibo</string>
+    <string name="divertimento">Divertimento</string>
+
+
     <!--HomeActivity-->
     <string name="newPassword">Nuova password</string>
     <string name="newPassword2">Conferma nuova password</string>
@@ -33,11 +42,13 @@
     <string name="titolo">Titolo</string>
     <string name="luogo">Località</string>
     <string name="descrizione">Descrizione</string>
-    <string name="categorie">Categorie</string>
-    <string name="date">Date</string>
-    <string name="orario">Orario</string>
-    <string name="nPostiDisponibili">Posti disponibili</string>
+    <string name="categorie">Categorie:</string>
+    <string name="date">Date:</string>
+    <string name="orario">Orario:</string>
+    <string name="nPostiDisponibili">Posti disponibili:</string>
     <string name="prezzo">Prezzo</string>
+    <string name="foto">Foto esperienza:</string>
+
 
     <!--LoginActivity-->
     <string name="forgot_password"><u>Password dimenticata?</u></string>

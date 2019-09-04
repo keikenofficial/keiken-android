@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:5.0.0'
     implementation 'com.github.Jay-Goo:RangeSeekBar:v3.0.0'
     implementation 'com.archit.calendar:awesome-calendar:1.1.5'
+    compile 'com.applandeo:material-calendar-view:1.4.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

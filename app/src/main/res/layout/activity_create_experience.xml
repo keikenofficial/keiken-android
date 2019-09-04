@@ -122,7 +122,7 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="17sp"
                                 android:inputType="textCapSentences"
-                                android:lines="5"
+                                android:lines="1"
                                 android:maxLength="20"
                                 android:theme="@style/AppTheme.EditText.Black"/>
                         </com.google.android.material.textfield.TextInputLayout>
@@ -158,14 +158,271 @@
                                 android:layout_height="wrap_content"
                                 android:textSize="17sp"
                                 android:inputType="textCapSentences"
-                                android:lines="5"
-                                android:maxLength="500"
+                                android:lines="1"
+                                android:maxLength="20"
                                 android:theme="@style/AppTheme.EditText.Black"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
 
+                        <!--prezzo-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/prezzo"
+                            app:hintAnimationEnabled="true">
+
+                            <EditText
+                                android:id="@+id/prezzo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:inputType="numberDecimal"
+                                android:lines="1"
+                                android:maxLength="20"
+                                android:theme="@style/AppTheme.EditText.Black"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                        <!--categorie-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/categorie"
+                                android:textSize="17sp"
+                                android:textColor="@color/Black"
+                                android:layout_marginStart="5dp" />
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="15dp">
+
+
+                                <com.google.android.material.chip.ChipGroup
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp">
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/cultura"
+                                        app:checkedIcon="@drawable/ic_check"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/sport"
+                                        app:checkedIcon="@drawable/ic_check"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/musica"
+                                        app:checkedIcon="@drawable/ic_check"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/cibo"
+                                        app:checkedIcon="@drawable/ic_check"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/divertimento"
+                                        app:checkedIcon="@drawable/ic_check"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+                                </com.google.android.material.chip.ChipGroup>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+
+                        <!--date-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/date"
+                            android:textSize="17sp"
+                            android:textColor="@color/Black"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="10dp"/>
+
+                        <com.applandeo.materialcalendarview.CalendarView
+                            android:id="@+id/calendarView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="5dp"
+                            app:type="many_days_picker"
+                            app:headerColor="@color/colorPrimary"
+                            app:selectionColor="@color/colorPrimary"/>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="100"
+                            android:layout_marginTop="15dp">
+
+
+                            <!--orario-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="35"
+                                android:gravity="center"
+                                android:layout_marginHorizontal="10dp">
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/orario"
+                                        android:textSize="17sp"
+                                        android:textColor="@color/Black"
+                                        android:layout_marginStart="5dp"/>
+
+                                <TimePicker
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                    android:timePickerMode="spinner"
+                                    android:numbersSelectorColor="@color/Black"
+                                    android:theme="@style/NumberPickerTheme"/>
+
+                            </LinearLayout>
+
+
+
+
+                            <!--posti disponibili-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="65"
+                                android:gravity="center"
+                                android:layout_marginHorizontal="10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAlignment="center"
+                                    android:text="@string/nPostiDisponibili"
+                                    android:textSize="17sp"
+                                    android:textColor="@color/Black"
+                                    android:layout_marginStart="5dp" />
+
+                                <NumberPicker
+                                    android:id="@+id/posti_disponibili"
+                                    android:textAlignment="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="8dp"
+                                    android:theme="@style/NumberPickerTheme"
+                                    android:layout_gravity="center"/>
+
+                            </LinearLayout>
+
+
                     </LinearLayout>
 
+
+
+
+                        <!--foto-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/foto"
+                                android:textSize="17sp"
+                                android:textColor="@color/Black"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"/>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="100">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="30"
+                                    android:src="@mipmap/avatar"/>
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="70">
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:theme="@style/Widget.MaterialComponents.Button.Icon"
+                                        app:backgroundTint="@color/colorPrimary"
+                                        android:layout_width="44dp"
+                                        android:layout_height="56dp"
+                                        app:cornerRadius="100dp"
+                                        android:layout_gravity="center"
+                                        android:id="@+id/change_photo"
+                                        app:icon="@drawable/ic_photo"
+                                        android:paddingLeft="24dp"
+                                        app:iconGravity="textStart" />
+
+                                </FrameLayout>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+
+
+
+                    </LinearLayout>
 
 
                 </ScrollView>
