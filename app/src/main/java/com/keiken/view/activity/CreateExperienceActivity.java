@@ -76,7 +76,6 @@ public class CreateExperienceActivity extends AppCompatActivity {
     private Uri storageUrl = null;
     private ImageView imageView;
     private ProgressDialog progressDialog = null;
-    final Button confirmCreaEsperienza = findViewById(R.id.confirm_crea_esperienza);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +83,8 @@ public class CreateExperienceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_experience);
 
         imageView = findViewById(R.id.photo);
+        Button confirmCreaEsperienza = findViewById(R.id.confirm_crea_esperienza);
 
-        String id_esperienza;
 
         final EditText titoloEditText = findViewById(R.id.titolo_edit);
         final EditText descrizioneEditText = findViewById(R.id.descrizione_edit);
