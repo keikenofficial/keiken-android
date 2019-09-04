@@ -212,7 +212,8 @@
                                 <com.google.android.material.chip.ChipGroup
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="10dp">
+                                    android:layout_marginBottom="10dp"
+                                    android:id="@+id/categorie">
 
                                     <com.google.android.material.chip.Chip
                                         style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -317,6 +318,7 @@
 
                                 <TimePicker
                                    android:layout_width="wrap_content"
+                                    android:id = "@+id/timePicker"
                                    android:layout_height="wrap_content"
                                     android:timePickerMode="spinner"
                                     android:numbersSelectorColor="@color/Black"
@@ -389,6 +391,7 @@
                                 android:weightSum="100">
 
                                 <ImageView
+                                    android:id = "@+id/photo"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="30"
@@ -419,6 +422,18 @@
                         </LinearLayout>
 
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/confirm_crea_esperienza"
+                            android:layout_gravity="bottom|end"
+                            android:layout_width="wrap_content"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp"
+                            android:layout_marginEnd="30dp"
+                            android:layout_height="wrap_content"
+                            android:text="Crea Esperienza"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="17sp"/>
 
 
 
