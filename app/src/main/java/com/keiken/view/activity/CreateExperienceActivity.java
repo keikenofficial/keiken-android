@@ -41,6 +41,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -80,6 +81,8 @@ public class CreateExperienceActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    private boolean isPhotoSelected = false;
+
 
     private Uri uri_definitivo;
 
@@ -97,7 +100,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
 
 
         imageView = findViewById(R.id.photo);
-        Button confirmCreaEsperienza = findViewById(R.id.confirm_crea_esperienza);
+        final Button confirmCreaEsperienza = findViewById(R.id.confirm_crea_esperienza);
 
 
         final EditText titoloEditText = findViewById(R.id.titolo_edit);
@@ -185,11 +188,10 @@ public class CreateExperienceActivity extends AppCompatActivity {
 
 
         //CALENDARIO
-
         List<EventDay> events = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         events.add(new EventDay(calendar, R.drawable.thumb_primary_color));
-        CalendarView calendarView = findViewById(R.id.calendarView);
+        final CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setEvents(events);
 
         calendarView.setOnDayClickListener(new OnDayClickListener() {
@@ -198,8 +200,6 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 Calendar clickedDayCalendar = eventDay.getCalendar();
             }
         });
-
-        List<Calendar> selectedDates = calendarView.getSelectedDates();
         /////////////////////////////
 
         changePhotoButton.setOnClickListener(new View.OnClickListener() {
@@ -222,7 +222,8 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 else {
                     if(titoloEditText.getText().toString().equals("")){
                         Toast.makeText(getApplicationContext(), "Imposta un titolo prima di modificare l'immagine o controlla che non contenga caratteri speciali.", Toast.LENGTH_LONG).show();
-                    } else selectImage();
+                    } else
+                        selectImage();
                 }
             }
         });
@@ -245,7 +246,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 for(int i=0; i< categoriaChip.getChildCount(); i++){
                     Chip child = (Chip) categoriaChip.getChildAt(i);
 
-                    if(child.isSelected()){
+                    if(child.isChecked()){
                         categorie.add(child.getText().toString());
                     }
                 }
@@ -261,14 +262,53 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 final NumberPicker pickerPosti = findViewById(R.id.posti_disponibili);
                 int nPostiDisponibili = pickerPosti.getValue();
 
+                if(verifyInformations(titolo, descrizione, luogo) && isPhotoSelected) {
+                    confirmCreaEsperienza.setEnabled(false);
+                    //upload dell'immagine da eseguire previa verifica di tutti i dati
+                    uploadEsperienzaImage(uri_definitivo);
 
-                //upload dell'immagine da eseguire previa verifica di tutti i dati
-                uploadEsperienzaImage(uri_definitivo);
+                    CollectionReference esperienze = db.collection("esperienze");
+                    // Create a new experience
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    Map<String, Object> esperienzeDb = new HashMap<>();
 
+                    esperienzeDb.put("titolo", titolo);
+                    esperienzeDb.put("descrizione", descrizione);
+                    esperienzeDb.put("luogo", luogo);
+                    esperienzeDb.put("prezzo", prezzo);
+                    //categorie
+                    esperienzeDb.put("categorie", categorie);
+
+                    //date
+                    List<Calendar> selectedDates = calendarView.getSelectedDates();
+                    esperienzeDb.put("date", selectedDates);
+                    //orario
+                    esperienzeDb.put("ore", ore);
+                    esperienzeDb.put("minuti", minuti);
+
+                    esperienzeDb.put("posti_disponibili", nPostiDisponibili);
+
+                    db.collection("esperienze")
+                            .add(esperienzeDb)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+
+                                    startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("", "Error adding document", e);
+                                    confirmCreaEsperienza.setEnabled(true);
+                                }
+                            });
+                } else Toast.makeText(getApplicationContext(), "Inserisci una foto.", Toast.LENGTH_LONG).show();
             }
         });
     }
-
 
     private boolean verifyInformations(String titolo, String descrizione, String luogo){
         if(titolo.equals("")){
@@ -296,6 +336,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 try {
                     //uploadEsperienzaImage(storageUrl);
                     uri_definitivo=storageUrl;
+                    isPhotoSelected = true;
 
                     imageView.setImageURI(storageUrl);
                     Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -309,6 +350,8 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 imageView.setImageURI(filePath);
                 //uploadEsperienzaImage(filePath);
                 uri_definitivo=filePath;
+
+                isPhotoSelected = true;
             }
         }
     }
