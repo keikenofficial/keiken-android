@@ -15,23 +15,39 @@
         style="@style/Widget.MaterialComponents.CardView"
         android:layout_marginHorizontal="15dp">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-            android:layout_width="wrap_content"
+        <HorizontalScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="#categoria #categoria #categoria"
             android:layout_gravity="bottom"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:padding="4dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5€"
-            android:layout_gravity="bottom|right"
-            android:textSize="18sp"
-            android:textColor="#000000"
-            android:padding="4dp"/>
+            android:layout_marginRight="75dp"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/categorie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#categoria #categoria #categoria"
+                android:layout_gravity="bottom"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:padding="4dp"/>
+
+        </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/prezzo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:layout_gravity="bottom|right"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:padding="4dp"/>
+        </FrameLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -99,6 +115,7 @@
             </LinearLayout>
 
             <RatingBar
+                android:id="@+id/rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -124,6 +141,7 @@
                 android:layout_marginBottom="5dp">
 
                 <TextView
+                    android:id="@+id/user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nome"
@@ -133,10 +151,10 @@
                     android:padding="7dp"/>
 
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/profile_pic_ontainer"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:elevation="24.3dp"
-                    android:id="@+id/view2"
                     app:cardCornerRadius="81dp"
                     android:innerRadius="0dp"
                     android:shape="ring"

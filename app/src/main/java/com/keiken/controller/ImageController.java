@@ -78,7 +78,7 @@ public class ImageController {
 
         ImageView imageView;
 
-        private DownloadImageFromInternet(ImageView imageView) {
+        public DownloadImageFromInternet(ImageView imageView) {
             this.imageView = imageView;
         }
 
