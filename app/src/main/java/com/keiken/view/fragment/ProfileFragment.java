@@ -558,9 +558,14 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         try {
                             List<DocumentSnapshot> documents = result.getDocuments();
                             DocumentSnapshot document = documents.get(0);
-                            date.setText(document.getString("day")+"/"+document.getString("month")+"/"+document.getString("year"));
-                            bio.setText(document.getString("bio"));
-
+                            String day = document.getString("day");
+                            String month = document.getString("day");
+                            String year = document.getString("year");
+                            if ((day != null) && (month != null) && (year != null) && !day.equals("") && !month.equals("") && !year.equals(""))
+                                date.setText(document.getString("day")+"/"+document.getString("month")+"/"+document.getString("year"));
+                            String biografia = document.getString("bio");
+                            if (biografia != null)
+                                bio.setText(document.getString("bio"));
                         }
                         catch (Exception e) {}
 
@@ -640,7 +645,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-                                    if ( (!day.equals("")) && (!month.equals("")) && (!year.equals("")) ) {
+                                    if ( (day != null) && (month != null) && (year != null) && (!day.equals("")) && (!month.equals("")) && (!year.equals("")) ) {
 
 
                                         map = new HashMap<>();
@@ -664,7 +669,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     }
 
 
-                                        if (!biografia.equals("")) {
+                                        if (biografia != null && !biografia.equals("")) {
 
 
                                             map = new HashMap<>();
