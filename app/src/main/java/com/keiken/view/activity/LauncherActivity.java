@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -68,6 +69,7 @@ public class LauncherActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login_button);
         final Button googleButton = findViewById(R.id.google_button);
         final Button facebookButton = findViewById(R.id.facebook_button);
+        TextView condizioni = findViewById(R.id.condizioni);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -135,6 +137,13 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LoginManager.getInstance().logInWithReadPermissions(LauncherActivity.this, Arrays.asList("public_profile", "email"));
+            }
+        });
+
+        condizioni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               startActivity(new Intent(LauncherActivity.this, ConditionActivity.class));
             }
         });
 

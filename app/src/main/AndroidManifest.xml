@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.keiken">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -69,10 +64,11 @@
         <activity
             android:name=".view.activity.CreateExperienceActivity"
             android:launchMode="singleTop"
+            android:parentActivityName=".view.activity.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar2"
-            android:parentActivityName=".view.activity.HomeActivity"/>
-
+            android:theme="@style/AppTheme.NoActionBar2" />
+        <activity android:name=".view.activity.ConditionActivity"
+            android:parentActivityName=".view.activity.LauncherActivity"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -88,5 +84,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>
