@@ -445,9 +445,9 @@
         <com.keiken.view.backdrop.BackdropFrontLayer
             android:id="@+id/backdrop_edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:elevation="1dp"
+            android:elevation="6dp"
             app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
 
 
@@ -464,7 +464,7 @@
                 android:paddingVertical="8dp"
                 android:paddingHorizontal="15dp"
                 android:layout_marginTop="24dp"
-                android:elevation="4dp"
+                android:elevation="6dp"
                 android:background="@drawable/backdrop_background"
                 app:behavior_peekHeight="56dp">
                 <!-- android:layout_marginTop="45dp"-->
@@ -512,9 +512,9 @@
                 android:orientation="vertical"
                 android:id="@+id/swiperefresh_edit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:behavior_peekHeight="64dp"
-                android:elevation="4dp"
+                android:elevation="6dp"
                 android:background="#ffffff">
 
                 <View
@@ -782,7 +782,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:elevation="1dp"
+            android:elevation="6dp"
             app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
 
 
@@ -799,7 +799,7 @@
                 android:paddingVertical="8dp"
                 android:paddingHorizontal="15dp"
                 android:layout_marginTop="24dp"
-                android:elevation="4dp"
+                android:elevation="6dp"
                 android:background="@drawable/backdrop_background"
                 app:behavior_peekHeight="56dp">
                 <!-- android:layout_marginTop="45dp"-->
@@ -849,7 +849,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:behavior_peekHeight="64dp"
-                android:elevation="4dp"
+                android:elevation="6dp"
                 android:background="#ffffff">
 
                 <View
