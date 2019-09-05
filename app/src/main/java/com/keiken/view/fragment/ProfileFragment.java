@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,13 +49,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.keiken.Esperienza.Esperienza;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
+import com.keiken.view.RVAdapter;
 import com.keiken.view.activity.CreateExperienceActivity;
 import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +71,8 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static android.app.Activity.RESULT_OK;
 import static com.keiken.controller.ImageController.*;
@@ -735,6 +741,57 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 password2EditText.setVisibility(View.GONE);
                 passwordEditText.setVisibility(View.GONE);
             }
+
+
+
+
+
+
+
+
+
+
+            ///////////////////////////// VISUALIZZA ELENCO PROPRIE ESPERIENZE
+
+        List<Esperienza> esperienze = new ArrayList<>();
+        esperienze.add(new Esperienza("Banco 32", R.mipmap.placeholder));
+        esperienze.add(new Esperienza("Bar Senzanome", R.mipmap.placeholder));
+        esperienze.add(new Esperienza("Mercato delle erbe",  R.mipmap.placeholder));
+
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        RecyclerView rv = c.findViewById(R.id.esperienze);
+        rv.setLayoutManager(llm);
+        RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Esperienza esperienza) {
+                switch (esperienza.nome){
+                    case "Banco 32":
+                        startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                        break;
+                    case "Bar Senzanome":
+                        startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                        break;
+                    case "Mercato delle erbe":
+                        startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                        break;
+                }
+            }
+        });
+        rv.setAdapter(adapter);
+        rv.setFocusable(false);
+        rv.setHasFixedSize(true);
+
+        RecyclerViewHeader header = c.findViewById(R.id.rvHeader);
+        header.attachTo(rv);
+
+
+
+
+
+
+
+
+
 
 
 

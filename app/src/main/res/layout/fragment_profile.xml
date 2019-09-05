@@ -155,243 +155,257 @@
                 android:background="#ffffff">
 
 
-                <ScrollView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="none">
+                    android:layout_height="match_parent">
 
 
-                    <!--Profilo-->
-                    <LinearLayout
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:id="@+id/esperienze"/>
 
-                        <!--Foto profilo e dati-->
+
+                    <com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader
+                        android:id="@+id/rvHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <!--Profilo-->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingHorizontal="15dp"
-                            android:paddingTop="15dp"
-                            android:layout_gravity="center">
+                            android:orientation="vertical">
+
+                            <!--Foto profilo e dati-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="15dp"
+                                android:paddingTop="15dp"
+                                android:layout_gravity="center">
 
 
-                            <!--Foto profilo-->
-                            <FrameLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
-
+                                <!--Foto profilo-->
                                 <FrameLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center">
+                                    android:layout_height="wrap_content">
 
-                                    <androidx.cardview.widget.CardView
-                                            android:layout_width="162dp"
-                                            android:layout_height="162dp"
-                                            android:elevation="24.3dp"
-                                            android:id="@+id/view2"
-                                            app:cardCornerRadius="81dp"
-                                            android:innerRadius="0dp"
-                                            android:shape="ring"
-                                            android:thicknessRatio="1.9">
+                                    <FrameLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center">
 
-
-                                            <ImageView
-                                                android:layout_width="match_parent"
+                                        <androidx.cardview.widget.CardView
+                                                android:layout_width="162dp"
                                                 android:layout_height="162dp"
-                                                android:id="@+id/profile_pic"
-                                                android:layout_centerHorizontal="true"
-                                                android:scaleType="centerCrop"
-                                                android:src="@mipmap/avatar"/>
-                                        </androidx.cardview.widget.CardView>
+                                                android:elevation="24.3dp"
+                                                android:id="@+id/view2"
+                                                app:cardCornerRadius="81dp"
+                                                android:innerRadius="0dp"
+                                                android:shape="ring"
+                                                android:thicknessRatio="1.9">
 
-                                    <com.google.android.material.button.MaterialButton
-                                        android:theme="@style/Widget.MaterialComponents.Button.Icon"
-                                        app:backgroundTint="@color/colorPrimary"
-                                        android:layout_width="44dp"
-                                        android:layout_height="56dp"
-                                        android:layout_marginTop="112dp"
-                                        android:layout_marginLeft="118dp"
-                                        app:cornerRadius="100dp"
-                                        android:id="@+id/change_photo"
-                                        app:icon="@drawable/ic_photo"
-                                        android:paddingLeft="24dp"
-                                        app:iconGravity="textStart"/>
 
+                                                <ImageView
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="162dp"
+                                                    android:id="@+id/profile_pic"
+                                                    android:layout_centerHorizontal="true"
+                                                    android:scaleType="centerCrop"
+                                                    android:src="@mipmap/avatar"/>
+                                            </androidx.cardview.widget.CardView>
+
+                                        <com.google.android.material.button.MaterialButton
+                                            android:theme="@style/Widget.MaterialComponents.Button.Icon"
+                                            app:backgroundTint="@color/colorPrimary"
+                                            android:layout_width="44dp"
+                                            android:layout_height="56dp"
+                                            android:layout_marginTop="112dp"
+                                            android:layout_marginLeft="118dp"
+                                            app:cornerRadius="100dp"
+                                            android:id="@+id/change_photo"
+                                            app:icon="@drawable/ic_photo"
+                                            android:paddingLeft="24dp"
+                                            app:iconGravity="textStart"/>
+
+                                    </FrameLayout>
                                 </FrameLayout>
-                            </FrameLayout>
 
-                            <!--Dati Profilo-->
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:gravity="center"
-                                    android:layout_gravity="center">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:textAlignment="center"
-                                        android:textColor="#000000"
-                                        android:textSize="16dp"
-                                        android:id="@+id/email"
-                                        android:text="mail"
-                                        android:layout_marginBottom="7dp"/>
-
-                                    <TextView
-                                        android:id="@+id/date"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textColor="#000000"
-                                        android:textSize="16dp"
-                                        android:text=""
-                                        android:layout_marginBottom="7dp"/>
-
-
+                                <!--Dati Profilo-->
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1">
                                     <LinearLayout
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:layout_gravity="center"
-                                        android:layout_marginBottom="10dp">
-
-
-                                        <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:src="@drawable/ic_verified_user"/>
+                                        android:orientation="vertical"
+                                        android:gravity="center"
+                                        android:layout_gravity="center">
 
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="Utente verificato"
-                                            android:textSize="16dp"
+                                            android:layout_gravity="center"
+                                            android:textAlignment="center"
                                             android:textColor="#000000"
-                                            android:paddingRight="1dp"/>
+                                            android:textSize="16dp"
+                                            android:id="@+id/email"
+                                            android:text="mail"
+                                            android:layout_marginBottom="7dp"/>
+
+                                        <TextView
+                                            android:id="@+id/date"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="#000000"
+                                            android:textSize="16dp"
+                                            android:text=""
+                                            android:layout_marginBottom="7dp"/>
+
+
+                                        <LinearLayout
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:layout_gravity="center"
+                                            android:layout_marginBottom="10dp">
+
+
+                                            <ImageView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:src="@drawable/ic_verified_user"/>
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Utente verificato"
+                                                android:textSize="16dp"
+                                                android:textColor="#000000"
+                                                android:paddingRight="1dp"/>
+
+                                        </LinearLayout>
+
+
+                                        <com.google.android.material.button.MaterialButton
+                                            android:id="@+id/edit_profile"
+                                            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textAlignment="center"
+                                            android:backgroundTint="@color/colorPrimary"
+                                            android:text="Modifica\nProfilo"
+                                            android:textAllCaps="false"
+                                            app:rippleColor="#40ffffff"
+                                            android:textColor="#ffffff"
+                                            android:textSize="14sp"
+                                            app:icon="@drawable/ic_edit"
+                                            android:paddingHorizontal="10dp"
+                                            app:iconPadding="9dp"
+                                            app:iconTint="#FFFFFF"
+                                            app:iconSize="25dp"/>
 
                                     </LinearLayout>
+                                </FrameLayout>
 
+                            </LinearLayout>
 
-                                    <com.google.android.material.button.MaterialButton
-                                        android:id="@+id/edit_profile"
-                                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textAlignment="center"
-                                        android:backgroundTint="@color/colorPrimary"
-                                        android:text="Modifica\nProfilo"
-                                        android:textAllCaps="false"
-                                        app:rippleColor="#40ffffff"
-                                        android:textColor="#ffffff"
-                                        android:textSize="14sp"
-                                        app:icon="@drawable/ic_edit"
-                                        android:paddingHorizontal="10dp"
-                                        app:iconPadding="9dp"
-                                        app:iconTint="#FFFFFF"
-                                        app:iconSize="25dp"/>
-
-                                </LinearLayout>
-                            </FrameLayout>
-
-                        </LinearLayout>
-
-                        <!--Bio-->
-                        <TextView
-                            android:id="@+id/bio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="#000000"
-                            android:textSize="16dp"
-                            android:text=""
-                            android:gravity="center"
-                            android:paddingTop="20dp"
-                            android:paddingHorizontal="15dp"
-                            android:paddingBottom="14dp"/>
+                            <!--Bio-->
+                            <TextView
+                                android:id="@+id/bio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000000"
+                                android:textSize="16dp"
+                                android:text=""
+                                android:gravity="center"
+                                android:paddingTop="20dp"
+                                android:paddingHorizontal="15dp"
+                                android:paddingBottom="14dp"/>
 
 
 
 
-                        <!--Recensioni-->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_gravity="center"
-                            android:gravity="center">
+                            <!--Recensioni-->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_gravity="center"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#000000"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    android:text="14 Recensioni" />
+
+                                <RatingBar
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="-15dp"
+                                    android:layout_marginBottom="-15dp"
+                                    android:isIndicator="true"
+                                    android:rating="3.4"
+                                    android:stepSize="0.01"
+                                    android:numStars="5"
+                                    android:scaleX="0.4"
+                                    android:scaleY="0.4"
+                                    android:outlineSpotShadowColor="@color/colorPrimary"
+                                    android:theme="@style/RatingTheme"
+                                    android:outlineAmbientShadowColor="@color/colorPrimary"/>
+
+                                <TextView
+                                    android:id="@+id/reviews_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#000000"
+                                    android:textSize="16sp"
+                                    android:text="@string/reviews"
+                                    android:layout_marginBottom="10dp"/>
+                            </LinearLayout>
+
+
+
+
+
+
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#dddddd"
+                                android:layout_marginHorizontal="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="5dp"/>
 
                             <TextView
+                                android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
-                                android:text="14 Recensioni" />
+                                android:text="Esperienze"
+                                android:layout_marginBottom="5dp" />
 
-                            <RatingBar
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="-15dp"
-                                android:layout_marginBottom="-15dp"
-                                android:isIndicator="true"
-                                android:rating="3.4"
-                                android:stepSize="0.01"
-                                android:numStars="5"
-                                android:scaleX="0.4"
-                                android:scaleY="0.4"
-                                android:outlineSpotShadowColor="@color/colorPrimary"
-                                android:theme="@style/RatingTheme"
-                                android:outlineAmbientShadowColor="@color/colorPrimary"/>
 
-                            <TextView
-                                android:id="@+id/reviews_button"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#000000"
-                                android:textSize="16sp"
-                                android:text="@string/reviews"
-                                android:layout_marginBottom="10dp"/>
+
                         </LinearLayout>
 
 
+                    </com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader>
 
 
 
 
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="#dddddd"
-                            android:layout_marginHorizontal="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="5dp"/>
-
-                        <TextView
-                            android:layout_gravity="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#000000"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:text="Esperienze"
-                            android:layout_marginBottom="5dp" />
-
-
-
-                    </LinearLayout>
-
-
-                </ScrollView>
-
-
+                </FrameLayout>
 
 
 

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_weight="1">
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginVertical="5dp"
+        app:cardCornerRadius="10dp"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_marginHorizontal="15dp">
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#categoria #categoria #categoria"
+            android:layout_gravity="bottom"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:padding="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5€"
+            android:layout_gravity="bottom|right"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:padding="4dp"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+        android:fitsSystemWindows="true"
+        app:cardCornerRadius="10dp"
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_marginHorizontal="15dp">
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        android:background="#ffffff"
+            android:transitionName="profile">
+
+            <ImageView
+                android:id="@+id/foto"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:src="@mipmap/placeholder"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/up_gradient"
+                android:layout_marginTop="160dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bottom_gradient"
+                android:layout_marginBottom="130dp"/>
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="7dp"
+                android:layout_marginVertical="3dp">
+
+                <TextView
+                    android:id="@+id/nome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Titolo Esperienza"
+                    android:layout_gravity="bottom"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:textColor="#ffffff"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Luogo"
+                    android:textSize="20dp"
+                    android:textColor="#ffffff"/>
+            </LinearLayout>
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginHorizontal="7dp"
+                android:isIndicator="true"
+                android:rating="3.4"
+                android:stepSize="0.01"
+                android:numStars="5"
+                android:scaleX="0.4"
+                android:scaleY="0.4"
+                android:transformPivotX="0dp"
+                android:layout_marginBottom="-25dp"
+                android:outlineSpotShadowColor="@color/colorPrimary"
+                android:theme="@style/RatingTheme"
+                android:outlineAmbientShadowColor="@color/colorPrimary"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom|right"
+                android:layout_marginHorizontal="7dp"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nome"
+                    android:layout_gravity="right"
+                    android:textSize="20dp"
+                    android:textColor="#ffffff"
+                    android:padding="7dp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:elevation="24.3dp"
+                    android:id="@+id/view2"
+                    app:cardCornerRadius="81dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9">
+
+
+                    <ImageView
+                        android:id="@+id/profile_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/avatar" />
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+
+
+        </FrameLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</RelativeLayout>
