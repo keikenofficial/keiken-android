@@ -130,10 +130,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupViewPager(final ViewPager viewPager) {
 
-        AsyncTask.execute(new Runnable() {
 
-            @Override
-            public void run() {
 
 
                 // add code which you want to run in background thread
@@ -158,14 +155,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 // viewPagerAdapter.notifyDataSetChanged();
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // add code which you want to run in main(UI) thread
-                    }
-                });
-            }
-        });
 
     }
 

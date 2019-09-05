@@ -3,11 +3,13 @@ package com.keiken.view.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
@@ -31,6 +33,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +41,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -49,7 +51,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.keiken.Esperienza.Esperienza;
+import com.keiken.model.Esperienza;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
 import com.keiken.view.RVAdapter;
@@ -75,6 +77,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.keiken.controller.ImageController.*;
 
 /**
@@ -97,6 +100,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
     private String userID;
 
+    private RecyclerView rv;
+    private RecyclerViewHeader headerRV;
+
 
     static final int REQUEST_PHOTO = 1889;
     private static final String NON_NORMAL_CHARACTERS_PATTERN = "\\W|[^!@#\\$%\\^&\\*\\(\\)]";
@@ -108,7 +114,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
     private Uri storageUrl = null;
 
-
+    private ArrayList<Esperienza> result;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -297,8 +303,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         toolbar.setTitle("Profilo");
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
-
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -704,7 +708,10 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                                     //userID = document.getId();
                                 }
-                                catch (Exception e) {}
+                                catch (NullPointerException e) {
+                                    Toast.makeText(getContext(), "Errore nel raggiungere il server, prova a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(getContext(), LauncherActivity.class));
+                                }
 
                             }
                         }
@@ -728,35 +735,25 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-            boolean externalProvider = false;
-            for (UserInfo info : user.getProviderData()) {
-                if (info.getProviderId().equals("facebook.com")) {
-                    externalProvider = true;
-                }
-                if (info.getProviderId().equals("google.com")) {
-                    externalProvider = true;
-                }
+        boolean externalProvider = false;
+        for (UserInfo info : user.getProviderData()) {
+            if (info.getProviderId().equals("facebook.com")) {
+                externalProvider = true;
             }
-            if (externalProvider) {
-                password2EditText.setVisibility(View.GONE);
-                passwordEditText.setVisibility(View.GONE);
+            if (info.getProviderId().equals("google.com")) {
+                externalProvider = true;
             }
+        }
+        if (externalProvider) {
+               password2EditText.setVisibility(View.GONE);
+               passwordEditText.setVisibility(View.GONE);
+        }
 
+        ///////////////////////////// VISUALIZZA ELENCO PROPRIE ESPERIENZE ///////////////////////////////
 
-
-
-
-
-
-
-
-
-            ///////////////////////////// VISUALIZZA ELENCO PROPRIE ESPERIENZE
-
-        List<Esperienza> esperienze = new ArrayList<>();
-        esperienze.add(new Esperienza("Banco 32", R.mipmap.placeholder));
-        esperienze.add(new Esperienza("Bar Senzanome", R.mipmap.placeholder));
-        esperienze.add(new Esperienza("Mercato delle erbe",  R.mipmap.placeholder));
+        result = new ArrayList<Esperienza>();
+        downloadExperiencesByUID();  // NON ENTRA NEL: "ON COMPLETE"
+        ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         RecyclerView rv = c.findViewById(R.id.esperienze);
@@ -764,42 +761,52 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Esperienza esperienza) {
-                switch (esperienza.nome){
-                    case "Banco 32":
-                        startActivity(new Intent(getContext(), CreateExperienceActivity.class));
-                        break;
-                    case "Bar Senzanome":
-                        startActivity(new Intent(getContext(), CreateExperienceActivity.class));
-                        break;
-                    case "Mercato delle erbe":
-                        startActivity(new Intent(getContext(), CreateExperienceActivity.class));
-                        break;
-                }
+                startActivity(new Intent(getContext(), CreateExperienceActivity.class));
             }
         });
         rv.setAdapter(adapter);
         rv.setFocusable(false);
         rv.setHasFixedSize(true);
 
-        RecyclerViewHeader header = c.findViewById(R.id.rvHeader);
-        header.attachTo(rv);
-
-
-
-
-
-
-
-
-
-
-
-
-
+        RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
+        headerRV.attachTo(rv);
 
 
 
         return c;
+    }
+
+
+    private void downloadExperiencesByUID(){
+        //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE
+        //checks firestore database in order to see if user already exists, if so, do nothing
+        CollectionReference esperienze = db.collection("esperienze");
+        Query query = esperienze.whereEqualTo("ID_CREATORE", true);
+        Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //inizializzazione dati con valori presi dal DB
+                        Esperienza e;
+                        String titolo = (String) document.get("titolo");
+                        String descrizione = (String) document.get("descrizione");
+                        String luogo = (String) document.get("luogo");
+                        String ID_CREATORE = (String) document.get("ID_CREATORE");
+                        String prezzo = (String) document.get("prezzo");
+                        ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
+                        ArrayList<Calendar> date = new ArrayList<Calendar>((ArrayList<Calendar>) document.get("date"));
+                        long ore = (Long) document.get("ore");
+                        long minuti = (Long) document.get("minuti");
+                        long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                        String photo_uri = (String) document.get("photo_uri");
+
+                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
+                        result.add(e);
+                    }
+                }
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -1114,12 +1121,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         return true;
     }
-
-
-
-
-
-
 }
+
 
 

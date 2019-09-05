@@ -4,11 +4,10 @@ package com.keiken.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.keiken.Esperienza.Esperienza;
 import com.keiken.R;
+import com.keiken.model.Esperienza;
 
 import java.util.List;
 
@@ -50,23 +49,23 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ExperienceViewHol
     public static class ExperienceViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
         TextView nome;
-        ImageView foto;
+        TextView luogo;
 
         public ExperienceViewHolder(final View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.cv);
-            nome = (TextView)itemView.findViewById(R.id.nome);
-            foto = (ImageView)itemView.findViewById(R.id.foto);
+            cv = itemView.findViewById(R.id.cv);
+            nome = itemView.findViewById(R.id.titolo);
+            luogo = itemView.findViewById(R.id.luogo);
         }
 
-        public void bind(final Esperienza ristorante, final OnItemClickListener listener) {
-            nome.setText(ristorante.nome);
-            foto.setImageResource(ristorante.fotoId);
+        public void bind(final Esperienza e, final OnItemClickListener listener) {
+            nome.setText(e.getTitolo());
+            luogo.setText(e.getLuogo());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClick(ristorante);
+                    listener.onItemClick(e);
                 }
             });
         }

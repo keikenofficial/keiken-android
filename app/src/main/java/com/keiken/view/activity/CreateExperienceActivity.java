@@ -67,6 +67,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
+import io.fabric.sdk.android.services.common.Crash;
+
 import static com.keiken.controller.ImageController.*;
 import static java.security.AccessController.getContext;
 
@@ -273,6 +275,8 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 final NumberPicker pickerPosti = findViewById(R.id.posti_disponibili);
                 int nPostiDisponibili = pickerPosti.getValue();
 
+                String uri = "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+titolo;
+
                 if(verifyInformations(titolo, descrizione, luogo) && isPrezzoValid(prezzo) && isCategorieValid(categorie) && isDateValid(selectedDates, ore, minuti) && isPhotoValid()) {
                     confirmCreaEsperienza.setEnabled(false);
                     //upload dell'immagine da eseguire previa verifica di tutti i dati
@@ -300,23 +304,30 @@ public class CreateExperienceActivity extends AppCompatActivity {
 
                     esperienzeDb.put("posti_disponibili", nPostiDisponibili);
 
-                    db.collection("esperienze")
-                            .add(esperienzeDb)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    esperienzeDb.put("photo_uri", uri);
 
-                                    startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w("", "Error adding document", e);
-                                    confirmCreaEsperienza.setEnabled(true);
-                                }
-                            });
+                    try{
+                        db.collection("esperienze")
+                                .add(esperienzeDb)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+
+                                        startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("", "Error adding document", e);
+                                        confirmCreaEsperienza.setEnabled(true);
+                                    }
+                                });
+                    } catch (NullPointerException e) {
+                        Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(CreateExperienceActivity.this, LauncherActivity.class));
+                    }
                 }
             }
         });
