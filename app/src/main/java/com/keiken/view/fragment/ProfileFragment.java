@@ -114,7 +114,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
     private Uri storageUrl = null;
 
-    private ArrayList<Esperienza> result;
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -750,7 +750,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }
 
         ///////////////////////////// VISUALIZZA ELENCO PROPRIE ESPERIENZE ///////////////////////////////
-
+        /*
         result = new ArrayList<Esperienza>();
         downloadExperiencesByUID();  // NON ENTRA NEL: "ON COMPLETE"
         ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
@@ -769,23 +769,22 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         rv.setHasFixedSize(true);
 
         RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
-        headerRV.attachTo(rv);
+        headerRV.attachTo(rv);*/
 
+        downloadExperiencesByUID();
 
+        final RecyclerView rv = c.findViewById(R.id.esperienze);
+        final RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
 
-        return c;
-    }
-
-
-    private void downloadExperiencesByUID(){
         //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE
         //checks firestore database in order to see if user already exists, if so, do nothing
         CollectionReference esperienze = db.collection("esperienze");
-        Query query = esperienze.whereEqualTo("ID_CREATORE", true);
+        Query query = esperienze.whereEqualTo("ID_CREATORE", FirebaseAuth.getInstance().getCurrentUser().getUid());
         Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    ArrayList<Esperienza> result = new ArrayList<Esperienza>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //inizializzazione dati con valori presi dal DB
                         Esperienza e;
@@ -803,10 +802,35 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                         e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
                         result.add(e);
+
+                        ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
+                        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+
+                        rv.setLayoutManager(llm);
+                        RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(Esperienza esperienza) {
+                                startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                            }
+                        });
+                        rv.setAdapter(adapter);
+                        rv.setFocusable(false);
+                        rv.setHasFixedSize(true);
+
+
+                        headerRV.attachTo(rv);
                     }
                 }
             }
         });
+
+
+        return c;
+    }
+
+
+    private void downloadExperiencesByUID(){
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
