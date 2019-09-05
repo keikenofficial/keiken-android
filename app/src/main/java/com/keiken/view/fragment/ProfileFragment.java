@@ -490,7 +490,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                 day = document.getString("day");
                                 month = document.getString("month");
                                 year = document.getString("year");
-                                if (!day.equals("") && !month.equals("") && !year.equals("")) {
+                                if ((day != null) && (month != null) && (year != null) && !day.equals("") && !month.equals("") && !year.equals("")) {
                                     date.setText(day + "/" + month + "/" + year);
                                     dayEditText.setText(day);
                                     monthEditText.setText(month);
