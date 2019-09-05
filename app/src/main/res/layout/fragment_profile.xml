@@ -160,10 +160,12 @@
                     android:layout_height="match_parent">
 
 
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/esperienze"/>
+                        android:id="@+id/esperienze"
+                        android:nestedScrollingEnabled="false"/>
 
 
                     <com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader

@@ -19,17 +19,40 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.keiken.R;
+import com.keiken.model.Esperienza;
 import com.keiken.view.IOnBackPressed;
+import com.keiken.view.RVAdapter;
+import com.keiken.view.activity.CreateExperienceActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class HomeFragment extends Fragment implements IOnBackPressed {
@@ -40,6 +63,12 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
     private ImageView upArrow;
     private TextView header1;
     private LinearLayout header2, header3;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private StorageReference storageReference;
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,6 +123,17 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         FrameLayout c = (FrameLayout) inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = mAuth.getCurrentUser();
+
+        db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+
+
 
         header1 = c.findViewById(R.id.header1);
         header2 = c.findViewById(R.id.header2);
@@ -253,6 +293,133 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                 }
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ///////////////////////////// VISUALIZZA ELENCO PROPRIE ESPERIENZE ///////////////////////////////
+        /*
+        result = new ArrayList<Esperienza>();
+        downloadExperiencesByUID();  // NON ENTRA NEL: "ON COMPLETE"
+        ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
+
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        RecyclerView rv = c.findViewById(R.id.esperienze);
+        rv.setLayoutManager(llm);
+        RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Esperienza esperienza) {
+                startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+            }
+        });
+        rv.setAdapter(adapter);
+        rv.setFocusable(false);
+        rv.setHasFixedSize(true);
+
+        RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
+        headerRV.attachTo(rv);*/
+
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        final RecyclerView rv = c.findViewById(R.id.esperienze);
+        rv.setLayoutManager(llm);
+
+        rv.setFocusable(false);
+        rv.setHasFixedSize(true);
+
+        //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE
+
+
+        db.collection("esperienze").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                if (task.isSuccessful()) {
+
+                    ArrayList<Esperienza> result = new ArrayList<Esperienza>();
+
+                    //ArrayList<String> lista = new ArrayList<String>();
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+
+                        if (document.exists()) {
+
+
+                            //inizializzazione dati con valori presi dal DB
+                            Esperienza e;
+                            String titolo = (String) document.get("titolo");
+                            String descrizione = (String) document.get("descrizione");
+                            String luogo = (String) document.get("luogo");
+                            String ID_CREATORE = (String) document.get("ID_CREATORE");
+                            String prezzo = (String) document.get("prezzo");
+                            ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
+                            ArrayList<Calendar> date = new ArrayList<Calendar>((ArrayList<Calendar>) document.get("date"));
+                            long ore = (Long) document.get("ore");
+                            long minuti = (Long) document.get("minuti");
+                            long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                            String photo_uri = (String) document.get("photo_uri");
+
+                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
+
+
+                            //if (id != mio )
+                            result.add(e);
+
+                            ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
+
+
+                            RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(Esperienza esperienza) {
+                                    startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                                }
+                            });
+                            rv.setAdapter(adapter);
+
+
+                            Log.d("", "DocumentSnapshot data: " + document.getData());
+                        } else {
+                            Log.d("", "No such document");
+                        }
+                    }
+                }
+                    else {
+                    Log.d("", "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         return c;

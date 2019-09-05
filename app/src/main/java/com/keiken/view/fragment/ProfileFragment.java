@@ -771,15 +771,16 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
         headerRV.attachTo(rv);*/
 
-        downloadExperiencesByUID();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         final RecyclerView rv = c.findViewById(R.id.esperienze);
         rv.setLayoutManager(llm);
+
         final RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
 
         rv.setFocusable(false);
         rv.setHasFixedSize(true);
         headerRV.attachTo(rv);
+
 
         //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE
         //checks firestore database in order to see if user already exists, if so, do nothing
@@ -828,10 +829,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         return c;
     }
 
-
-    private void downloadExperiencesByUID(){
-
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
