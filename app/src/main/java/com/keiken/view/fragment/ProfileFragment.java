@@ -640,7 +640,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-                                    if ( (!day.equals("")) && (!month.equals("")) && (!year.equals(" ")) ) {
+                                    if ( (!day.equals("")) && (!month.equals("")) && (!year.equals("")) ) {
 
 
                                         map = new HashMap<>();
