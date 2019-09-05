@@ -708,7 +708,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                                     //userID = document.getId();
                                 }
-                                catch (NullPointerException e) {
+                                catch (Exception e) {
                                     Toast.makeText(getContext(), "Errore nel raggiungere il server, prova a fare di nuovo il login.", Toast.LENGTH_LONG).show();
                                     startActivity(new Intent(getContext(), LauncherActivity.class));
                                 }
