@@ -772,9 +772,14 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         headerRV.attachTo(rv);*/
 
         downloadExperiencesByUID();
-
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         final RecyclerView rv = c.findViewById(R.id.esperienze);
+        rv.setLayoutManager(llm);
         final RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
+
+        rv.setFocusable(false);
+        rv.setHasFixedSize(true);
+        headerRV.attachTo(rv);
 
         //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE
         //checks firestore database in order to see if user already exists, if so, do nothing
@@ -804,9 +809,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         result.add(e);
 
                         ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
-                        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
 
-                        rv.setLayoutManager(llm);
+
+
                         RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(Esperienza esperienza) {
@@ -814,11 +819,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                             }
                         });
                         rv.setAdapter(adapter);
-                        rv.setFocusable(false);
-                        rv.setHasFixedSize(true);
-
-
-                        headerRV.attachTo(rv);
                     }
                 }
             }
