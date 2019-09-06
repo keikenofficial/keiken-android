@@ -49,7 +49,6 @@ import java.util.Calendar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -375,8 +374,8 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
 
 
-                            //if (id != mio )
-                            result.add(e);
+                            if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
+                                result.add(e);
 
                             ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
 
