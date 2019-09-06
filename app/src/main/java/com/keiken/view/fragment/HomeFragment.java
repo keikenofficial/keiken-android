@@ -388,13 +388,10 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                     i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
                                     i.putExtra("prezzo", esperienza.getPrezzo());
                                     i.putExtra("categorie", esperienza.getCategorie());
-                                    // date
-                                    i.putExtra("ore", esperienza.getOre());
-                                    i.putExtra("minuti", esperienza.getMinuti());
-                                    i.putExtra("nPostiDisponibili", esperienza.getnPostiDisponibili());
+                                    i.putExtra("ore", Long.toString(esperienza.getOre()));
+                                    i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
+                                    i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
                                     i.putExtra("photoUri", esperienza.getPhotoUri());
-
-
 
 
                                     startActivity(i);
