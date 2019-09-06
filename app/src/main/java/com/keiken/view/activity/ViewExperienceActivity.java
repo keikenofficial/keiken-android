@@ -63,7 +63,8 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
         TextView dateTV = findViewById(R.id.date);
 
-        ArrayList<Calendar> dateList = (ArrayList<Calendar>) dateMap.keySet();
+        ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
+        
         for(int i = 0; i< dateList.size(); i++) {
             dateTV.setText(dateTV.getText() + "\n" +
                     dateMap.get(dateList.get(i)).toString() + "\n"  // numeri posti
