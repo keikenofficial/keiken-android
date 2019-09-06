@@ -32,6 +32,7 @@ import com.keiken.controller.ImageController;
 import com.keiken.model.Esperienza;
 import com.keiken.view.activity.CreateExperienceActivity;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -149,15 +150,17 @@ public class RVAdapterHome extends  RecyclerView.Adapter<RVAdapterHome.Experienc
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
 
-                        QuerySnapshot result = task.getResult();
-                        List<DocumentSnapshot> documents = result.getDocuments();
-                        DocumentSnapshot document = documents.get(0);
+                        try {
+                            QuerySnapshot result = task.getResult();
+                            List<DocumentSnapshot> documents = result.getDocuments();
+                            DocumentSnapshot document = documents.get(0);
 
-                        user_name.setText((String) document.get("name"));
-                        photoUrl = (String) document.get("photoUrl");
+                            user_name.setText((String) document.get("name"));
+                            photoUrl = (String) document.get("photoUrl");
 
-                        if (photoUrl != null)
-                            new ImageController.DownloadImageFromInternet(profile_pic).execute(photoUrl);
+                            if (photoUrl != null)
+                                new ImageController.DownloadImageFromInternet(profile_pic).execute(photoUrl);
+                        } catch (Exception e ) {};
 
                     }
 

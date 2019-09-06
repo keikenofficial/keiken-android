@@ -38,6 +38,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -980,7 +981,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         startActivityForResult(chooser, REQUEST_PHOTO);
     } //start an activity calling camera and gallety intent to edit profile photo
 
-    private void uploadProfileImage(Uri filePath) {
+    private void uploadProfileImage(final Uri filePath) {
 
         if (filePath != null) {
             progressDialog = new ProgressDialog(getContext());
@@ -1025,6 +1026,39 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                             progressDialog.setMessage("Uploaded " + (int) progress + "%");
                         }
                     });
+
+
+
+
+
+
+            //UPDATE PHOTOURL
+            final CollectionReference yourCollRef = db.collection("utenti");
+            Query query = yourCollRef.whereEqualTo("id", mAuth.getCurrentUser().getUid());
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        QuerySnapshot result = task.getResult();
+                        try {
+                            List<DocumentSnapshot> documents = result.getDocuments();
+                            DocumentSnapshot document = documents.get(0);
+
+
+                            Map<Object, String> map = new HashMap<>();
+                            map.put("photoUrl", "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()+"/foto_profilo");
+
+                            yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+
+                        } catch (Exception e) {};
+                }
+            }});
+
+
+
+
         }
 
     }
