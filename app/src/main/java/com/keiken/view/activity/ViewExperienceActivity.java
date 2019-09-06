@@ -64,6 +64,12 @@ public class ViewExperienceActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);
 
+        db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+
+        mAuth=FirebaseAuth.getInstance();
+
         if(mAuth.getCurrentUser().getUid().equals(ID_CREATORE)){
             MaterialButton prenota_esperienza = findViewById(R.id.prenota_esperienza);
             prenota_esperienza.setVisibility(View.GONE);
@@ -86,12 +92,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
         ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
 
-        /*for(int i = 0; i< dateList.size(); i++) {
-            dateTV.setText(dateTV.getText() + "\n" +
-                    dateMap.get(dateList.get(i)).toString() + "\n"  // numeri posti
-                    + dateList.get(i).toString()); // roba
-        }*/
-
         ImageView foto = findViewById(R.id.foto);
         if(photoUri != null)
             new ImageController.DownloadImageFromInternet(foto).execute(photoUri);
@@ -100,15 +100,9 @@ public class ViewExperienceActivity extends AppCompatActivity {
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){
             String tempDate = Integer.toString(dateList.get(i).get(Calendar.DAY_OF_MONTH)) + "/" + Integer.toString(dateList.get(i).get(Calendar.MONTH)) + "/" + Integer.toString(dateList.get(i).get(Calendar.YEAR));
-            dateTV.setText(dateTV.getText() + "( Posti rimasti: "+dateMap.get(dateList.get(i)).toString() + ". \n");
+            dateTV.setText(dateTV.getText() + tempDate + "( Posti rimasti: "+dateMap.get(dateList.get(i)).toString() + ". \n");
         }
 
-
-
-
-        db = FirebaseFirestore.getInstance();
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
 
         final TextView user_name = findViewById(R.id.user_name);
         final ImageView profile_pic = findViewById(R.id.profile_pic);
