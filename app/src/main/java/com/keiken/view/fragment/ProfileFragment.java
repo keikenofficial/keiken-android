@@ -118,6 +118,10 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
     private Uri storageUrl = null;
 
+    private static final int DEFAULT_MIN_WIDTH_QUALITY = 400;
+    public static int minWidthQuality = DEFAULT_MIN_WIDTH_QUALITY;
+
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -1189,8 +1193,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
     }
 
 
-    private static final int DEFAULT_MIN_WIDTH_QUALITY = 400;
-    public static int minWidthQuality = DEFAULT_MIN_WIDTH_QUALITY;
 
     /*
             *Resize to avoid using too much memory loading big images (e.g.: 2560*1920)
