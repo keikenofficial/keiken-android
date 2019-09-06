@@ -263,6 +263,13 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 //CALENDARIO
                 List<Calendar> selectedDates = calendarView.getSelectedDates();
                 ///////////
+                int nPostiDisponibili = pickerPosti.getValue();
+
+                HashMap<Calendar, Integer> correlazionePostiCalendar = new HashMap<>();
+                for(Calendar tempCalendar: selectedDates){
+                    correlazionePostiCalendar.put(tempCalendar, nPostiDisponibili);
+                }
+
 
                 //ORARIO
                 final TimePicker timePicker = findViewById(R.id.timePicker);
@@ -273,9 +280,10 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 String ID_CREATORE = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 final NumberPicker pickerPosti = findViewById(R.id.posti_disponibili);
-                int nPostiDisponibili = pickerPosti.getValue();
 
                 String uri = "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+titolo;
+
+
 
                 if(verifyInformations(titolo, descrizione, luogo) && isPrezzoValid(prezzo) && isCategorieValid(categorie) && isDateValid(selectedDates, ore, minuti) && isPhotoValid()) {
                     confirmCreaEsperienza.setEnabled(false);
@@ -301,6 +309,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
                     //orario
                     esperienzeDb.put("ore", ore);
                     esperienzeDb.put("minuti", minuti);
+                    esperienzeDb.put("hasMapPostiDisponibili", correlazionePostiCalendar);
 
                     esperienzeDb.put("posti_disponibili", nPostiDisponibili);
 

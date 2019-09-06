@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.JsonSerializer;
 import com.keiken.R;
 import com.keiken.model.Esperienza;
 import com.keiken.view.IOnBackPressed;
@@ -38,6 +39,8 @@ import com.keiken.view.activity.ViewExperienceActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -392,7 +395,8 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                     i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
                                     i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
                                     i.putExtra("photoUri", esperienza.getPhotoUri());
-
+                                    //CALENDAR
+                                    //HASHMAP
 
                                     startActivity(i);
                                 }
@@ -413,27 +417,10 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         return c;
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
