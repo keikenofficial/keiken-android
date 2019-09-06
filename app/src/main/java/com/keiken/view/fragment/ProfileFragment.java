@@ -61,6 +61,7 @@ import com.keiken.view.RecyclerViewHeader;
 import com.keiken.view.activity.CreateExperienceActivity;
 import com.keiken.view.activity.HomeActivity;
 import com.keiken.view.activity.LauncherActivity;
+import com.keiken.view.activity.ViewExperienceActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
@@ -828,8 +829,20 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                         RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(Esperienza esperienza) {
-                                                Intent i = new Intent();
-                                                startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                                                Intent i = new Intent(getContext(), ViewExperienceActivity.class);
+                                                i.putExtra("titolo", esperienza.getTitolo());
+                                                i.putExtra("descrizione", esperienza.getDescrizione());
+                                                i.putExtra("luogo", esperienza.getLuogo());
+                                                i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
+                                                i.putExtra("prezzo", esperienza.getPrezzo());
+                                                i.putExtra("categorie", esperienza.getCategorie());
+                                                i.putExtra("ore", Long.toString(esperienza.getOre()));
+                                                i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
+                                                i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
+                                                i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                i.putExtra("date", esperienza.getDate());
+
+                                                startActivity(i);
                                             }
                                         });
                                         rv.setAdapter(adapter);
