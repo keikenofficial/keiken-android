@@ -41,7 +41,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
         String minuti = getIntent().getStringExtra("minuti");
         String postiMax = getIntent().getStringExtra("nPostiDisponibili");
         String photoUri = getIntent().getStringExtra("photoUri");
-        HashMap<Calendar, Long> date = (HashMap<Calendar, Long>) getIntent().getSerializableExtra("date");
+        HashMap<Calendar, Long> dateMap = (HashMap<Calendar, Long>) getIntent().getSerializableExtra("date");
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);
@@ -61,7 +61,13 @@ public class ViewExperienceActivity extends AppCompatActivity {
         TextView postiMaxTV = findViewById(R.id.posti_disponibili);
         postiMaxTV.setText("Disponibilità massima: " + postiMax);
 
+        TextView dateTV = findViewById(R.id.date);
 
-
+        ArrayList<Calendar> dateList = (ArrayList<Calendar>) dateMap.keySet();
+        for(int i = 0; i< dateList.size(); i++) {
+            dateTV.setText(dateTV.getText() + "\n" +
+                    dateMap.get(dateList.get(i)).toString() + "\n"  // numeri posti
+                    + dateList.get(i).toString()); // roba
+        }
     }
 }
