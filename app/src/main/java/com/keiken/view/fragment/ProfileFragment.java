@@ -800,41 +800,43 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         final Long minuti = (Long) document.get("minuti");
                         final Long nPostiDisponibili = (Long) document.get("posti_massimi");
                         final String photo_uri = (String) document.get("photo_uri");
-
-                        db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    ArrayList<Esperienza> esperienze = new ArrayList<>();
-                                    Esperienza e;
-                                    HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        if(document.exists()){
-                                            Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
-                                            Calendar tempCalendar = new GregorianCalendar();
-                                            tempCalendar.setTimeInMillis(tempTimestamp);
-                                            Long nPostiDisponibili = (Long) document.get("posti_disponibili");
-                                            date.put(tempCalendar, nPostiDisponibili);
-                                        } else {
-                                            Log.d("", "No such document");
+                        if(document.exists()) {
+                            db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        Esperienza e;
+                                        ArrayList<Esperienza> esperienze = new ArrayList<>();
+                                        HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if (document.exists()) {
+                                                Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                                Calendar tempCalendar = new GregorianCalendar();
+                                                tempCalendar.setTimeInMillis(tempTimestamp);
+                                                Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                                date.put(tempCalendar, nPostiDisponibili);
+                                            } else {
+                                                Log.d("", "No such document");
+                                            }
                                         }
+                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
+                                        esperienze.add(e);
+
+                                        RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(Esperienza esperienza) {
+                                                Intent i = new Intent();
+                                                startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                                            }
+                                        });
+                                        rv.setAdapter(adapter);
+
+                                    } else {
+                                        Log.d("", "get failed with ", task.getException());
                                     }
-                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
-                                    esperienze.add(e);
-
-                                    RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(Esperienza esperienza) {
-                                            Intent i = new Intent();
-                                            startActivity(new Intent(getContext(), CreateExperienceActivity.class));
-                                        }
-                                    });
-                                    rv.setAdapter(adapter);
-                                } else {
-                                    Log.d("", "get failed with ", task.getException());
                                 }
-                            }
-                        });
+                            });
+                        }
                     }
                 }
             }
