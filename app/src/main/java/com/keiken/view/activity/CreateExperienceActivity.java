@@ -261,14 +261,11 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 //////////////
 
                 //CALENDARIO
-                List<Calendar> selectedDates = calendarView.getSelectedDates();
+                final List<Calendar> selectedDates = calendarView.getSelectedDates();
                 ///////////
-                int nPostiDisponibili = pickerPosti.getValue();
+                final int nPostiDisponibili = pickerPosti.getValue();
 
-                HashMap<String, Calendar> correlazionePostiCalendar = new HashMap<>();
-                for(Calendar tempCalendar: selectedDates){
-                    correlazionePostiCalendar.put(Integer.toString(nPostiDisponibili),tempCalendar);
-                }
+                //CREA COLLECTION DA INSERIRE NEL DATABASE
 
 
                 //ORARIO
@@ -304,17 +301,11 @@ public class CreateExperienceActivity extends AppCompatActivity {
                     //categorie
                     esperienzeDb.put("categorie", categorie);
 
-                    //date
-                    esperienzeDb.put("date", selectedDates);
                     //orario
                     esperienzeDb.put("ore", ore);
                     esperienzeDb.put("minuti", minuti);
-                    esperienzeDb.put("hasMapPostiDisponibili", correlazionePostiCalendar);
-
-                    esperienzeDb.put("posti_disponibili", nPostiDisponibili);
 
                     esperienzeDb.put("photo_uri", uri);
-
                     try{
                         db.collection("esperienze")
                                 .add(esperienzeDb)
@@ -322,6 +313,43 @@ public class CreateExperienceActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+
+                                        String ID_ESPERIENZA = documentReference.getId();
+                                        //INIZIALIZZAZIONE DATI
+
+                                        CollectionReference dates = db.collection("esperienze").document(ID_ESPERIENZA).collection("date");
+                                        Map<String, Object> dateDb = new HashMap<>();
+
+                                        for(Calendar tempCalendar : selectedDates) {
+                                            dateDb.put("data", tempCalendar);
+                                            dateDb.put("posti_disponibili", nPostiDisponibili);
+
+                                            try {
+                                                db.collection("esperienze").document(ID_ESPERIENZA).collection("date").add(dateDb)
+                                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference> () {
+                                                            @Override
+                                                                    public void onSuccess(DocumentReference documentReference){
+
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w("", "Error adding document", e);
+                                                        confirmCreaEsperienza.setEnabled(true);
+                                                        startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
+                                                    }
+                                                });
+
+
+
+                                            } catch (NullPointerException e) {
+                                                Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                                                startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
+                                            }
+
+
+                                        }
 
                                         startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
                                     }
@@ -335,8 +363,11 @@ public class CreateExperienceActivity extends AppCompatActivity {
                                 });
                     } catch (NullPointerException e) {
                         Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(CreateExperienceActivity.this, LauncherActivity.class));
+                        startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
                     }
+
+
+
                 }
             }
         });
