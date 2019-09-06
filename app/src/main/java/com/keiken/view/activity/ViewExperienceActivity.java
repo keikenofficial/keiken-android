@@ -16,6 +16,8 @@ import com.keiken.model.Esperienza;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class ViewExperienceActivity extends AppCompatActivity {
 
@@ -39,6 +41,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
         String minuti = getIntent().getStringExtra("minuti");
         String postiMax = getIntent().getStringExtra("nPostiDisponibili");
         String photoUri = getIntent().getStringExtra("photoUri");
+        HashMap<Calendar, Long> date = (HashMap<Calendar, Long>) getIntent().getSerializableExtra("date");
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);

@@ -17,8 +17,7 @@ public class Esperienza {
         this.ID_CREATORE = ID_CREATORE;
         this.prezzo = prezzo;
         this.categorie = new ArrayList<String>(categorie);
-        this.date = new HashMap<Calendar, Long>();
-        this.date.putAll(date);
+        this.date = date;
         this.ore = ore;
         this.minuti = minuti;
         this.nPostiDisponibili = nPostiDisponibili;
