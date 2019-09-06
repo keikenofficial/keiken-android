@@ -36,6 +36,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -67,6 +68,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -808,8 +810,9 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         if(document.exists()){
-                                            HashMap<String, Object> tempMap = (HashMap<String, Object>) document.get("data");
-                                            Calendar tempCalendar = null; //////////////DA FIXARE
+                                            Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                            Calendar tempCalendar = new GregorianCalendar();
+                                            tempCalendar.setTimeInMillis(tempTimestamp);
                                             Long nPostiDisponibili = (Long) document.get("posti_disponibili");
                                             date.put(tempCalendar, nPostiDisponibili);
                                         } else {
