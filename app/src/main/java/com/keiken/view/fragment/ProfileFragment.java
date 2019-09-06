@@ -25,7 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,7 +52,9 @@ import com.keiken.model.Esperienza;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
 import com.keiken.view.RVAdapterProfile;
+import com.keiken.view.RecyclerViewHeader;
 import com.keiken.view.activity.CreateExperienceActivity;
+import com.keiken.view.activity.HomeActivity;
 import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
@@ -736,20 +737,21 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-
-        boolean externalProvider = false;
-        for (UserInfo info : user.getProviderData()) {
-            if (info.getProviderId().equals("facebook.com")) {
-                externalProvider = true;
+        try {
+            boolean externalProvider = false;
+            for (UserInfo info : user.getProviderData()) {
+                if (info.getProviderId().equals("facebook.com")) {
+                    externalProvider = true;
+                }
+                if (info.getProviderId().equals("google.com")) {
+                    externalProvider = true;
+                }
             }
-            if (info.getProviderId().equals("google.com")) {
-                externalProvider = true;
+            if (externalProvider) {
+                password2EditText.setVisibility(View.GONE);
+                passwordEditText.setVisibility(View.GONE);
             }
-        }
-        if (externalProvider) {
-               password2EditText.setVisibility(View.GONE);
-               passwordEditText.setVisibility(View.GONE);
-        }
+        }catch (Exception e){startActivity(new Intent(getContext(), LauncherActivity.class));};
 
         ///////////////////////////// VISUALIZZA ELENCO PROPRIE ESPERIENZE ///////////////////////////////
         /*

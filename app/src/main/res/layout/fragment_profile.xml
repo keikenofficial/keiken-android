@@ -168,7 +168,7 @@
                         android:nestedScrollingEnabled="false"/>
 
 
-                    <com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader
+                    <com.keiken.view.RecyclerViewHeader
                         android:id="@+id/rvHeader"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -402,7 +402,7 @@
                         </LinearLayout>
 
 
-                    </com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader>
+                    </com.keiken.view.RecyclerViewHeader>
 
 
 

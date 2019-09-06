@@ -106,7 +106,7 @@ public class ImageController {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         boolean externalProvider = false;
-        if (user != null && user.getPhotoUrl() != null) {
+        if (user.getPhotoUrl() != null) {
             for (UserInfo info : user.getProviderData()) {
                 if (info.getProviderId().equals("facebook.com")) {
                     new DownloadImageFromInternet(photo).execute(user.getPhotoUrl().toString() + "?type=large");
@@ -117,9 +117,10 @@ public class ImageController {
                     externalProvider = true;
                 }
             }
-            if (!externalProvider)
+        }else
+
                 new DownloadImageFromInternet(photo).execute(user.getPhotoUrl().toString());
-        }
+
     }
 
     public static void setProfilePic(ImageView photo, int size) {
