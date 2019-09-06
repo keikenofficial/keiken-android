@@ -105,7 +105,7 @@ public class RVAdapterProfile extends  RecyclerView.Adapter<RVAdapterProfile.Exp
             FirebaseStorage storage = FirebaseStorage.getInstance();
             storageReference = storage.getReference();
 
-            storageReference.child(e.getPhoto_uri())
+            storageReference.child(e.getPhotoUri())
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {

@@ -759,26 +759,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }catch (Exception e){startActivity(new Intent(getContext(), LauncherActivity.class));};
 
         ///////////////////////////// VISUALIZZA ELENCO PROPRIE ESPERIENZE ///////////////////////////////
-        /*
-        result = new ArrayList<Esperienza>();
-        downloadExperiencesByUID();  // NON ENTRA NEL: "ON COMPLETE"
-        ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
-
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        RecyclerView rv = c.findViewById(R.id.esperienze);
-        rv.setLayoutManager(llm);
-        RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Esperienza esperienza) {
-                startActivity(new Intent(getContext(), CreateExperienceActivity.class));
-            }
-        });
-        rv.setAdapter(adapter);
-        rv.setFocusable(false);
-        rv.setHasFixedSize(true);
-
-        RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
-        headerRV.attachTo(rv);*/
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         final RecyclerView rv = c.findViewById(R.id.esperienze);
@@ -825,6 +805,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
                             @Override
                             public void onItemClick(Esperienza esperienza) {
+                                Intent i = new Intent();
                                 startActivity(new Intent(getContext(), CreateExperienceActivity.class));
                             }
                         });

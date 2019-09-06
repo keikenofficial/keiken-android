@@ -1,9 +1,7 @@
 package com.keiken.view;
 
 
-import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,27 +15,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.keiken.R;
 import com.keiken.controller.ImageController;
 import com.keiken.model.Esperienza;
-import com.keiken.view.activity.CreateExperienceActivity;
 
-import java.security.spec.ECField;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -123,7 +112,7 @@ public class RVAdapterHome extends  RecyclerView.Adapter<RVAdapterHome.Experienc
             FirebaseStorage storage = FirebaseStorage.getInstance();
             storageReference = storage.getReference();
 
-            storageReference.child(e.getPhoto_uri())
+            storageReference.child(e.getPhotoUri())
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {

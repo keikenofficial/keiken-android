@@ -34,7 +34,7 @@ import com.keiken.R;
 import com.keiken.model.Esperienza;
 import com.keiken.view.IOnBackPressed;
 import com.keiken.view.RVAdapterHome;
-import com.keiken.view.activity.CreateExperienceActivity;
+import com.keiken.view.activity.ViewExperienceActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
@@ -332,8 +332,9 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         rv.setFocusable(false);
         rv.setHasFixedSize(true);
 
-        //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE
 
+
+        //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE
 
         db.collection("esperienze").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
@@ -354,7 +355,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
                             //inizializzazione dati con valori presi dal DB
 
-                            Esperienza e;
+                            final Esperienza e;
                             String titolo = (String) document.get("titolo");
                             String descrizione = (String) document.get("descrizione");
                             String luogo = (String) document.get("luogo");
@@ -364,22 +365,39 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             ArrayList<Calendar> date = new ArrayList<Calendar>((ArrayList<Calendar>) document.get("date"));
                             long ore = (Long) document.get("ore");
                             long minuti = (Long) document.get("minuti");
-                            long nPostiDisponibili = (Long) document.get("posti_disponibili");
-                            String photo_uri = (String) document.get("photo_uri");
+                            final long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                            final String photoUri = (String) document.get("photo_uri");
 
-                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
+                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri);
 
 
                             if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
                                 result.add(e);
 
-                            ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
+                            final ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
 
 
                             RVAdapterHome adapter = new RVAdapterHome(esperienze, new RVAdapterHome.OnItemClickListener() {
                                 @Override
+
                                 public void onItemClick(Esperienza esperienza) {
-                                    startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                                    Intent i = new Intent(getContext(), ViewExperienceActivity.class);
+                                    i.putExtra("titolo", esperienza.getTitolo());
+                                    i.putExtra("descrizione", esperienza.getDescrizione());
+                                    i.putExtra("luogo", esperienza.getLuogo());
+                                    i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
+                                    i.putExtra("prezzo", esperienza.getPrezzo());
+                                    i.putExtra("categorie", esperienza.getCategorie());
+                                    // date
+                                    i.putExtra("ore", esperienza.getOre());
+                                    i.putExtra("minuti", esperienza.getMinuti());
+                                    i.putExtra("nPostiDisponibili", esperienza.getnPostiDisponibili());
+                                    i.putExtra("photoUri", esperienza.getPhotoUri());
+
+
+
+
+                                    startActivity(i);
                                 }
                             });
                             rv.setAdapter(adapter);

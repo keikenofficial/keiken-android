@@ -1,10 +1,5 @@
 package com.keiken.model;
 
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.util.*;
 
 public class Esperienza {
@@ -13,9 +8,9 @@ public class Esperienza {
     private ArrayList<String> categorie;
     private List<Calendar> date;
     private long ore, minuti, nPostiDisponibili;
-    private String photo_uri;
+    private String photoUri;
 
-    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, ArrayList<Calendar> date, long ore, long minuti, long nPostiDisponibili, String photo_uri) {
+    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, ArrayList<Calendar> date, long ore, long minuti, long nPostiDisponibili, String photoUri) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.luogo = luogo;
@@ -26,11 +21,11 @@ public class Esperienza {
         this.ore = ore;
         this.minuti = minuti;
         this.nPostiDisponibili = nPostiDisponibili;
-        this.photo_uri = photo_uri;
+        this.photoUri = photoUri;
     }
 
     // GETTERS & SETTERS
-    public String getPhoto_uri() { return photo_uri; }
+    public String getPhotoUri() { return photoUri; }
     public String getID_CREATORE() { return  ID_CREATORE; }
 
     public String getTitolo() {

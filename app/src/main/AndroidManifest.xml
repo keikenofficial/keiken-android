@@ -67,8 +67,15 @@
             android:parentActivityName=".view.activity.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar2" />
-        <activity android:name=".view.activity.ConditionActivity"
-            android:parentActivityName=".view.activity.LauncherActivity"/>
+        <activity
+            android:name=".view.activity.ConditionActivity"
+            android:parentActivityName=".view.activity.LauncherActivity" />
+        <activity android:name=".view.activity.ViewExperienceActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".view.activity.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar2" />
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -84,10 +91,10 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>
