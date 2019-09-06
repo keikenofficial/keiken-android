@@ -35,6 +35,8 @@ import com.keiken.R;
 import com.keiken.model.Esperienza;
 import com.keiken.view.IOnBackPressed;
 import com.keiken.view.RVAdapterHome;
+import com.keiken.view.RVAdapterProfile;
+import com.keiken.view.activity.CreateExperienceActivity;
 import com.keiken.view.activity.ViewExperienceActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
@@ -43,6 +45,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import androidx.annotation.NonNull;
@@ -347,7 +350,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
                 if (task.isSuccessful()) {
 
-                    ArrayList<Esperienza> result = new ArrayList<Esperienza>();
+                    final ArrayList<Esperienza> esperienze = new ArrayList<>();
 
                     //ArrayList<String> lista = new ArrayList<String>();
 
@@ -360,54 +363,68 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             //inizializzazione dati con valori presi dal DB
 
                             final Esperienza e;
-                            String titolo = (String) document.get("titolo");
-                            String descrizione = (String) document.get("descrizione");
-                            String luogo = (String) document.get("luogo");
-                            String ID_CREATORE = (String) document.get("ID_CREATORE");
-                            String prezzo = (String) document.get("prezzo");
-                            ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-                            long ore = (Long) document.get("ore");
-                            long minuti = (Long) document.get("minuti");
+                            final String titolo = (String) document.get("titolo");
+                            final String descrizione = (String) document.get("descrizione");
+                            final String luogo = (String) document.get("luogo");
+                            final String ID_CREATORE = (String) document.get("ID_CREATORE");
+                            final String prezzo = (String) document.get("prezzo");
+                            final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
+                            final long ore = (Long) document.get("ore");
+                            final long minuti = (Long) document.get("minuti");
                             final long nPostiDisponibili = (Long) document.get("posti_massimi");
-                            final String photoUri = (String) document.get("photo_uri");
+                            final String photo_uri = (String) document.get("photo_uri");
 
                             //GET CALENDARIO
-                            HashMap<Calendar, Long> date = new HashMap<>();
 
-
-
-                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri);
-
-
-                            if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
-                                result.add(e);
-
-                            final ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
-
-
-                            RVAdapterHome adapter = new RVAdapterHome(esperienze, new RVAdapterHome.OnItemClickListener() {
+                            db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        Esperienza e;
+                                        HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            if (document.exists()) {
+                                                Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                                Calendar tempCalendar = new GregorianCalendar();
+                                                tempCalendar.setTimeInMillis(tempTimestamp);
+                                                Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                                date.put(tempCalendar, nPostiDisponibili);
+                                            } else {
+                                                Log.d("", "No such document");
+                                            }
+                                        }
+                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
+                                        if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
+                                            esperienze.add(e);
 
-                                public void onItemClick(Esperienza esperienza) {
-                                    Intent i = new Intent(getContext(), ViewExperienceActivity.class);
-                                    i.putExtra("titolo", esperienza.getTitolo());
-                                    i.putExtra("descrizione", esperienza.getDescrizione());
-                                    i.putExtra("luogo", esperienza.getLuogo());
-                                    i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
-                                    i.putExtra("prezzo", esperienza.getPrezzo());
-                                    i.putExtra("categorie", esperienza.getCategorie());
-                                    i.putExtra("ore", Long.toString(esperienza.getOre()));
-                                    i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
-                                    i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
-                                    i.putExtra("photoUri", esperienza.getPhotoUri());
-                                    i.putExtra("date", esperienza.getDate());
 
-                                    startActivity(i);
+                                        RVAdapterHome adapter = new RVAdapterHome(esperienze, new RVAdapterHome.OnItemClickListener() {
+                                            @Override
+
+                                            public void onItemClick(Esperienza esperienza) {
+                                                Intent i = new Intent(getContext(), ViewExperienceActivity.class);
+                                                i.putExtra("titolo", esperienza.getTitolo());
+                                                i.putExtra("descrizione", esperienza.getDescrizione());
+                                                i.putExtra("luogo", esperienza.getLuogo());
+                                                i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
+                                                i.putExtra("prezzo", esperienza.getPrezzo());
+                                                i.putExtra("categorie", esperienza.getCategorie());
+                                                i.putExtra("ore", Long.toString(esperienza.getOre()));
+                                                i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
+                                                i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
+                                                i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                i.putExtra("date", esperienza.getDate());
+
+                                                startActivity(i);
+                                            }
+                                        });
+                                        rv.setAdapter(adapter);
+
+                                    } else {
+                                        Log.d("", "get failed with ", task.getException());
+                                    }
                                 }
                             });
-                            rv.setAdapter(adapter);
-
-
                             Log.d("", "DocumentSnapshot data: " + document.getData());
                         } else {
                             Log.d("", "No such document");

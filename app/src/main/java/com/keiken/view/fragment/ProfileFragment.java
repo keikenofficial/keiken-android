@@ -834,8 +834,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                         });
                                         rv.setAdapter(adapter);
 
-
-
                                     } else {
                                         Log.d("", "get failed with ", task.getException());
                                     }
@@ -845,10 +843,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                         }
 
-
                     }
-
-
 
                 }
             }
