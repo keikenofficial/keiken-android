@@ -798,11 +798,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         final Long nPostiDisponibili = (Long) document.get("posti_massimi");
                         final String photo_uri = (String) document.get("photo_uri");
 
-
-                        CollectionReference dateCollection = db.collection("esperienze").document(document.getId()).collection("date");
-                        Query query = dateCollection;
-
-                        Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
@@ -810,12 +806,14 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     Esperienza e;
                                     HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                        Calendar tempCalendar = (Calendar) document.get("data");
-                                        Long nPostiDisponibili = (Long) document.get("posti_disponibili");
-                                        date.put(tempCalendar, nPostiDisponibili);
+                                        if(document.exists()){
+                                            Calendar tempCalendar = (Calendar) document.get("data");
+                                            Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                            date.put(tempCalendar, nPostiDisponibili);
+                                        } else {
+                                            Log.d("", "No such document");
+                                        }
                                     }
-
-
                                     e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
                                     esperienze.add(e);
 
@@ -827,6 +825,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                         }
                                     });
                                     rv.setAdapter(adapter);
+                                } else {
+                                    Log.d("", "get failed with ", task.getException());
                                 }
                             }
                         });
