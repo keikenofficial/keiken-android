@@ -171,7 +171,7 @@ public class RecyclerViewHeader extends RelativeLayout {
             recyclerView.onTouchEvent(recyclerEvent);
             return false;
         }
-        return super.onTouchEvent(event);
+        return true;
     }
 
     private void validate(RecyclerView recyclerView) {
