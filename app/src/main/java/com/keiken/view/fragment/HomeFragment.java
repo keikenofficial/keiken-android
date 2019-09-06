@@ -365,7 +365,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             String ID_CREATORE = (String) document.get("ID_CREATORE");
                             String prezzo = (String) document.get("prezzo");
                             ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-                            ArrayList<Calendar> date = new ArrayList<Calendar>((ArrayList<Calendar>) document.get("date"));
+                            //date
                             long ore = (Long) document.get("ore");
                             long minuti = (Long) document.get("minuti");
                             final long nPostiDisponibili = (Long) document.get("posti_disponibili");
