@@ -66,6 +66,7 @@ import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -807,7 +808,8 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                     HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         if(document.exists()){
-                                            Calendar tempCalendar = (Calendar) document.get("data");
+                                            HashMap<String, Object> tempMap = (HashMap<String, Object>) document.get("data");
+                                            Calendar tempCalendar = null; //////////////DA FIXARE
                                             Long nPostiDisponibili = (Long) document.get("posti_disponibili");
                                             date.put(tempCalendar, nPostiDisponibili);
                                         } else {
