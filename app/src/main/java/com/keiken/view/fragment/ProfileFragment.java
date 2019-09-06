@@ -783,57 +783,53 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    ArrayList<Esperienza> result = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //inizializzazione dati con valori presi dal DB
-                        Esperienza e;
-                        String titolo = (String) document.get("titolo");
-                        String descrizione = (String) document.get("descrizione");
-                        String luogo = (String) document.get("luogo");
-                        String ID_CREATORE = (String) document.get("ID_CREATORE");
-                        String prezzo = (String) document.get("prezzo");
-                        ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
 
-                        long ore = (Long) document.get("ore");
-                        long minuti = (Long) document.get("minuti");
-                        long nPostiDisponibili = (Long) document.get("posti_massimi");
-                        String photo_uri = (String) document.get("photo_uri");
+                        final String titolo = (String) document.get("titolo");
+                        final String descrizione = (String) document.get("descrizione");
+                        final String luogo = (String) document.get("luogo");
+                        final String ID_CREATORE = (String) document.get("ID_CREATORE");
+                        final String prezzo = (String) document.get("prezzo");
+                        final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
 
-
-
-                        //DATE
-                        HashMap<Calendar, Long> date = new HashMap<>();
+                        final Long ore = (Long) document.get("ore");
+                        final Long minuti = (Long) document.get("minuti");
+                        final Long nPostiDisponibili = (Long) document.get("posti_massimi");
+                        final String photo_uri = (String) document.get("photo_uri");
 
 
                         CollectionReference dateCollection = db.collection("esperienze").document(document.getId()).collection("date");
                         Query query = dateCollection;
 
-
-
-
-
-
-
-
-
-
-
-
-                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
-                        result.add(e);
-
-                        ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
-
-
-
-                        RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
+                        Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
-                            public void onItemClick(Esperienza esperienza) {
-                                Intent i = new Intent();
-                                startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    ArrayList<Esperienza> esperienze = new ArrayList<>();
+                                    Esperienza e;
+                                    HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Calendar tempCalendar = (Calendar) document.get("data");
+                                        Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                        date.put(tempCalendar, nPostiDisponibili);
+                                    }
+
+
+                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
+                                    esperienze.add(e);
+
+                                    RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(Esperienza esperienza) {
+                                            Intent i = new Intent();
+                                            startActivity(new Intent(getContext(), CreateExperienceActivity.class));
+                                        }
+                                    });
+                                    rv.setAdapter(adapter);
+                                }
                             }
                         });
-                        rv.setAdapter(adapter);
                     }
                 }
             }
