@@ -3,8 +3,12 @@ package com.keiken.view.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
@@ -59,6 +63,7 @@ import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -76,6 +81,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.keiken.controller.ImageController.*;
 
 /**
@@ -111,7 +117,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
     private ProgressDialog progressDialog = null;
 
     private Uri storageUrl = null;
-
 
 
 
@@ -984,15 +989,18 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
     } //start an activity calling camera and gallety intent to edit profile photo
 
     private void uploadProfileImage(final Uri filePath) {
+        //resize immagine before upload
+        Bitmap bitmap = getImageResized(getApplicationContext(), filePath);
+        Uri uriCompressed = createImageFile(bitmap);
 
-        if (filePath != null) {
+        if (uriCompressed != null) {
             progressDialog = new ProgressDialog(getContext());
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
 
             final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()+"/foto_profilo");
-            ref.putFile(filePath)
+            ref.putFile(uriCompressed)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -1178,6 +1186,45 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         }
 
         return true;
+    }
+
+
+    private static final int DEFAULT_MIN_WIDTH_QUALITY = 400;
+    public static int minWidthQuality = DEFAULT_MIN_WIDTH_QUALITY;
+
+    /*
+            *Resize to avoid using too much memory loading big images (e.g.: 2560*1920)
+        */
+    private static Bitmap getImageResized(Context context, Uri selectedImage) {
+        Bitmap bm = null;
+        int[] sampleSizes = new int[]{5, 3, 2, 1};
+        int i = 0;
+        do {
+            bm = decodeBitmap(context, selectedImage, sampleSizes[i]);
+            Log.d("", "resizer: new bitmap width = " + bm.getWidth());
+            i++;
+        } while (bm.getWidth() < minWidthQuality && i < sampleSizes.length);
+        return bm;
+    }
+
+    private static Bitmap decodeBitmap(Context context, Uri theUri, int sampleSize) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = sampleSize;
+
+        AssetFileDescriptor fileDescriptor = null;
+        try {
+            fileDescriptor = context.getContentResolver().openAssetFileDescriptor(theUri, "r");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap actuallyUsableBitmap = BitmapFactory.decodeFileDescriptor(
+                fileDescriptor.getFileDescriptor(), null, options);
+
+        Log.d("", options.inSampleSize + " sample method bitmap ... " +
+                actuallyUsableBitmap.getWidth() + " " + actuallyUsableBitmap.getHeight());
+
+        return actuallyUsableBitmap;
     }
 }
 
