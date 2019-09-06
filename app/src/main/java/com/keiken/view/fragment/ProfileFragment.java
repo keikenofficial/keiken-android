@@ -3,13 +3,11 @@ package com.keiken.view.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
@@ -33,7 +31,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,7 +51,7 @@ import com.google.firebase.storage.UploadTask;
 import com.keiken.model.Esperienza;
 import com.keiken.R;
 import com.keiken.view.IOnBackPressed;
-import com.keiken.view.RVAdapter;
+import com.keiken.view.RVAdapterProfile;
 import com.keiken.view.activity.CreateExperienceActivity;
 import com.keiken.view.activity.LauncherActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
@@ -77,7 +74,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.app.Activity.RESULT_OK;
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.keiken.controller.ImageController.*;
 
 /**
@@ -795,7 +791,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    ArrayList<Esperienza> result = new ArrayList<Esperienza>();
+                    ArrayList<Esperienza> result = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //inizializzazione dati con valori presi dal DB
                         Esperienza e;
@@ -818,7 +814,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
 
 
-                        RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
+                        RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
                             @Override
                             public void onItemClick(Esperienza esperienza) {
                                 startActivity(new Intent(getContext(), CreateExperienceActivity.class));

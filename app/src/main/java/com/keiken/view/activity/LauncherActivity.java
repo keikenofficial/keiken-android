@@ -295,6 +295,7 @@ public class LauncherActivity extends AppCompatActivity {
                         userDb.put("surname", surname);
                         userDb.put("email", user.getEmail());
                         userDb.put("id", user.getUid());
+                        //userDb.put("photoUrl", user.getPhotoUrl()); problema a caricare url su db
 
 
                         // Add a new document with a generated ID

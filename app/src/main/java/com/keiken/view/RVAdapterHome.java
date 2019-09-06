@@ -1,44 +1,48 @@
 package com.keiken.view;
 
 
-import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.chip.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.keiken.R;
 import com.keiken.controller.ImageController;
 import com.keiken.model.Esperienza;
-import com.keiken.view.activity.HomeActivity;
+import com.keiken.view.activity.CreateExperienceActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-
-public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ExperienceViewHolder>{
+public class RVAdapterHome extends  RecyclerView.Adapter<RVAdapterHome.ExperienceViewHolder>{
 
     public interface OnItemClickListener {
         void onItemClick(Esperienza esperienza);
@@ -51,7 +55,7 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ExperienceViewHol
     private FirebaseFirestore db;
     private StorageReference storageReference;
 
-    public RVAdapter(List<Esperienza> esperienze, OnItemClickListener listener) {
+    public RVAdapterHome(List<Esperienza> esperienze, OnItemClickListener listener) {
         this.esperienze = esperienze;
         this.listener = listener;
     }
@@ -85,6 +89,7 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ExperienceViewHol
         TextView prezzo;
         MaterialCardView profile_pic_ontainer;
         ImageView foto;
+        String photoUrl;
 
         public ExperienceViewHolder(final View itemView) {
             super(itemView);
@@ -104,13 +109,14 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ExperienceViewHol
             titolo.setText(e.getTitolo());
             luogo.setText(e.getLuogo());
             prezzo.setText(e.getPrezzo()+"\u20ac");
+
             //recensioni
             //
             ////////////
 
+
             //DOWNLOAD IMMAGINE ESPERIENZA
             mAuth = FirebaseAuth.getInstance();
-            final FirebaseUser user = mAuth.getCurrentUser();
 
             db = FirebaseFirestore.getInstance();
             FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -135,6 +141,28 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ExperienceViewHol
 
 
 
+            //NOME E FOTO CREATORE
+            CollectionReference utenti = db.collection("utenti");
+            Query query = utenti.whereEqualTo("id", e.getID_CREATORE());
+            Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        QuerySnapshot result = task.getResult();
+                        List<DocumentSnapshot> documents = result.getDocuments();
+                        DocumentSnapshot document = documents.get(0);
+
+                        user_name.setText((String) document.get("name"));
+                        photoUrl = (String) document.get("photoUrl");
+
+                        if (photoUrl != null)
+                            new ImageController.DownloadImageFromInternet(profile_pic).execute(photoUrl);
+
+                    }
+
+                }
+            });
 
 
 
@@ -143,9 +171,6 @@ public class RVAdapter extends  RecyclerView.Adapter<RVAdapter.ExperienceViewHol
 
 
 
-            user_name.setVisibility(View.GONE);  //NEL PROPRIO PROFILO NOME UTENTE E
-            profile_pic.setVisibility(View.GONE);     // FOTO PROFILO NON VENGONO MOSTRATI
-            profile_pic_ontainer.setVisibility(View.GONE);
             String categorieString = "";
             for(String temp : e.getCategorie()){
                 categorieString = categorieString.concat("#" + temp + " ");

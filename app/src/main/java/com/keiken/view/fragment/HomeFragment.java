@@ -19,18 +19,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -38,7 +33,7 @@ import com.google.firebase.storage.StorageReference;
 import com.keiken.R;
 import com.keiken.model.Esperienza;
 import com.keiken.view.IOnBackPressed;
-import com.keiken.view.RVAdapter;
+import com.keiken.view.RVAdapterHome;
 import com.keiken.view.activity.CreateExperienceActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
@@ -380,7 +375,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>(result);
 
 
-                            RVAdapter adapter = new RVAdapter(esperienze, new RVAdapter.OnItemClickListener() {
+                            RVAdapterHome adapter = new RVAdapterHome(esperienze, new RVAdapterHome.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(Esperienza esperienza) {
                                     startActivity(new Intent(getContext(), CreateExperienceActivity.class));
