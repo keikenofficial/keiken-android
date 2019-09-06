@@ -106,21 +106,20 @@ public class ImageController {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         boolean externalProvider = false;
-        if (user.getPhotoUrl() != null) {
+        if (user != null && user.getPhotoUrl() != null) {
             for (UserInfo info : user.getProviderData()) {
                 if (info.getProviderId().equals("facebook.com")) {
                     new DownloadImageFromInternet(photo).execute(user.getPhotoUrl().toString() + "?type=large");
                     externalProvider = true;
                 }
                 if (info.getProviderId().equals("google.com")) {
-                    new DownloadImageFromInternet(photo).execute(user.getPhotoUrl().toString() + "?sz=720");
+                    new DownloadImageFromInternet(photo).execute(user.getPhotoUrl().toString() + "?sz=1080");
                     externalProvider = true;
                 }
             }
-        }else
-
+            if (!externalProvider)
                 new DownloadImageFromInternet(photo).execute(user.getPhotoUrl().toString());
-
+        }
     }
 
     public static void setProfilePic(ImageView photo, int size) {
