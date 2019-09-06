@@ -75,8 +75,20 @@
             android:gravity="center_horizontal"
             android:paddingHorizontal="15dp">
 
-
-
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="3dp">
+                <TextView
+                    android:id="@+id/descrizione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="3dp"
+                    android:text=""
+                    android:textSize="17sp"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -147,18 +159,6 @@
 
 
 
-
-            <TextView
-                android:id="@+id/posti_disponibili"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Disponibilità massima: "
-                android:textSize="17sp"
-                android:textColor="@android:color/black"
-                android:layout_marginBottom="3dp"/>
-
-
-
             <TextView
                 android:id="@+id/prezzo"
                 android:layout_width="wrap_content"
@@ -195,19 +195,6 @@
                 app:iconPadding="0dp"
                 app:iconGravity="textStart"
                 android:visibility="gone"/>
-
-
-
-
-            <TextView
-                android:id="@+id/descrizione"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="3dp"
-                android:text="Passeggiata guidata in cui percorreremo insieme tutto il bellissimo portico, candidato a diventare patrimonio dell'UNESCO, fino ad arrivare al bellissimo Santuario della Madonna di San Luca. Durante il percorso potrete ascoltare numerose curiosità ed ammirare il bellissimo panorama della città di Bologna.\n\nLa passeggiata è molto bella e mai niosa ed è adatta a tutti: adulti e bambini, gruppi  di amici e famiglie.\n\nIl santuario della Madonna di San Luca (San Lócca in bolognese) è una basilica dedicata al culto cattolico mariano e si eleva sul colle della Guardia, uno sperone in parte boschivo a 280 m s.l.m. a sud-ovest del centro storico di Bologna. È un importante santuario nella storia della città, fin dalle sue origini meta di pellegrinaggi per venerare l'icona della Vergine col Bambino detta di San Luca. Il santuario è raggiungibile da porta Saragozza attraverso una lunga e caratteristica via porticata, che scavalca via Saragozza con il monumentale Arco del Meloncello (1732) per poi salire ripidamente fino al santuario.\n
-Lo stile dominante è il barocco, testimoniato da forme e volumi dinamici e curvilinei alternati in continue sporgenze e rientranze.\n"
-                android:textSize="17sp"
-                android:textColor="@android:color/black" />
 
 
 
