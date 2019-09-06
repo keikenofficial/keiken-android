@@ -353,6 +353,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
 
                             //inizializzazione dati con valori presi dal DB
+
                             Esperienza e;
                             String titolo = (String) document.get("titolo");
                             String descrizione = (String) document.get("descrizione");
