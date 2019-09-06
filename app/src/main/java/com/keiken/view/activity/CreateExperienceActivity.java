@@ -265,9 +265,9 @@ public class CreateExperienceActivity extends AppCompatActivity {
                 ///////////
                 int nPostiDisponibili = pickerPosti.getValue();
 
-                HashMap<Calendar, Integer> correlazionePostiCalendar = new HashMap<>();
+                HashMap<String, Calendar> correlazionePostiCalendar = new HashMap<>();
                 for(Calendar tempCalendar: selectedDates){
-                    correlazionePostiCalendar.put(tempCalendar, nPostiDisponibili);
+                    correlazionePostiCalendar.put(Integer.toString(nPostiDisponibili),tempCalendar);
                 }
 
 
