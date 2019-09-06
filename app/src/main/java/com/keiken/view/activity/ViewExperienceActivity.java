@@ -87,9 +87,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
         TextView orarioTV = findViewById(R.id.orario);
         orarioTV.setText(ore+":"+minuti);
 
-        TextView postiMaxTV = findViewById(R.id.posti_disponibili);
-        postiMaxTV.setText("Disponibilità massima: " + postiMax);
-
         ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
 
         ImageView foto = findViewById(R.id.foto);
