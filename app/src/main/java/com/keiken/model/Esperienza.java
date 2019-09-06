@@ -6,18 +6,19 @@ public class Esperienza {
 
     private String titolo, descrizione, luogo, ID_CREATORE, prezzo;
     private ArrayList<String> categorie;
-    private List<Calendar> date;
+    private HashMap<Calendar, Long> date;
     private long ore, minuti, nPostiDisponibili;
     private String photoUri;
 
-    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, ArrayList<Calendar> date, long ore, long minuti, long nPostiDisponibili, String photoUri) {
+    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, HashMap<Calendar, Long> date, long ore, long minuti, long nPostiDisponibili, String photoUri) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.luogo = luogo;
         this.ID_CREATORE = ID_CREATORE;
         this.prezzo = prezzo;
         this.categorie = new ArrayList<String>(categorie);
-        this.date = new ArrayList<Calendar>(date);
+        this.date = new HashMap<Calendar, Long>();
+        this.date.putAll(date);
         this.ore = ore;
         this.minuti = minuti;
         this.nPostiDisponibili = nPostiDisponibili;
@@ -48,7 +49,7 @@ public class Esperienza {
         return categorie;
     }
 
-    public List<Calendar> getDate() {
+    public HashMap<Calendar, Long> getDate() {
         return date;
     }
 

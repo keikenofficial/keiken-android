@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -365,11 +366,15 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             String ID_CREATORE = (String) document.get("ID_CREATORE");
                             String prezzo = (String) document.get("prezzo");
                             ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-                            //date
                             long ore = (Long) document.get("ore");
                             long minuti = (Long) document.get("minuti");
-                            final long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                            final long nPostiDisponibili = (Long) document.get("posti_massimi");
                             final String photoUri = (String) document.get("photo_uri");
+
+                            //GET CALENDARIO
+                            HashMap<Calendar, Long> date = new HashMap<>();
+
+
 
                             e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri);
 
@@ -395,8 +400,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                     i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
                                     i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
                                     i.putExtra("photoUri", esperienza.getPhotoUri());
-                                    //CALENDAR
-                                    //HASHMAP
+                                    i.putExtra("date", esperienza.getDate());
 
                                     startActivity(i);
                                 }

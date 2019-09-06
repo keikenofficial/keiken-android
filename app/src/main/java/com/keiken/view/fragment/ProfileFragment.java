@@ -793,11 +793,15 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         String ID_CREATORE = (String) document.get("ID_CREATORE");
                         String prezzo = (String) document.get("prezzo");
                         ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-                        ArrayList<Calendar> date = new ArrayList<Calendar>((ArrayList<Calendar>) document.get("date"));
+
                         long ore = (Long) document.get("ore");
                         long minuti = (Long) document.get("minuti");
                         long nPostiDisponibili = (Long) document.get("posti_disponibili");
                         String photo_uri = (String) document.get("photo_uri");
+
+                        //DATE
+                        HashMap<Calendar, Long> date = new HashMap<>();
+
 
                         e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
                         result.add(e);
