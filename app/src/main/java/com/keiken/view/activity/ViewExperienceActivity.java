@@ -96,8 +96,8 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){
-            String tempDate = Integer.toString(dateList.get(i).get(Calendar.DAY_OF_MONTH)) + "/" + Integer.toString(dateList.get(i).get(Calendar.MONTH)) + "/" + Integer.toString(dateList.get(i).get(Calendar.YEAR));
-            dateTV.setText(dateTV.getText() + tempDate + "( Posti rimasti: "+dateMap.get(dateList.get(i)).toString() + " ) \n");
+            String tempDate = dateList.get(i).get(Calendar.DAY_OF_MONTH) + "/" + dateList.get(i).get(Calendar.MONTH) + "/" + dateList.get(i).get(Calendar.YEAR);
+            dateTV.setText(dateTV.getText() + tempDate + " (Posti rimasti: "+dateMap.get(dateList.get(i)).toString() + ")\n");
         }
 
 
@@ -119,6 +119,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
                         user_name.setText((String) document.get("name"));
                         String photoUrl = (String) document.get("photoUrl");
+
 
                         if (photoUrl != null)
                             new ImageController.DownloadImageFromInternet(profile_pic).execute(photoUrl);

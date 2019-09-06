@@ -100,13 +100,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_location"
-                    android:layout_marginTop="3dp"/>
+                    android:layout_marginTop="3dp"
+                    android:layout_marginHorizontal="5dp"/>
 
                 <TextView
                     android:id="@+id/luogo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Luogo"
                     android:textSize="17sp"
                     android:textColor="@android:color/black" />
 
@@ -116,20 +116,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="3dp">
+                android:padding="3dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginVertical="-18dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_calendar"/>
+                    android:src="@drawable/ic_calendar"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="5dp"/>
 
                 <TextView
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
                     android:textSize="17sp"
-                    android:textColor="@android:color/black" />
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    android:paddingTop="22sp"/>
 
 
             </LinearLayout>
@@ -144,13 +150,13 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_clock"/>
+                    android:src="@drawable/ic_clock"
+                    android:layout_marginHorizontal="5dp"/>
 
                 <TextView
                     android:id="@+id/orario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ore"
                     android:textSize="17sp"
                     android:textColor="@android:color/black" />
 
