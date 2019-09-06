@@ -171,6 +171,7 @@
 
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/prenota_esperienza"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -264,6 +265,7 @@ Lo stile dominante è il barocco, testimoniato da forme e volumi dinamici e curv
                     android:id="@+id/account">
 
                     <TextView
+                        android:id = "@+id/nome_utente"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nome"
