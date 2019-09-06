@@ -97,7 +97,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){
             String tempDate = dateList.get(i).get(Calendar.DAY_OF_MONTH) + "/" + dateList.get(i).get(Calendar.MONTH) + "/" + dateList.get(i).get(Calendar.YEAR);
-            dateTV.setText(dateTV.getText() + tempDate + " (Posti rimasti: "+dateMap.get(dateList.get(i)).toString() + ")\n");
+            dateTV.setText(dateTV.getText() + tempDate + " (Posti disponibili: "+dateMap.get(dateList.get(i)).toString() + ")\n");
         }
 
 
