@@ -120,6 +120,37 @@ public class ImageController {
         }
     }
 
+
+
+
+    public static class DownloadImageFromInternet2 extends AsyncTask<String, Void, Bitmap> {
+
+        Uri uri;
+
+        public DownloadImageFromInternet2(Uri uri) {
+            this.uri = uri;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String imageURL = uri.toString();
+            Bitmap bimage = null;
+            try {
+                InputStream in = new java.net.URL(imageURL).openStream();
+                bimage = BitmapFactory.decodeStream(in);
+
+            } catch (Exception e) {
+                Log.e("Error Message", e.getMessage());
+                e.printStackTrace();
+            }
+            return bimage;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            uri = createImageFile(result);
+        }
+    }
+
+
     public static void setProfilePic(ImageView photo) {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

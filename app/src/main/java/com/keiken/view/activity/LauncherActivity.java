@@ -53,6 +53,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.keiken.R;
+import com.keiken.controller.ImageController;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -323,7 +324,9 @@ public class LauncherActivity extends AppCompatActivity {
                         userDb.put("id", user.getUid());
                         //carico foto utente sul database
 
-                        //uploadProfileImage(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl());
+                        Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
+                        new ImageController.DownloadImageFromInternet2(uri).execute();
+                        uploadProfileImage(uri);
 
 
                         // Add a new document with a generated ID
@@ -358,8 +361,9 @@ public class LauncherActivity extends AppCompatActivity {
 
     private void uploadProfileImage(final Uri filePath) {
         //resize immagine before upload
-        Bitmap bitmap = getImageResized(getApplicationContext(), filePath);
-        Uri uriCompressed = createImageFile(bitmap);
+        //Bitmap bitmap = getImageResized(getApplicationContext(), filePath);
+        //Uri uriCompressed = createImageFile(bitmap);
+        Uri uriCompressed = filePath;
 
         if (uriCompressed != null) {
             final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()+"/foto_profilo");
@@ -418,9 +422,12 @@ public class LauncherActivity extends AppCompatActivity {
         }
     }
 
+
     /*
      *Resize to avoid using too much memory loading big images (e.g.: 2560*1920)
      */
+
+    /*
     private static Bitmap getImageResized(Context context, Uri selectedImage) {
         Bitmap bm = null;
         int[] sampleSizes = new int[]{5, 3, 2, 1};
@@ -452,6 +459,8 @@ public class LauncherActivity extends AppCompatActivity {
 
         return actuallyUsableBitmap;
     }
+    */
+
 
     @Override
     public void onBackPressed() {
