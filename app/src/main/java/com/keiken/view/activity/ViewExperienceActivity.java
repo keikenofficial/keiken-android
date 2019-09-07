@@ -45,6 +45,9 @@ public class ViewExperienceActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private StorageReference storageReference;
+    private String minuti;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,17 +58,18 @@ public class ViewExperienceActivity extends AppCompatActivity {
         // calendario -> in base alla data selezionata dal calendario ti dice la disponibilità per quella data
 
 
-        String titolo = getIntent().getStringExtra("titolo");
+        final String titolo = getIntent().getStringExtra("titolo");
         String descrizione = getIntent().getStringExtra("descrizione");
-        String luogo = getIntent().getStringExtra("luogo");
+        final String luogo = getIntent().getStringExtra("luogo");
         final String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
-        String prezzo = getIntent().getStringExtra("prezzo");
+        final String prezzo = getIntent().getStringExtra("prezzo");
         ArrayList<String> categorie = getIntent().getStringArrayListExtra("categorie");
-        String ore = getIntent().getStringExtra("ore");
-        String minuti = getIntent().getStringExtra("minuti");
+        final String ore = getIntent().getStringExtra("ore");
+        minuti = getIntent().getStringExtra("minuti");
         String postiMax = getIntent().getStringExtra("nPostiDisponibili");
         String photoUri = getIntent().getStringExtra("photoUri");
-        HashMap<Calendar, Long> dateMap = (HashMap<Calendar, Long>) getIntent().getSerializableExtra("date");
+        final HashMap<Calendar, Long> dateMap = (HashMap<Calendar, Long>) getIntent().getSerializableExtra("date");
+        final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);
@@ -90,7 +94,22 @@ public class ViewExperienceActivity extends AppCompatActivity {
         prenotaEsperienza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ViewExperienceActivity.this, BookExperienceActivity.class));
+                Intent i = new Intent(ViewExperienceActivity.this, BookExperienceActivity.class);
+
+                //passo i parametri per la prenotazione in modo da non dover interrogare il database nuovamente
+                i.putExtra("titolo", titolo);
+                i.putExtra("luogo", luogo);
+                i.putExtra("ore", ore);
+                i.putExtra("minuti", minuti);
+                i.putExtra("date", dateMap); // HAS MAP CON <CALENDAR, LONG> ----> <DATA, N_POSTI_DISPONIBILI>
+                                                        //ALL'ATTO DELLA PRENOTAZIONE VA INTERROGATO IL DATABASE PER
+                                                            //CONTROLLARE IL NUMERO DI POSTI DISPONIBILI
+                i.putExtra("prezzo", prezzo);
+                i.putExtra("ID_CREATORE", ID_CREATORE);
+                i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA);
+
+
+                startActivity(i);
             }
         });
 
@@ -109,6 +128,14 @@ public class ViewExperienceActivity extends AppCompatActivity {
             minuti ="0" + min;
         orarioTV.setText(ore+":"+minuti);
 
+
+        //STAMPA CATEGORIE
+        //
+        //
+        //DA FARE
+        //
+        //
+        ////////////////////////
 
         ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
 

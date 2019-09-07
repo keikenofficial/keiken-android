@@ -373,7 +373,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             final long minuti = (Long) document.get("minuti");
                             final long nPostiDisponibili = (Long) document.get("posti_massimi");
                             final String photoUri = (String) document.get("photoUri");
-
+                            final String ID_ESPERIENZA =(String) document.getId();
                             //GET CALENDARIO
 
                             db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -393,7 +393,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                 Log.d("", "No such document");
                                             }
                                         }
-                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri);
+                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                         if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
                                             esperienze.add(e);
 
@@ -414,6 +414,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                 i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
                                                 i.putExtra("photoUri", esperienza.getPhotoUri());
                                                 i.putExtra("date", esperienza.getDate());
+                                                i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
 
                                                 startActivity(i);
                                             }

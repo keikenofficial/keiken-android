@@ -9,8 +9,9 @@ public class Esperienza {
     private HashMap<Calendar, Long> date;
     private long ore, minuti, nPostiDisponibili;
     private String photoUri;
+    private String ID_ESPERIENZA;
 
-    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, HashMap<Calendar, Long> date, long ore, long minuti, long nPostiDisponibili, String photoUri) {
+    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, HashMap<Calendar, Long> date, long ore, long minuti, long nPostiDisponibili, String photoUri, String ID_ESPERIENZA) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.luogo = luogo;
@@ -22,9 +23,12 @@ public class Esperienza {
         this.minuti = minuti;
         this.nPostiDisponibili = nPostiDisponibili;
         this.photoUri = photoUri;
+        this.ID_ESPERIENZA=ID_ESPERIENZA;
     }
 
     // GETTERS & SETTERS
+    public String getID_ESPERIENZA() { return ID_ESPERIENZA; }
+
     public String getPhotoUri() { return photoUri; }
     public String getID_CREATORE() { return  ID_CREATORE; }
 

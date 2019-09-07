@@ -801,7 +801,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         final String ID_CREATORE = (String) document.get("ID_CREATORE");
                         final String prezzo = (String) document.get("prezzo");
                         final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-
+                        final String ID_ESPERIENZA = (String) document.getId();
                         final Long ore = (Long) document.get("ore");
                         final Long minuti = (Long) document.get("minuti");
                         final Long nPostiDisponibili = (Long) document.get("posti_massimi");
@@ -823,7 +823,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                                 Log.d("", "No such document");
                                             }
                                         }
-                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri);
+                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                         esperienze.add(e);
 
                                         RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
@@ -841,6 +841,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                                 i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
                                                 i.putExtra("photoUri", esperienza.getPhotoUri());
                                                 i.putExtra("date", esperienza.getDate());
+                                                i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
 
                                                 startActivity(i);
                                             }
