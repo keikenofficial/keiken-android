@@ -57,12 +57,31 @@ public class ImageController {
 
     public static Uri createImageFile(Bitmap bmp) {
 
+    File outFile = createVoidImageFile();
+    FileOutputStream outStream = null;
+
+        try {
+        outStream = new FileOutputStream(outFile);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 25, outStream);
+        outStream.flush();
+        outStream.close();
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+        return Uri.fromFile(outFile);
+} //create imageFile from bitmap using createVoidImageFile()
+
+    public static Uri createImageFileEsperienza(Bitmap bmp) {
+
         File outFile = createVoidImageFile();
         FileOutputStream outStream = null;
 
         try {
             outStream = new FileOutputStream(outFile);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 35, outStream); //valore quality agisce sul resize
             outStream.flush();
             outStream.close();
         } catch (FileNotFoundException e) {

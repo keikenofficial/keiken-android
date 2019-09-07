@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -158,6 +159,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
                         user_name.setText((String) document.get("name"));
 
                         String photoUrl = (String) document.get("photoUrl");
+                        final ImageView profile_pic = findViewById(R.id.profile_pic);
 
                         if(photoUrl != null) {
                             storageReference.child(photoUrl)
@@ -165,7 +167,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     // Got the download URL for 'photos/profile.png'
-                                    ImageView profile_pic = findViewById(R.id.profile_pic);
+
                                     new ImageController.DownloadImageFromInternet(profile_pic).execute(uri.toString());
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
