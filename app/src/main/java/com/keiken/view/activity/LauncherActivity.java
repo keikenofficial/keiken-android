@@ -284,7 +284,7 @@ public class LauncherActivity extends AppCompatActivity {
 
 
 
-    private void uploadUserToDb(final String name, final String surname){
+    private void uploadUserToDb(final String name, final String surname){ //facebook and google
 
 
         //checks firestore database in order to see if user already exists, if so, do nothing
@@ -311,6 +311,21 @@ public class LauncherActivity extends AppCompatActivity {
                         //carico foto utente sul database
                         Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
                         new ImageController.SaveImageFromInternetToDB(uri).execute();
+
+
+
+                        if (user != null && uri != null) {
+                            for (UserInfo info : user.getProviderData()) {
+                                if (info.getProviderId().equals("facebook.com")) {
+                                    new ImageController.SaveImageFromInternetToDB(uri).execute(user.getPhotoUrl().toString() + "?type=large");
+                                }
+                                if (info.getProviderId().equals("google.com")) {
+                                    new ImageController.SaveImageFromInternetToDB(uri).execute(user.getPhotoUrl().toString() + "?sz=1080");
+                                }
+                            }
+                        }
+
+
 
                         // Add a new document named with a user ID
                         db.collection("utenti")
