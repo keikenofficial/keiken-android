@@ -161,7 +161,10 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){
-            String tempDate = dateList.get(i).get(Calendar.DAY_OF_MONTH) + "/";
+            String tempDate = "";
+            if (dateList.get(i).get(Calendar.DAY_OF_MONTH) < 10)
+                tempDate += "0";
+             tempDate += dateList.get(i).get(Calendar.DAY_OF_MONTH) + "/";
             if (dateList.get(i).get(Calendar.MONTH) < 10)
                 tempDate += "0";
             tempDate += dateList.get(i).get(Calendar.MONTH) + "/" + dateList.get(i).get(Calendar.YEAR);;
