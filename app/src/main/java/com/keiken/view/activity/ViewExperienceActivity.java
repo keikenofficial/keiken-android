@@ -87,31 +87,24 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
 
 
-        MaterialButton prenotaEsperienza = findViewById(R.id.prenota_esperienza);
-        if(mAuth.getCurrentUser().getUid().equals(ID_CREATORE)){
-            prenotaEsperienza.setVisibility(View.GONE);
+        final ImageView foto = findViewById(R.id.foto);
+        if(photoUri != null) {
+            storageReference.child(photoUri)
+                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'photos/profile.png'
+                    new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any error
+                }
+            });
         }
-        prenotaEsperienza.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(ViewExperienceActivity.this, BookExperienceActivity.class);
-
-                //passo i parametri per la prenotazione in modo da non dover interrogare il database nuovamente
-                i.putExtra("titolo", titolo);
-                i.putExtra("luogo", luogo);
-                i.putExtra("ore", ore);
-                i.putExtra("minuti", minuti);
-                i.putExtra("date", dateMap); // HAS MAP CON <CALENDAR, LONG> ----> <DATA, N_POSTI_DISPONIBILI>
-                                                        //ALL'ATTO DELLA PRENOTAZIONE VA INTERROGATO IL DATABASE PER
-                                                            //CONTROLLARE IL NUMERO DI POSTI DISPONIBILI
-                i.putExtra("prezzo", prezzo);
-                i.putExtra("ID_CREATORE", ID_CREATORE);
-                i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA);
 
 
-                startActivity(i);
-            }
-        });
 
         TextView descrizioneTV = findViewById(R.id.descrizione);
         descrizioneTV.setText(descrizione);
@@ -139,26 +132,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
         ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
 
-        db = FirebaseFirestore.getInstance();
-        storageReference = storage.getReference();
-
-        final ImageView foto = findViewById(R.id.foto);
-        if(photoUri != null) {
-            storageReference.child(photoUri)
-                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // Got the download URL for 'photos/profile.png'
-                    new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any error
-                }
-            });
-        }
-
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){
             String tempDate = "";
@@ -176,45 +149,68 @@ public class ViewExperienceActivity extends AppCompatActivity {
         //NOME E FOTO CREATORE
         CollectionReference utenti = db.collection("utenti");
         Query query = utenti.whereEqualTo("id", ID_CREATORE);
-        Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                        QuerySnapshot result = task.getResult();
-                        List<DocumentSnapshot> documents = result.getDocuments();
-                        DocumentSnapshot document = documents.get(0);
+                    QuerySnapshot result = task.getResult();
+                    List<DocumentSnapshot> documents = result.getDocuments();
+                    DocumentSnapshot document = documents.get(0);
 
-                        TextView user_name = findViewById(R.id.nome_utente);
+                    final ImageView profile_pic = findViewById(R.id.profile_pic);
+                    TextView user_name = findViewById(R.id.nome_utente);
 
-                        user_name.setText((String) document.get("name"));
+                    user_name.setText((String) document.get("name"));
 
-                        String photoUrl = (String) document.get("photoUrl");
-                        final ImageView profile_pic = findViewById(R.id.profile_pic);
+                    String photoUrl = (String) document.get("photoUrl");
 
-                        if(photoUrl != null) {
-                            storageReference.child(photoUrl)
-                                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    // Got the download URL for 'photos/profile.png'
 
-                                    new ImageController.DownloadImageFromInternet(profile_pic).execute(uri.toString());
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-                                    // Handle any error
-                                }
-                            });
-                        }
+                    if(photoUrl != null) {
+                        storageReference.child(photoUrl)
+                                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                // Got the download URL for 'photos/profile.png'
+
+                                new ImageController.DownloadImageFromInternet(profile_pic).execute(uri.toString());
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any error
+                            }
+                        });
+                    }
                 }
-
             }
         });
 
 
+        MaterialButton prenotaEsperienza = findViewById(R.id.prenota_esperienza);
+        if(mAuth.getCurrentUser().getUid().equals(ID_CREATORE)){
+            prenotaEsperienza.setVisibility(View.GONE);
+        }
+
+        prenotaEsperienza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ViewExperienceActivity.this, BookExperienceActivity.class);
+
+                //passo i parametri per la prenotazione in modo da non dover interrogare il database nuovamente
+                i.putExtra("titolo", titolo);
+                i.putExtra("luogo", luogo);
+                i.putExtra("ore", ore);
+                i.putExtra("minuti", minuti);
+                i.putExtra("date", dateMap); // HAS MAP CON <CALENDAR, LONG> ----> <DATA, N_POSTI_DISPONIBILI>
+                //ALL'ATTO DELLA PRENOTAZIONE VA INTERROGATO IL DATABASE PER
+                //CONTROLLARE IL NUMERO DI POSTI DISPONIBILI
+                i.putExtra("prezzo", prezzo);
+                i.putExtra("ID_CREATORE", ID_CREATORE);
+                i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA);
 
 
-
+                startActivity(i);
+            }
+        });
     }
 }
