@@ -323,7 +323,7 @@ public class LauncherActivity extends AppCompatActivity {
                         userDb.put("id", user.getUid());
                         //carico foto utente sul database
 
-                        uploadProfileImage(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl());
+                        //uploadProfileImage(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl());
 
 
                         // Add a new document with a generated ID
