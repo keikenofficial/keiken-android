@@ -67,7 +67,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(titolo);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(Color.parseColor("#00000000"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
