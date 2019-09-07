@@ -7,10 +7,27 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,7 +36,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ImageController {
 
@@ -120,14 +142,11 @@ public class ImageController {
         }
     }
 
-
-
-
-    public static class DownloadImageFromInternet2 extends AsyncTask<String, Void, Bitmap> {
+    public static class SaveImageFromInternetToDB extends AsyncTask<String, Void, Bitmap> {
 
         Uri uri;
 
-        public DownloadImageFromInternet2(Uri uri) {
+        public SaveImageFromInternetToDB(Uri uri) {
             this.uri = uri;
         }
 
@@ -147,6 +166,77 @@ public class ImageController {
 
         protected void onPostExecute(Bitmap result) {
             uri = createImageFile(result);
+            uploadProfileImage(uri);
+
+        }
+    }
+
+    private static void uploadProfileImage(final Uri filePath) {
+        //resize immagine before upload
+        //Bitmap bitmap = getImageResized(getApplicationContext(), filePath);
+        //Uri uriCompressed = createImageFile(bitmap);
+        Uri uriCompressed = filePath;
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+
+        if (uriCompressed != null) {
+            final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()+"/foto_profilo");
+            ref.putFile(uriCompressed)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                            .setPhotoUri(uri).build();
+                                    if (user != null) {
+                                        user.updateProfile(profileUpdates);
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
+
+
+
+
+            //UPDATE PHOTOURL
+            final CollectionReference yourCollRef = db.collection("utenti");
+            Query query = yourCollRef.whereEqualTo("id", mAuth.getCurrentUser().getUid());
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        QuerySnapshot result = task.getResult();
+                        try {
+                            List<DocumentSnapshot> documents = result.getDocuments();
+                            DocumentSnapshot document = documents.get(0);
+
+
+                            Map<Object, String> map = new HashMap<>();
+                            map.put("photoUrl", "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()+"/foto_profilo");
+
+                            yourCollRef.document(document.getId()).set(map, SetOptions.merge());
+
+
+                        } catch (Exception e) {};
+                    }
+                }});
         }
     }
 
