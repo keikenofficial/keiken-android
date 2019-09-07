@@ -146,21 +146,24 @@
 
                             <!--date-->
                             <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_weight="35"
-                                android:orientation="horizontal"
+                                android:orientation="vertical"
                                 android:padding="3dp"
                                 android:gravity="center"
-                                android:layout_gravity="center"
-                                android:layout_marginVertical="-18dp">
+                                android:layout_gravity="center">
 
-                                <ImageView
+
+
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:src="@drawable/ic_calendar"
-                                    android:layout_gravity="center"
-                                    android:layout_marginHorizontal="5dp"/>
+                                    android:textAlignment="center"
+                                    android:text="Date:\n"
+                                    android:textSize="17sp"
+                                    android:textColor="@color/Black"
+                                    android:layout_marginStart="5dp" />
 
                                 <NumberPicker
                                     android:id="@+id/date_selection"
