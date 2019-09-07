@@ -314,10 +314,12 @@ public class LauncherActivity extends AppCompatActivity {
                         if (user != null && uri != null) {
                             for (UserInfo info : user.getProviderData()) {
                                 if (info.getProviderId().equals("facebook.com")) {
-                                    new ImageController.SaveImageFromInternetToDB(uri).execute(user.getPhotoUrl().toString() + "?type=large");
+                                    String uriString = uri + "?type=large";
+                                    new ImageController.SaveImageFromInternetToDB(Uri.parse(uriString)).execute();
                                 }
                                 if (info.getProviderId().equals("google.com")) {
-                                    new ImageController.SaveImageFromInternetToDB(uri).execute(user.getPhotoUrl().toString() + "?sz=1080");
+                                    String uriString = uri + "?sz=1080";
+                                    new ImageController.SaveImageFromInternetToDB(Uri.parse(uriString)).execute();
                                 }
                             }
                         }
