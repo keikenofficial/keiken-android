@@ -45,6 +45,8 @@ public class ViewExperienceActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private StorageReference storageReference;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,26 +96,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
             }
         });
 
-        TextView descrizioneTV = findViewById(R.id.descrizione);
-        descrizioneTV.setText(descrizione);
-
-        TextView luogoTV = findViewById(R.id.luogo);
-        luogoTV.setText(luogo);
-
-        TextView prezzoTV = findViewById(R.id.prezzo);
-        prezzoTV.setText("Prezzo a persona: " + prezzo + "\u20AC");
-
-        TextView orarioTV = findViewById(R.id.orario);
-        int min = Integer.parseInt(minuti);
-        if (min <10)
-            minuti ="0" + min;
-        orarioTV.setText(ore+":"+minuti);
-
-
-        ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
-
-        db = FirebaseFirestore.getInstance();
-        storageReference = storage.getReference();
 
         final ImageView foto = findViewById(R.id.foto);
         if(photoUri != null) {
@@ -132,6 +114,24 @@ public class ViewExperienceActivity extends AppCompatActivity {
             });
         }
 
+        TextView descrizioneTV = findViewById(R.id.descrizione);
+        descrizioneTV.setText(descrizione);
+
+        TextView luogoTV = findViewById(R.id.luogo);
+        luogoTV.setText(luogo);
+
+        TextView prezzoTV = findViewById(R.id.prezzo);
+        prezzoTV.setText("Prezzo a persona: " + prezzo + "\u20AC");
+
+        TextView orarioTV = findViewById(R.id.orario);
+        int min = Integer.parseInt(minuti);
+        if (min <10)
+            minuti ="0" + min;
+        orarioTV.setText(ore+":"+minuti);
+
+
+        ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
+
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){
             String tempDate = dateList.get(i).get(Calendar.DAY_OF_MONTH) + "/";
@@ -146,7 +146,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
         //NOME E FOTO CREATORE
         CollectionReference utenti = db.collection("utenti");
         Query query = utenti.whereEqualTo("id", ID_CREATORE);
-        Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -187,4 +187,5 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
 
     }
+
 }
