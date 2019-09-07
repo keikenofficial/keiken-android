@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
@@ -71,12 +74,13 @@ public class ViewExperienceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        mAuth=FirebaseAuth.getInstance();
 
         db = FirebaseFirestore.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        mAuth=FirebaseAuth.getInstance();
+
 
         MaterialButton prenotaEsperienza = findViewById(R.id.prenota_esperienza);
         if(mAuth.getCurrentUser().getUid().equals(ID_CREATORE)){
@@ -107,10 +111,22 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
         ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
 
-        ImageView foto = findViewById(R.id.foto);
-        if(photoUri != null)
-            new ImageController.DownloadImageFromInternet(foto).execute(photoUri);
-
+        final ImageView foto = findViewById(R.id.foto);
+        if(photoUri != null) {
+            storageReference.child(photoUri)
+                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'photos/profile.png'
+                    new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any error
+                }
+            });
+        }
 
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){
