@@ -111,6 +111,9 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
         ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
 
+        db = FirebaseFirestore.getInstance();
+        storageReference = storage.getReference();
+
         final ImageView foto = findViewById(R.id.foto);
         if(photoUri != null) {
             storageReference.child(photoUri)
