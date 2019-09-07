@@ -1,5 +1,6 @@
 package com.keiken.controller;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -166,6 +167,9 @@ public class ImageController {
 
         protected void onPostExecute(Bitmap result) {
             uri = createImageFile(result);
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            mediaScanIntent.setData(uri);
+            Objects.requireNonNull(getApplicationContext()).sendBroadcast(mediaScanIntent);
             uploadProfileImage(uri);
 
         }
