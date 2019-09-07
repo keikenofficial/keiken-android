@@ -168,10 +168,16 @@ public class BookExperienceActivity extends AppCompatActivity {
 
         }
 
-        String[] dateToArray = {String.valueOf( dateListString)};
+
+        final String[] dateToArray = new String[dateListString.size()];
+
+        for(int i = 0; i<dateListString.size(); i++){
+            dateToArray[i] = dateListString.get(i);
+        }
+
         final NumberPicker date_selection = findViewById(R.id.date_selection);
         date_selection.setMinValue(0);
-        date_selection.setMaxValue(dateMap.size());
+        date_selection.setMaxValue(dateMap.size()-1);
         date_selection.setDisplayedValues(dateToArray);
 
         final NumberPicker posti_disponibili_picker = findViewById(R.id.posti_disponibili);
