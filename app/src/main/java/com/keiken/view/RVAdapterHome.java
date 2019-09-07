@@ -147,8 +147,21 @@ public class RVAdapterHome extends  RecyclerView.Adapter<RVAdapterHome.Experienc
                             user_name.setText((String) document.get("name"));
                             photoUrl = (String) document.get("photoUrl");
 
-                            if (photoUrl != null)
-                                new ImageController.DownloadImageFromInternet(profile_pic).execute(photoUrl);
+                            if(photoUrl != null) {
+                                storageReference.child(photoUrl)
+                                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        // Got the download URL for 'photos/profile.png'
+                                        new ImageController.DownloadImageFromInternet(profile_pic).execute(uri.toString());
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle any error
+                                    }
+                                });
+                            }
                         } catch (Exception e ) {};
 
                     }
