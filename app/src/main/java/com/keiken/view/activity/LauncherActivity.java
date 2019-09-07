@@ -326,34 +326,32 @@ public class LauncherActivity extends AppCompatActivity {
 
 
                         // Add a new document named with a user ID
-                        db.collection("utenti")
-                                .add(userDb)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        db.collection("utenti").document(user.getUid())
+                                .set(userDb)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("", "DocumentSnapshot successfully written!");
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Log.w("", "Error adding document", e);
+                                        Log.w("", "Error writing document", e);
                                     }
                                 });
+
                     }
                 }
             }
         });
-
-
-
     }
 
 
 
 
 
-    /*
+/*
      *Resize to avoid using too much memory loading big images (e.g.: 2560*1920)
      */
 
