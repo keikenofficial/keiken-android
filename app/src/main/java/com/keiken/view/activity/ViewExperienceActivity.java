@@ -142,8 +142,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
         }
 
 
-        final TextView user_name = findViewById(R.id.user_name);
-        final ImageView profile_pic = findViewById(R.id.profile_pic);
         //NOME E FOTO CREATORE
         CollectionReference utenti = db.collection("utenti");
         Query query = utenti.whereEqualTo("id", ID_CREATORE);
@@ -155,7 +153,8 @@ public class ViewExperienceActivity extends AppCompatActivity {
                         List<DocumentSnapshot> documents = result.getDocuments();
                         DocumentSnapshot document = documents.get(0);
 
-
+                        TextView user_name = findViewById(R.id.user_name);
+                        
                         user_name.setText((String) document.get("name"));
                         String photoUrl = (String) document.get("photoUrl");
 
@@ -165,6 +164,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     // Got the download URL for 'photos/profile.png'
+                                    ImageView profile_pic = findViewById(R.id.profile_pic);
                                     new ImageController.DownloadImageFromInternet(profile_pic).execute(uri.toString());
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
