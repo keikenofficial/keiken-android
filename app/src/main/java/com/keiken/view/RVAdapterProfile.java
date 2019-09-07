@@ -98,25 +98,27 @@ public class RVAdapterProfile extends  RecyclerView.Adapter<RVAdapterProfile.Exp
             ////////////
 
             //DOWNLOAD IMMAGINE ESPERIENZA
-            mAuth = FirebaseAuth.getInstance();
+            try {
+                mAuth = FirebaseAuth.getInstance();
 
-            db = FirebaseFirestore.getInstance();
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            storageReference = storage.getReference();
+                db = FirebaseFirestore.getInstance();
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                storageReference = storage.getReference();
 
-            storageReference.child(e.getPhotoUri())
-                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // Got the download URL for 'photos/profile.png'
-                    new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    // Handle any error
-                }
-            });
+                storageReference.child(e.getPhotoUri())
+                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        // Got the download URL for 'photos/profile.png'
+                        new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+                        // Handle any error
+                    }
+                });
+            } catch (Exception ex) {};
 
 
 

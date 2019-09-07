@@ -805,7 +805,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                         final Long ore = (Long) document.get("ore");
                         final Long minuti = (Long) document.get("minuti");
                         final Long nPostiDisponibili = (Long) document.get("posti_massimi");
-                        final String photo_uri = (String) document.get("photo_uri");
+                        final String photoUri = (String) document.get("photoUri");
                             db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -823,7 +823,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                                 Log.d("", "No such document");
                                             }
                                         }
-                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
+                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri);
                                         esperienze.add(e);
 
                                         RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
