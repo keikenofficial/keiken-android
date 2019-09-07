@@ -306,7 +306,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
                     esperienzeDb.put("minuti", minuti);
                     esperienzeDb.put("posti_massimi", nPostiDisponibili);
 
-                    esperienzeDb.put("photo_uri", uri);
+                    esperienzeDb.put("photoUri", uri);
                     try{
                         db.collection("esperienze")
                                 .add(esperienzeDb)

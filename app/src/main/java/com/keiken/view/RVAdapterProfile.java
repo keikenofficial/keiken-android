@@ -99,7 +99,6 @@ public class RVAdapterProfile extends  RecyclerView.Adapter<RVAdapterProfile.Exp
 
             //DOWNLOAD IMMAGINE ESPERIENZA
             mAuth = FirebaseAuth.getInstance();
-            final FirebaseUser user = mAuth.getCurrentUser();
 
             db = FirebaseFirestore.getInstance();
             FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -118,7 +117,6 @@ public class RVAdapterProfile extends  RecyclerView.Adapter<RVAdapterProfile.Exp
                     // Handle any error
                 }
             });
-
 
 
 
