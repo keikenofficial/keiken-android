@@ -207,9 +207,42 @@ public class BookExperienceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //START ON CLICK
 
+   /////// DA CONTROLLARE STO LAVORANDO QUI MA HO DOVUTO COMMITARE E FARE UNA PAUSA //////////////////
+
+                /*
+
+                // Create a new user with a first and last name
+                Map<String, Object> userDb = new HashMap<>();
+                userDb.put("ID_CREATORE_ESPERIENZA", ID_CREATORE);
+                userDb.put("ID_PRENOTANTE", mAuth.getCurrentUser().getUid());
+                userDb.put("ID_ESPERIENZA", ID_ESPERIENZA);
+                //data
+                //posti
+                //ore
+                //minuti
+                //prezzo
+                userDb.put("id", user.getUid());
 
 
 
+
+                // Add a new document with a generated ID
+                db.collection("utenti")
+                        .add(userDb)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("", "Error adding document", e);
+                            }
+                        });
+*/
+                ////////////////////////////////////////////////////////////////////////////
 
 
                 //END ON CLICK
