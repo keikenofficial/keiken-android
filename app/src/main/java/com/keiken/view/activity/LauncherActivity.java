@@ -310,9 +310,6 @@ public class LauncherActivity extends AppCompatActivity {
 
                         //carico foto utente sul database
                         Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
-                        new ImageController.SaveImageFromInternetToDB(uri).execute();
-
-
 
                         if (user != null && uri != null) {
                             for (UserInfo info : user.getProviderData()) {
