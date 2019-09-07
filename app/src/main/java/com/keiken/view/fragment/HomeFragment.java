@@ -372,7 +372,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             final long ore = (Long) document.get("ore");
                             final long minuti = (Long) document.get("minuti");
                             final long nPostiDisponibili = (Long) document.get("posti_massimi");
-                            final String photo_uri = (String) document.get("photo_uri");
+                            final String photoUri = (String) document.get("photoUri");
 
                             //GET CALENDARIO
 
@@ -393,7 +393,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                 Log.d("", "No such document");
                                             }
                                         }
-                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photo_uri);
+                                        e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri);
                                         if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
                                             esperienze.add(e);
 
