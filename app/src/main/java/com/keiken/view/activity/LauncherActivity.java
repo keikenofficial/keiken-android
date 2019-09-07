@@ -297,7 +297,6 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
 
-
     private void uploadUserToDb(final String name, final String surname){
 
 
