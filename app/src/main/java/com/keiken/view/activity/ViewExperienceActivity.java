@@ -153,12 +153,10 @@ public class ViewExperienceActivity extends AppCompatActivity {
                         List<DocumentSnapshot> documents = result.getDocuments();
                         DocumentSnapshot document = documents.get(0);
 
-                        //TEST
-                    Toast.makeText(getApplicationContext(), "Ecco L'ID: "+ ID_CREATORE + "  ed ecco il nome: " + document.get("name"), Toast.LENGTH_LONG).show();
-
-                        TextView user_name = findViewById(R.id.user_name);
+                        TextView user_name = findViewById(R.id.nome_utente);
 
                         user_name.setText((String) document.get("name"));
+
                         String photoUrl = (String) document.get("photoUrl");
 
                         if(photoUrl != null) {
