@@ -2,14 +2,16 @@ package com.keiken.view.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -64,16 +66,29 @@ public class ViewExperienceActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(Color.parseColor("#00000000"));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
         db = FirebaseFirestore.getInstance();
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
         mAuth=FirebaseAuth.getInstance();
 
+        MaterialButton prenotaEsperienza = findViewById(R.id.prenota_esperienza);
         if(mAuth.getCurrentUser().getUid().equals(ID_CREATORE)){
-            MaterialButton prenota_esperienza = findViewById(R.id.prenota_esperienza);
-            prenota_esperienza.setVisibility(View.GONE);
+            prenotaEsperienza.setVisibility(View.GONE);
         }
+        prenotaEsperienza.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ViewExperienceActivity.this, BookExperienceActivity.class));
+            }
+        });
 
         TextView descrizioneTV = findViewById(R.id.descrizione);
         descrizioneTV.setText(descrizione);
@@ -137,6 +152,9 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
             }
         });
+
+
+
 
 
     }
