@@ -325,7 +325,6 @@ public class LauncherActivity extends AppCompatActivity {
                         }
 
 
-
                         // Add a new document named with a user ID
                         db.collection("utenti")
                                 .add(userDb)
@@ -341,13 +340,8 @@ public class LauncherActivity extends AppCompatActivity {
                                         Log.w("", "Error adding document", e);
                                     }
                                 });
-
-
-
-
                     }
                 }
-
             }
         });
 
