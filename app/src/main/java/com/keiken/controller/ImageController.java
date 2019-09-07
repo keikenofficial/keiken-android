@@ -267,7 +267,8 @@ public class ImageController {
     public static void setProfilePic(ImageView photo) {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        new DownloadImageFromInternet(photo).execute(user.getPhotoUrl().toString());
+        if(user.getPhotoUrl() != null)
+            new DownloadImageFromInternet(photo).execute(user.getPhotoUrl().toString());
     }
 
     public static void setProfilePic(ImageView photo, int size) {
