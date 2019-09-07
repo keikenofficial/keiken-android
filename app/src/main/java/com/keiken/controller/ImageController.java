@@ -116,6 +116,25 @@ public class ImageController {
         return Uri.fromFile(outFile);
     } //create imageFile from bitmap using createVoidImageFile()
 
+    public static Uri createImageFileNoCompression(Bitmap bmp) {
+
+        File outFile = createVoidImageFile();
+        FileOutputStream outStream = null;
+
+        try {
+            outStream = new FileOutputStream(outFile);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Uri.fromFile(outFile);
+    } //create imageFile from bitmap using createVoidImageFile()
+
     public static class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
 
         ImageView imageView;
@@ -166,7 +185,7 @@ public class ImageController {
         }
 
         protected void onPostExecute(Bitmap result) {
-            uri = createImageFile(result);
+            uri = createImageFileNoCompression(result);
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             mediaScanIntent.setData(uri);
             Objects.requireNonNull(getApplicationContext()).sendBroadcast(mediaScanIntent);
