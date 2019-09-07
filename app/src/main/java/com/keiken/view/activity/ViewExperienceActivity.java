@@ -57,7 +57,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
         String titolo = getIntent().getStringExtra("titolo");
         String descrizione = getIntent().getStringExtra("descrizione");
         String luogo = getIntent().getStringExtra("luogo");
-        String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
+        final String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
         String prezzo = getIntent().getStringExtra("prezzo");
         ArrayList<String> categorie = getIntent().getStringArrayListExtra("categorie");
         String ore = getIntent().getStringExtra("ore");
@@ -153,8 +153,11 @@ public class ViewExperienceActivity extends AppCompatActivity {
                         List<DocumentSnapshot> documents = result.getDocuments();
                         DocumentSnapshot document = documents.get(0);
 
+                        //TEST
+                    Toast.makeText(getApplicationContext(), "Ecco L'ID: "+ ID_CREATORE + "  ed ecco il nome: " + document.get("name"), Toast.LENGTH_LONG).show();
+
                         TextView user_name = findViewById(R.id.user_name);
-                        
+
                         user_name.setText((String) document.get("name"));
                         String photoUrl = (String) document.get("photoUrl");
 
