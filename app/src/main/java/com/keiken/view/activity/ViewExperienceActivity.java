@@ -151,8 +151,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-
-                    try {
                         QuerySnapshot result = task.getResult();
                         List<DocumentSnapshot> documents = result.getDocuments();
                         DocumentSnapshot document = documents.get(0);
@@ -161,11 +159,21 @@ public class ViewExperienceActivity extends AppCompatActivity {
                         user_name.setText((String) document.get("name"));
                         String photoUrl = (String) document.get("photoUrl");
 
-
-                        if (photoUrl != null)
-                            new ImageController.DownloadImageFromInternet(profile_pic).execute(photoUrl);
-                    } catch (Exception e ) {};
-
+                        if(photoUrl != null) {
+                            storageReference.child(photoUrl)
+                                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Got the download URL for 'photos/profile.png'
+                                    new ImageController.DownloadImageFromInternet(profile_pic).execute(uri.toString());
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any error
+                                }
+                            });
+                        }
                 }
 
             }
