@@ -10,7 +10,9 @@ public class Prenotazione {
     private int ore;
     private int minuti;
     private float prezzo;
-    private boolean isAccepted;
+    private boolean isAccepted; // true = confermata
+                                    //false = pending
+                                        //se rifiutata, viene eliminata la prenotazione.
 
     public Prenotazione(String ID_PRENOTAZIONE, String ID_CREATORE_ESPERIENZA, String ID_PRENOTANTE, String ID_ESPERIENZA, Calendar dataPrenotata, int nPostiPrenotati, int ore, int minuti, float prezzo, boolean isAccepted) {
         this.ID_PRENOTAZIONE = ID_PRENOTAZIONE;
