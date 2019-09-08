@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,6 +50,8 @@ public class ViewBookingActivity extends AppCompatActivity {
         final String foto_utente = getIntent().getStringExtra("photo_url_creatore_esperienza");
         String isAcceptedString = getIntent().getStringExtra("isAccepted");
         boolean isAccpepted = isAcceptedString.matches("true");
+
+        LinearLayout profilo = findViewById(R.id.account);
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);
@@ -110,10 +113,10 @@ public class ViewBookingActivity extends AppCompatActivity {
             });
         }
 
-        foto_utenteIV.setOnClickListener(new View.OnClickListener() {
+        profilo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ViewBookingActivity.this, ViewProfiloActivity.class);
+                Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
 
                 //passo i parametri per la visualizzazione del profilo
                 i.putExtra("ID_PROFILO", ID_CREATORE);
