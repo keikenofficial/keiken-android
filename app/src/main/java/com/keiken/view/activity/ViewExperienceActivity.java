@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -21,7 +18,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,12 +25,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.type.ColorProto;
 import com.keiken.R;
 import com.keiken.controller.ImageController;
-import com.keiken.model.Esperienza;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -158,11 +150,27 @@ public class ViewExperienceActivity extends AppCompatActivity {
                     DocumentSnapshot document = documents.get(0);
 
                     final ImageView profile_pic = findViewById(R.id.profile_pic);
+                    final String photoUrl = (String) document.get("photoUrl");
+                    final String nome_utente = (String) document.get("name");
+                    profile_pic.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent i = new Intent(ViewExperienceActivity.this, ViewProfiloActivity.class);
+
+                            //passo i parametri per la visualizzazione del profilo
+                            i.putExtra("ID_PROFILO", ID_CREATORE);
+                            i.putExtra("profile_pic", photoUrl);
+                            i.putExtra("name", nome_utente);
+
+                            startActivity(i);
+                        }
+                    });
+
                     TextView user_name = findViewById(R.id.nome_utente);
 
                     user_name.setText((String) document.get("name"));
 
-                    String photoUrl = (String) document.get("photoUrl");
+
 
 
                     if(photoUrl != null) {

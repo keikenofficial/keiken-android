@@ -1,7 +1,9 @@
 package com.keiken.view.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,10 +20,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.keiken.R;
 import com.keiken.controller.ImageController;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 public class ViewBookingActivity extends AppCompatActivity {
 
@@ -46,8 +44,8 @@ public class ViewBookingActivity extends AppCompatActivity {
         String photoUri = getIntent().getStringExtra("photoUri");
         String data_prenotazione = getIntent().getStringExtra("data_prenotazione");
         final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
-        String nome_utente = getIntent().getStringExtra("nome_utente");
-        String foto_utente = getIntent().getStringExtra("photo_url_creatore_esperienza");
+        final String nome_utente = getIntent().getStringExtra("nome_utente");
+        final String foto_utente = getIntent().getStringExtra("photo_url_creatore_esperienza");
         String isAcceptedString = getIntent().getStringExtra("isAccepted");
         boolean isAccpepted = isAcceptedString.matches("true");
 
@@ -110,6 +108,20 @@ public class ViewBookingActivity extends AppCompatActivity {
                 }
             });
         }
+
+        foto_utenteIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ViewBookingActivity.this, ViewProfiloActivity.class);
+
+                //passo i parametri per la visualizzazione del profilo
+                i.putExtra("ID_PROFILO", ID_CREATORE);
+                i.putExtra("profile_pic", foto_utente);
+                i.putExtra("name", nome_utente);
+
+                startActivity(i);
+            }
+        });
 
         TextView descrizioneTV = findViewById(R.id.descrizione);
         descrizioneTV.setText(descrizione);
