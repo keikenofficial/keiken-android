@@ -8,10 +8,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,7 +28,10 @@ import com.keiken.model.Esperienza;
 import java.util.Calendar;
 import java.util.List;
 
-public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperience.ExperienceViewHolder> {
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class RVAdapterExperienceRicevuta extends RecyclerView.Adapter<RVAdapterExperienceRicevuta.ExperienceViewHolder> {
 
 
     public interface OnItemClickListener {
@@ -40,26 +39,26 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
     }
 
     private List<Esperienza> esperienze;
-    private final RVAdapterExperience.OnItemClickListener listener;
+    private final RVAdapterExperienceRicevuta.OnItemClickListener listener;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private StorageReference storageReference;
 
-    public RVAdapterExperience(List<Esperienza> esperienze, RVAdapterExperience.OnItemClickListener listener) {
+    public RVAdapterExperienceRicevuta(List<Esperienza> esperienze, RVAdapterExperienceRicevuta.OnItemClickListener listener) {
         this.esperienze = esperienze;
         this.listener = listener;
     }
 
     @Override
-    public RVAdapterExperience.ExperienceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_booking, parent, false);
-        RVAdapterExperience.ExperienceViewHolder vh = new RVAdapterExperience.ExperienceViewHolder(v);
+    public RVAdapterExperienceRicevuta.ExperienceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_booking_ricevuta, parent, false);
+        RVAdapterExperienceRicevuta.ExperienceViewHolder vh = new RVAdapterExperienceRicevuta.ExperienceViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(RVAdapterExperience.ExperienceViewHolder holder, int i) {
+    public void onBindViewHolder(RVAdapterExperienceRicevuta.ExperienceViewHolder holder, int i) {
         holder.bind(esperienze.get(i), listener);
     }
 
@@ -94,7 +93,7 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
             data = itemView.findViewById(R.id.data);
         }
 
-        public void bind(final Esperienza e, final RVAdapterExperience.OnItemClickListener listener) {
+        public void bind(final Esperienza e, final RVAdapterExperienceRicevuta.OnItemClickListener listener) {
 
             titolo.setText(e.getTitolo());
             luogo.setText(e.getLuogo());
