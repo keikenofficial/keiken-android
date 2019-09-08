@@ -71,28 +71,46 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!--And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)-->
-            <LinearLayout
+            <!--<LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/swiperefresh"
                 android:layout_width="match_parent"
                 android:layout_height="900dp"
                 android:background="#ffffff">
 
-
                 <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scrollbars="none"
                     android:padding="15dp">
-
-
-
-
-
                 </ScrollView>
+            -->
 
 
 
+
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/swiperefresh"
+                android:layout_width="match_parent"
+                android:background="#ffffff"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dddddd"
+                    android:layout_marginHorizontal="15dp"/>
+
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/esperienze_in_corso"
+                            android:nestedScrollingEnabled="false"/>
 
                 <!--The content's body goes here-->
 

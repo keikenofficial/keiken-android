@@ -11,6 +11,9 @@ public class Esperienza {
     private String photoUri;
     private String ID_ESPERIENZA;
 
+    private Calendar data_prenotazione;
+
+    //COSTRUTTORE ESPERIENZA CON PIù DATE
     public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, HashMap<Calendar, Long> date, long ore, long minuti, long nPostiDisponibili, String photoUri, String ID_ESPERIENZA) {
         this.titolo = titolo;
         this.descrizione = descrizione;
@@ -19,6 +22,22 @@ public class Esperienza {
         this.prezzo = prezzo;
         this.categorie = new ArrayList<String>(categorie);
         this.date = date;
+        this.ore = ore;
+        this.minuti = minuti;
+        this.nPostiDisponibili = nPostiDisponibili;
+        this.photoUri = photoUri;
+        this.ID_ESPERIENZA=ID_ESPERIENZA;
+    }
+
+    //COSTRUTTORE PER ESPERIENZA CON UNA SINGOLA DATA
+    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, Calendar data_prenotazione, long ore, long minuti, long nPostiDisponibili, String photoUri, String ID_ESPERIENZA) {
+        this.titolo = titolo;
+        this.descrizione = descrizione;
+        this.luogo = luogo;
+        this.ID_CREATORE = ID_CREATORE;
+        this.prezzo = prezzo;
+        this.categorie = new ArrayList<String>(categorie);
+        this.data_prenotazione = data_prenotazione;
         this.ore = ore;
         this.minuti = minuti;
         this.nPostiDisponibili = nPostiDisponibili;
@@ -66,6 +85,10 @@ public class Esperienza {
 
     public long getnPostiDisponibili() {
         return nPostiDisponibili;
+    }
+
+    public Calendar getData_prenotazione() {
+        return data_prenotazione;
     }
 }
 

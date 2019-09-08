@@ -167,7 +167,7 @@ public class BookExperienceActivity extends AppCompatActivity {
             dateListString.add(tempDate);
 
         }
-
+        //final ArrayList<String> dateListStringToDB = new ArrayList<String>(dateListString);
 
         final String[] dateToArray = new String[dateListString.size()];
 

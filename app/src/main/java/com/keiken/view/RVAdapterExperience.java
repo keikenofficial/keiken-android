@@ -1,0 +1,88 @@
+package com.keiken.view;
+
+import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.keiken.R;
+import com.keiken.controller.ImageController;
+import com.keiken.model.Esperienza;
+
+import java.util.List;
+
+public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperience.ExperienceViewHolder> {
+
+
+    public interface OnItemClickListener {
+        void onItemClick(Esperienza esperienza);
+    }
+
+    private List<Esperienza> esperienze;
+    private final RVAdapterExperience.OnItemClickListener listener;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private StorageReference storageReference;
+
+    public RVAdapterExperience(List<Esperienza> esperienze, RVAdapterExperience.OnItemClickListener listener) {
+        this.esperienze = esperienze;
+        this.listener = listener;
+    }
+
+    @Override
+    public RVAdapterExperience.ExperienceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_experience, parent, false);
+        RVAdapterExperience.ExperienceViewHolder vh = new RVAdapterExperience.ExperienceViewHolder(v);
+        return vh;
+    }
+
+    @Override
+    public void onBindViewHolder(RVAdapterExperience.ExperienceViewHolder holder, int i) {
+        holder.bind(esperienze.get(i), listener);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return esperienze.size();
+    }
+
+    public class ExperienceViewHolder extends RecyclerView.ViewHolder {
+        CardView cv;
+
+
+        public ExperienceViewHolder(final View itemView) {
+            super(itemView);
+            cv = itemView.findViewById(R.id.cv);
+
+        }
+
+        public void bind(final Esperienza e, final RVAdapterExperience.OnItemClickListener listener) {
+
+
+
+        }
+
+    }
+}
