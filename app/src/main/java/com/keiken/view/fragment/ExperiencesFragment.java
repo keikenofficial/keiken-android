@@ -172,8 +172,8 @@ public class ExperiencesFragment extends Fragment {
 
                             final long posti_prenotati = ((Long)document.get("posti_prenotati"));
 
-                            final long ore = ((Long) document.get("ore"));
-                            final long minuti = ((Long) document.get("minuti")) ;
+                            final String ore = (String) document.get("ore");
+                            final String minuti = (String) document.get("minuti");
 
                             final String prezzo = (String) document.get("prezzo");
 
@@ -201,8 +201,8 @@ public class ExperiencesFragment extends Fragment {
                             int sDay = data_prenotazione.get(Calendar.DAY_OF_MONTH);
                             if( (sYear < currentYear) || (sYear == currentYear && sMonth < currentMonth)
                                     || (sYear == currentYear && sMonth == currentMonth && sDay < currentDay)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && ore < currentHour)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && ore == currentHour && minuti < currentMinute)){
+                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) < currentHour)
+                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) == currentHour && Integer.parseInt(minuti) < currentMinute)){
 
                                 //Raccolgo nome utente e foto profilo
                                 final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
@@ -233,7 +233,7 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String ID_CREATORE = (String) document.get("ID_CREATORE");
                                                                     final String prezzo = (String) document.get("prezzo");
                                                                     final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-                                                                    final long ore = (Long) document.get("ore");
+                                                                    final Long ore = (Long) document.get("ore");
                                                                     final long minuti = (Long) document.get("minuti");
                                                                     final long nPostiDisponibili = (Long) document.get("posti_massimi");
                                                                     final String photoUri = (String) document.get("photoUri");
