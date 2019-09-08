@@ -10,8 +10,9 @@ public class Prenotazione {
     private int ore;
     private int minuti;
     private float prezzo;
+    private boolean isAccepted;
 
-    public Prenotazione(String ID_PRENOTAZIONE, String ID_CREATORE_ESPERIENZA, String ID_PRENOTANTE, String ID_ESPERIENZA, Calendar dataPrenotata, int nPostiPrenotati, int ore, int minuti, float prezzo) {
+    public Prenotazione(String ID_PRENOTAZIONE, String ID_CREATORE_ESPERIENZA, String ID_PRENOTANTE, String ID_ESPERIENZA, Calendar dataPrenotata, int nPostiPrenotati, int ore, int minuti, float prezzo, boolean isAccepted) {
         this.ID_PRENOTAZIONE = ID_PRENOTAZIONE;
         this.ID_CREATORE_ESPERIENZA = ID_CREATORE_ESPERIENZA;
         this.ID_PRENOTANTE = ID_PRENOTANTE;
@@ -21,8 +22,10 @@ public class Prenotazione {
         this.ore = ore;
         this.minuti = minuti;
         this.prezzo = prezzo;
+        this.isAccepted = isAccepted;
     }
 
+    public boolean getIsAccepted() { return  isAccepted; }
 
     public String getID_PRENOTAZIONE() {
         return ID_PRENOTAZIONE;
