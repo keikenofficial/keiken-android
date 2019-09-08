@@ -389,7 +389,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("nome_utente", nome_utente);
                                                                             i.putExtra("photo_url_creatore_esperienza", photo_url_creatore_esperienza);
                                                                                 //PARAMETRI PRENOTAZIONE
-                                                                            i.putExtra("posti_prenotati", posti_prenotati);
+                                                                            i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
                                                                             i.putExtra("prezzo", prezzo);
                                                                             i.putExtra("isAccepted", String.valueOf(isAccepted));
                                                                                     //la data viene caricata come stringa, serve solo per essere mostrata all'utente
