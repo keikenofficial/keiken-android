@@ -482,8 +482,9 @@ public class ExperiencesFragment extends Fragment {
 
                             //recupero ID_ESPERIENZA ed ID_CREATORE_ESPERIENZA per ogni prenotazione
                             //da cui poi ricavare l'esperienza e la foto profilo/nome profilo da stampare
+                            final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_ESPERIENZA");
                             final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
-                            final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
+                            final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
 
                             final long posti_prenotati = ((Long)document.get("posti_prenotati"));
 
@@ -522,7 +523,7 @@ public class ExperiencesFragment extends Fragment {
                                 //Raccolgo nome utente e foto profilo
                                 final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
                                 //TO-DO : SALVARE E PASSARE L'ID DOCUMENTO DEL CREATORE DELL'ESPERIENZA PER ALLEGGERIRE LA QUERY
-                                Query query2 = utenti.whereEqualTo("id", ID_CREATORE_ESPERIENZA);
+                                Query query2 = utenti.whereEqualTo("id", ID_PRENOTANTE);
                                 Task<QuerySnapshot> querySnapshotTask = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -545,7 +546,6 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String titolo = (String) document.get("titolo");
                                                                     final String descrizione = (String) document.get("descrizione");
                                                                     final String luogo = (String) document.get("luogo");
-                                                                    final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
                                                                     final String ID_CREATORE = (String) document.get("ID_CREATORE");
                                                                     final String prezzo = (String) document.get("prezzo");
                                                                     final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
