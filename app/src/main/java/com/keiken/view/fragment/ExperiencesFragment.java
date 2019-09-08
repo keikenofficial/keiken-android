@@ -3,6 +3,7 @@ package com.keiken.view.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,6 +43,7 @@ import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
@@ -74,12 +77,16 @@ public class ExperiencesFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private LinearLayout  backgroundFrame;
-    private BackdropFrontLayerBehavior sheetBehavior;
+    private BackdropFrontLayerBehavior sheetBehavior, sheetBehaviorReviews;
     private RecyclerView rv;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private StorageReference storageReference;
+
+    private ImageView downArrow, upArrow;
+    private LinearLayoutCompat header, headerEdit;
+
 
     // activity listener interface
     private OnPageListener pageListener;
@@ -133,15 +140,91 @@ public class ExperiencesFragment extends Fragment {
 
         LinearLayout contentLayout = c.findViewById(R.id.backdrop);
 
+        downArrow = c.findViewById(R.id.down_arrow);
+        upArrow = c.findViewById(R.id.up_arrow);
+        header = c.findViewById(R.id.header);
 
 
+
+///////////////////////////////////////////////// PRENOTAZIONI RICEVUTE//////////
         sheetBehavior = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayout);
         sheetBehavior.setFitToContents(false);
         sheetBehavior.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
 
+        final BackdropFrontLayer contentLayoutReviews = c.findViewById(R.id.backdrop_reviews);
+        sheetBehaviorReviews = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayoutReviews);
+        sheetBehaviorReviews.setFitToContents(false);
+        //sheetBehaviorReviews.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
+        sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);//initially state to fully expanded
+        contentLayoutReviews.setBehavior(sheetBehaviorReviews);
 
         final DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
+        ViewTreeObserver viewTreeObserver = backgroundFrame.getViewTreeObserver();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        backgroundFrame = c.findViewById(R.id.background_frame_x);
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    backgroundFrame.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int viewHeight = backgroundFrame.getBottom();
+
+                    int toolbarPx = (int)( 80 * (displayMetrics.densityDpi / 160f));
+                    int bottomBarPx = (int)( 56 * (displayMetrics.densityDpi / 160f));
+
+                    int peekHeight = displayMetrics.heightPixels-viewHeight-toolbarPx-bottomBarPx;
+
+
+                    sheetBehavior.setPeekHeight(peekHeight);
+                    //int bottomPx = (int)( 70 * (displayMetrics.densityDpi / 160f));
+                    //sheetBehaviorReviews.setPeekHeight(bottomPx);
+
+                    int marginPx = (int)( 20 * (displayMetrics.densityDpi / 160f));
+                    sheetBehaviorReviews.setPeekHeight(30);
+
+                }
+            });
+        }
+
+        downArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (sheetBehaviorReviews.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+                    //  recursiveLoopChildren(false, contentLayout);
+
+                    upArrow.setImageDrawable((getResources().getDrawable(R.drawable.white_to_black_up_arrow)));
+                    AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
+                    ic2.start();
+
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+
+                else {
+
+                    upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+                    AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
+                    ic2.start();
+
+
+                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+
+            }
+        });
+
+////////////////////////////////////////
+
+
+        /*final DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
 
         backgroundFrame = c.findViewById(R.id.background_frame_x);
@@ -170,7 +253,7 @@ public class ExperiencesFragment extends Fragment {
 
                 }
             });
-        }
+        }*/
 
         //TOOLBAR//////////////////////////////////////////////////////////
         Toolbar toolbar = c.findViewById(R.id.toolbar);
