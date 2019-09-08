@@ -218,47 +218,11 @@
                     android:background="#dddddd"
                     android:layout_marginHorizontal="15dp"/>
 
-                <ScrollView
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="none">
-
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
-
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1000dp"
-                                android:background="@android:color/white"/>
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="5dp"/>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
-
-                            </LinearLayout>
-
-                        </RelativeLayout>
-
-
-
-
-                    </LinearLayout>
-
-                </ScrollView>
+                    android:layout_height="wrap_content"
+                    android:id="@+id/esperienze_ricevute"
+                    android:nestedScrollingEnabled="false"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
