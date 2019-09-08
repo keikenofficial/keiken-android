@@ -282,7 +282,7 @@ public class BookExperienceActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onSuccess(DocumentReference documentReference) {
                                                         Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
-
+                                                        startActivity(new Intent(BookExperienceActivity.this, HomeActivity.class));
 
                                                     }
                                                 })
@@ -297,17 +297,15 @@ public class BookExperienceActivity extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
                                             prenotaBT.setEnabled(true);
                                         }
+                                    } else{
+                                        Toast.makeText(getApplicationContext(), "Ci dispiace, per la data che hai scelto non ci sono più posti disponibili.", Toast.LENGTH_LONG).show();
+                                        prenotaBT.setEnabled(true);
                                     }
                                 }
                             }
                         }
                     }
                 });//Fine update
-
-
-                //Torno alla home
-                startActivity(new Intent(BookExperienceActivity.this, HomeActivity.class));
-
                 ////////////////////////////////////////////////////////////////////////////
                 //END ON CLICK
             }
