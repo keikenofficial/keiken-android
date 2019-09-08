@@ -119,8 +119,7 @@
                 android:orientation="horizontal"
                 android:padding="3dp"
                 android:gravity="center"
-                android:layout_gravity="center"
-                android:layout_marginVertical="-18dp">
+                android:layout_gravity="center">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -135,8 +134,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
                     android:gravity="center_vertical"
-                    android:textColor="@android:color/black"
-                    android:paddingTop="22sp"/>
+                    android:textColor="@android:color/black"/>
 
 
             </LinearLayout>
