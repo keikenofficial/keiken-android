@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,6 +63,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
         String photoUri = getIntent().getStringExtra("photoUri");
         final HashMap<Calendar, Long> dateMap = (HashMap<Calendar, Long>) getIntent().getSerializableExtra("date");
         final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
+        final LinearLayout profilo = findViewById(R.id.account);
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);
@@ -152,10 +154,10 @@ public class ViewExperienceActivity extends AppCompatActivity {
                     final ImageView profile_pic = findViewById(R.id.profile_pic);
                     final String photoUrl = (String) document.get("photoUrl");
                     final String nome_utente = (String) document.get("name");
-                    profile_pic.setOnClickListener(new View.OnClickListener() {
+                    profilo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent i = new Intent(ViewExperienceActivity.this, ViewProfiloActivity.class);
+                            Intent i = new Intent(ViewExperienceActivity.this, ViewProfileActivity.class);
 
                             //passo i parametri per la visualizzazione del profilo
                             i.putExtra("ID_PROFILO", ID_CREATORE);
