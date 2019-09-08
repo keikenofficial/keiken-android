@@ -238,10 +238,10 @@ public class ExperiencesFragment extends Fragment {
                             int sYear = data_prenotazione.get(Calendar.YEAR);
                             int sMonth = data_prenotazione.get(Calendar.MONTH);
                             int sDay = data_prenotazione.get(Calendar.DAY_OF_MONTH);
-                            if( (sYear < currentYear) || (sYear == currentYear && sMonth < currentMonth)
+                            if(!( (sYear < currentYear) || (sYear == currentYear && sMonth < currentMonth)
                                     || (sYear == currentYear && sMonth == currentMonth && sDay < currentDay)
                                     || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) < currentHour)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) == currentHour && Integer.parseInt(minuti) < currentMinute)){
+                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) == currentHour && Integer.parseInt(minuti) < currentMinute))){
 
                                 //Raccolgo nome utente e foto profilo
                                 final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
