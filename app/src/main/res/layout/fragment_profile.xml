@@ -155,14 +155,6 @@
 
 
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#dddddd"
-                    android:layout_marginHorizontal="15dp"/>
-
-
-
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/swiperefresh"
                     android:layout_height="match_parent"
