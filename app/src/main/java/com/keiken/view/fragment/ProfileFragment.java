@@ -272,7 +272,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                                     if (document.exists()) {
                                                         Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
                                                         Calendar tempCalendar = new GregorianCalendar();
-                                                        tempCalendar.setTimeInMillis(tempTimestamp*1000);
+                                                        tempCalendar.setTimeInMillis(tempTimestamp);
                                                         Long nPostiDisponibili = (Long) document.get("posti_disponibili");
                                                         date.put(tempCalendar, nPostiDisponibili);
                                                     } else {
@@ -912,7 +912,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                             if (document.exists()) {
                                                 Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
                                                 Calendar tempCalendar = new GregorianCalendar();
-                                                tempCalendar.setTimeInMillis(tempTimestamp*1000);
+                                                tempCalendar.setTimeInMillis(tempTimestamp);
                                                 Long nPostiDisponibili = (Long) document.get("posti_disponibili");
                                                 date.put(tempCalendar, nPostiDisponibili);
                                             } else {

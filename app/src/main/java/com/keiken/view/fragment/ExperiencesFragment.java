@@ -226,7 +226,7 @@ public class ExperiencesFragment extends Fragment {
                             //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
                             Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data_selezionata")).get("timeInMillis");
                             final Calendar data_prenotazione = new GregorianCalendar();
-                            data_prenotazione.setTimeInMillis(tempTimestamp*1000);
+                            data_prenotazione.setTimeInMillis(tempTimestamp);
 
                             //Controllo che la data della prenotazione sia effettivamente futura
                             Calendar c = Calendar.getInstance();
