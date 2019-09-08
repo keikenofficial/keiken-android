@@ -261,28 +261,7 @@ public class BookExperienceActivity extends AppCompatActivity {
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
 
-                                //Aggiorno i dati della prenotazione salvata sul dabase in base ai dati registrati
-                                final CollectionReference data = db.collection("esperienze").document(ID_ESPERIENZA).collection("date");
-                                data.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for(QueryDocumentSnapshot document : task.getResult()){
-                                                if(document.exists()){
-                                                    Long nPostiDisponibili = (Long) document.get("posti_disponibili");
-                                                    Long posti_prenotati = new Long(posti_disponibili_picker.getValue());
-                                                    Long posti_rimanenti = nPostiDisponibili - posti_prenotati;
 
-                                                    Map<String, Object> map = new HashMap<>();
-                                                    map.put("posti_disponibili", posti_rimanenti);
-                                                    data.document(document.getId()).update(map);
-                                                }
-                                            }
-                                        }
-                                    }
-                                });//Fine update
-                                //Torno alla home
-                                startActivity(new Intent(BookExperienceActivity.this, HomeActivity.class));
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -296,10 +275,45 @@ public class BookExperienceActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
                     prenotaBT.setEnabled(true);
                 }
+
+
+                //Aggiorno i dati della prenotazione salvata sul dabase in base ai dati registrati
+                final CollectionReference data = db.collection("esperienze").document(ID_ESPERIENZA).collection("date");
+                data.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for(QueryDocumentSnapshot document : task.getResult()){
+                                if(document.exists()){
+                                    Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                    Long posti_prenotati = new Long(posti_disponibili_picker.getValue());
+                                    Long posti_rimanenti = nPostiDisponibili - posti_prenotati;
+
+
+                                    Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                    Calendar tempCalendar = new GregorianCalendar();
+                                    tempCalendar.setTimeInMillis(tempTimestamp);
+
+                                    if( (tempCalendar.get(Calendar.DAY_OF_MONTH) == dateList.get(date_selection.getValue()).get(Calendar.DAY_OF_MONTH) ) && ( tempCalendar.get(Calendar.MONTH) == dateList.get(date_selection.getValue()).get(Calendar.MONTH) ) && ( tempCalendar.get(Calendar.YEAR) == dateList.get(date_selection.getValue()).get(Calendar.YEAR)) ){
+                                        Map<String, Object> map = new HashMap<>();
+                                        map.put("posti_disponibili", posti_rimanenti);
+                                        data.document(document.getId()).update(map);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });//Fine update
+                //Torno alla home
+                startActivity(new Intent(BookExperienceActivity.this, HomeActivity.class));
+
                 ////////////////////////////////////////////////////////////////////////////
                 //END ON CLICK
             }
         });
+
+
+
     }
 
 
