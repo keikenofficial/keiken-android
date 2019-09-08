@@ -75,6 +75,7 @@ public class ExperiencesFragment extends Fragment {
 
     private LinearLayout  backgroundFrame;
     private BackdropFrontLayerBehavior sheetBehavior;
+    private RecyclerView rv;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -182,7 +183,7 @@ public class ExperiencesFragment extends Fragment {
 
         //POPOLO LA RECYCLER VIEW
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        final RecyclerView rv = c.findViewById(R.id.esperienze_in_corso);
+        rv = c.findViewById(R.id.esperienze_in_corso);
         rv.setLayoutManager(llm);
 
         rv.setFocusable(false);
@@ -314,9 +315,6 @@ public class ExperiencesFragment extends Fragment {
                                                                             tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
 
                                                                             i.putExtra("data_prenotazione", tempDate);
-
-
-
 
                                                                             startActivity(i);
                                                                         }

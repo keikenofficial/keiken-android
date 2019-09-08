@@ -80,6 +80,11 @@
             android:parentActivityName=".view.activity.ViewExperienceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar2" />
+        <activity android:name=".view.activity.ViewBookingActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".view.activity.ViewExperienceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar2" />
 
 
         <meta-data
