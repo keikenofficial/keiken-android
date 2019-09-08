@@ -81,12 +81,12 @@
                         android:textStyle="bold" />
 
 
-                    <ImageView
+              <!--      <ImageView
                         android:id="@+id/up_arrow"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/white_to_black_up_arrow"
-                        android:layout_gravity="right"/>
+                        android:src="@drawable/black_to_white_up_arrow"
+                        android:layout_gravity="right"/>  -->
 
 
                 </FrameLayout>
@@ -189,7 +189,7 @@
                         android:layout_width="wrap_content"
                         android:elevation="10dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_down_arrow"
+                        android:src="@drawable/black_to_white_up_arrow"
                         android:tint="#000000"
                         android:layout_gravity="right|top"/>
 

@@ -84,8 +84,8 @@ public class ExperiencesFragment extends Fragment {
     private FirebaseFirestore db;
     private StorageReference storageReference;
 
-    private ImageView downArrow, upArrow;
-    private LinearLayoutCompat header, headerEdit;
+    private ImageView downArrow;
+    private LinearLayoutCompat header;
 
 
     // activity listener interface
@@ -141,7 +141,6 @@ public class ExperiencesFragment extends Fragment {
         LinearLayout contentLayout = c.findViewById(R.id.backdrop);
 
         downArrow = c.findViewById(R.id.down_arrow);
-        upArrow = c.findViewById(R.id.up_arrow);
         header = c.findViewById(R.id.header);
 
 
@@ -182,7 +181,7 @@ public class ExperiencesFragment extends Fragment {
                     //sheetBehaviorReviews.setPeekHeight(bottomPx);
 
                     int marginPx = (int)( 20 * (displayMetrics.densityDpi / 160f));
-                    sheetBehaviorReviews.setPeekHeight(30);
+                    sheetBehaviorReviews.setPeekHeight(160);
 
                 }
             });
@@ -192,38 +191,38 @@ public class ExperiencesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
-                AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
+                downArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+                AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) downArrow.getDrawable();
                 ic2.start();
             }
         });
 
-        header.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener listener = (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (sheetBehaviorReviews.getState() == BottomSheetBehavior.STATE_EXPANDED) {
                     //  recursiveLoopChildren(false, contentLayout);
 
-                    upArrow.setImageDrawable((getResources().getDrawable(R.drawable.white_to_black_up_arrow)));
-                    AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
+                    downArrow.setImageDrawable((getResources().getDrawable(R.drawable.white_to_black_up_arrow)));
+                    AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) downArrow.getDrawable();
                     ic2.start();
 
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }
 
                 else {
 
-                    upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
-                    AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
-                    ic2.start();
-
-
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    downArrow.setImageDrawable((getResources().getDrawable(R.drawable.ic_down_arrow)));
+                    
+                    sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_EXPANDED);
                 }
 
             }
         });
+
+        header.setOnClickListener(listener);
+        downArrow.setOnClickListener(listener);
 
 ////////////////////////////////////////
 
