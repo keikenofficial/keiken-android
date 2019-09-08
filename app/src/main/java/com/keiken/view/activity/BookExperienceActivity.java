@@ -207,7 +207,7 @@ public class BookExperienceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //START ON CLICK
 
-
+                prenotaBT.setEnabled(false);
 
                 //SISTEMA PAGAMENTI --- DA IMPLEMENTARE/////
                 //
@@ -230,7 +230,7 @@ public class BookExperienceActivity extends AppCompatActivity {
                 bookingDb.put("prezzo", prezzo);
 
                 // Add a new document with a generated ID
-                db.collection("prenotazioni")
+                try {db.collection("prenotazioni")
                         .add(bookingDb)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
@@ -242,10 +242,15 @@ public class BookExperienceActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.w("", "Error adding document", e);
+                                prenotaBT.setEnabled(true);
                             }
                         });
+                } catch (NullPointerException e) {
+                    Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                    prenotaBT.setEnabled(true);
+                }
                 ////////////////////////////////////////////////////////////////////////////
-
+                startActivity(new Intent(BookExperienceActivity.this, HomeActivity.class));
                 //END ON CLICK
             }
         });
