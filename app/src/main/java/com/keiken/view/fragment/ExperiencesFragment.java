@@ -159,10 +159,11 @@ public class ExperiencesFragment extends Fragment {
         sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);//initially state to fully expanded
         contentLayoutReviews.setBehavior(sheetBehaviorReviews);
 
+
+        backgroundFrame = c.findViewById(R.id.background_frame_x);
         final DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
         ViewTreeObserver viewTreeObserver = backgroundFrame.getViewTreeObserver();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
-        backgroundFrame = c.findViewById(R.id.background_frame_x);
         if (viewTreeObserver.isAlive()) {
             viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
