@@ -191,6 +191,9 @@ public class ExperiencesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+                AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
+                ic2.start();
             }
         });
 
