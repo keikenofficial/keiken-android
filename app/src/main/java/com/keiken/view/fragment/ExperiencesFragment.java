@@ -170,10 +170,10 @@ public class ExperiencesFragment extends Fragment {
                             final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
                             final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
 
-                            final int posti_prenotati = Integer.parseInt ((String) document.get("posti_prenotati"));
+                            final long posti_prenotati = ((Long)document.get("posti_prenotati"));
 
-                            final int ore = Integer.parseInt((String) document.get("ore"));
-                            final int minuti = Integer.parseInt((String) document.get("minuti")) ;
+                            final long ore = ((Long) document.get("ore"));
+                            final long minuti = ((Long) document.get("minuti")) ;
 
                             final String prezzo = (String) document.get("prezzo");
 
