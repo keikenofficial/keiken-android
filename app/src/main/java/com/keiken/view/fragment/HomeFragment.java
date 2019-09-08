@@ -479,7 +479,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                             final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
                             final long ore = (Long) document.get("ore");
                             final long minuti = (Long) document.get("minuti");
-                            final long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                            final long nPostiDisponibili = (Long) document.get("posti_massimi");
                             final String photoUri = (String) document.get("photoUri");
                             final String ID_ESPERIENZA =(String) document.getId();
                             //GET CALENDARIO
