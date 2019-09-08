@@ -137,7 +137,17 @@ public class ViewBookingActivity extends AppCompatActivity {
         if (min <10)
             minuti ="0" + min;
         orarioTV.setText(ore+":"+minuti);
+        TextView posti_prenotatiTV = findViewById(R.id.posti_prenotati);
+        posti_prenotatiTV.setText("Posti prenotati: "+posti_prenotati);
+        TextView reviews_button = findViewById(R.id.write_review_button);
+        reviews_button.setVisibility(View.GONE);
+        if(isAccpepted = true)
+            reviews_button.setVisibility(View.VISIBLE);
+            //ON CLICK HANDLER PER CREARE RECENSIONI.
+                //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
 
+        else
+            reviews_button.setVisibility(View.GONE);
 
         TextView dateTV = findViewById(R.id.date);
         dateTV.setText(data_prenotazione);
