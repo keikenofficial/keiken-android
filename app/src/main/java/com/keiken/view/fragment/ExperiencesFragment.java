@@ -555,7 +555,7 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String photoUri = (String) document.get("photoUri");
                                                                     String ID_ESPERIENZA =(String) document.getId();
 
-                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                     esperienze.add(e);
 
 
