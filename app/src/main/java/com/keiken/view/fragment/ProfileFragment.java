@@ -83,6 +83,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static android.app.Activity.RESULT_OK;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -226,6 +227,102 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         sheetBehavior.setFitToContents(false);
         sheetBehavior.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
+
+
+        //recycleview and defyning "swipe to refresh"
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        final RecyclerView rv = c.findViewById(R.id.esperienze);
+
+        final SwipeRefreshLayout pullToRefresh = c.findViewById(R.id.swiperefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                final CollectionReference esperienze = db.collection("esperienze");
+                Query query = esperienze.whereEqualTo("ID_CREATORE", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+
+                            final ArrayList<Esperienza> esperienze = new ArrayList<>();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //inizializzazione dati con valori presi dal DB
+                                if(document.exists()) {
+
+
+                                    final String titolo = (String) document.get("titolo");
+                                    final String descrizione = (String) document.get("descrizione");
+                                    final String luogo = (String) document.get("luogo");
+                                    final String ID_CREATORE = (String) document.get("ID_CREATORE");
+                                    final String prezzo = (String) document.get("prezzo");
+                                    final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
+                                    final String ID_ESPERIENZA = (String) document.getId();
+                                    final Long ore = (Long) document.get("ore");
+                                    final Long minuti = (Long) document.get("minuti");
+                                    final Long nPostiDisponibili = (Long) document.get("posti_massimi");
+                                    final String photoUri = (String) document.get("photoUri");
+                                    db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                Esperienza e;
+                                                HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if (document.exists()) {
+                                                        Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                                        Calendar tempCalendar = new GregorianCalendar();
+                                                        tempCalendar.setTimeInMillis(tempTimestamp);
+                                                        Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                                        date.put(tempCalendar, nPostiDisponibili);
+                                                    } else {
+                                                        Log.d("", "No such document");
+                                                    }
+                                                }
+                                                e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                esperienze.add(e);
+
+                                                RVAdapterProfile adapter = new RVAdapterProfile(esperienze, new RVAdapterProfile.OnItemClickListener() {
+                                                    @Override
+                                                    public void onItemClick(Esperienza esperienza) {
+                                                        Intent i = new Intent(getContext(), ViewExperienceActivity.class);
+                                                        i.putExtra("titolo", esperienza.getTitolo());
+                                                        i.putExtra("descrizione", esperienza.getDescrizione());
+                                                        i.putExtra("luogo", esperienza.getLuogo());
+                                                        i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
+                                                        i.putExtra("prezzo", esperienza.getPrezzo());
+                                                        i.putExtra("categorie", esperienza.getCategorie());
+                                                        i.putExtra("ore", Long.toString(esperienza.getOre()));
+                                                        i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
+                                                        i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
+                                                        i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                        i.putExtra("date", esperienza.getDate());
+                                                        i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
+
+                                                        startActivity(i);
+                                                    }
+                                                });
+                                                rv.setAdapter(adapter);
+
+                                            } else {
+                                                Log.d("", "get failed with ", task.getException());
+                                            }
+                                        }
+                                    });
+
+
+                                }
+
+                            }
+
+                        }
+                    }
+
+                });
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
 
 
         sheetBehaviorReviews = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayoutReviews);
@@ -768,8 +865,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         ///////////////////////////// VISUALIZZA ELENCO PROPRIE ESPERIENZE ///////////////////////////////
 
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        final RecyclerView rv = c.findViewById(R.id.esperienze);
+
         rv.setLayoutManager(llm);
 
         final RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);

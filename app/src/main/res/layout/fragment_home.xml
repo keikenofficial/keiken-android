@@ -578,7 +578,6 @@
         <!--And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)-->
         <LinearLayout
             android:orientation="vertical"
-            android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
             android:background="#ffffff"
             android:layout_height="match_parent">
@@ -590,12 +589,32 @@
                 android:layout_marginHorizontal="15dp"/>
 
 
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swiperefresh"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/esperienze"
-                android:nestedScrollingEnabled="false"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/esperienze"
+                    android:nestedScrollingEnabled="false"/>
+
+
+
+
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+
+
+
+
+
+
 
 
 
