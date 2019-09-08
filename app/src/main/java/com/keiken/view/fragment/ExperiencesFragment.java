@@ -91,11 +91,15 @@ public class ExperiencesFragment extends Fragment {
         sheetBehavior.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
 
+        //TOOLBAR//////////////////////////////////////////////////////////
         Toolbar toolbar = c.findViewById(R.id.toolbar);
         toolbar.setElevation(0);
         toolbar.setTitle("Esperienze");
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        /////////////////////////////////////////////////////////////////////
+
+
 
         return c;
     }

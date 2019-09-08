@@ -192,13 +192,13 @@ public class BookExperienceActivity extends AppCompatActivity {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
                 posti_disponibili_picker.setMinValue(1);
-                int maxValue = Integer.valueOf(dateMap.get((dateList.get(date_selection.getValue()))).intValue());
+                int maxValue = Integer.valueOf(dateMap.get((dateList.get(date_selection.getValue()))).intValue()); //POCO ELEGANTE, SAREBBE MEGLIO TROVARE UNA SOLUZIONE ALTERNATIVA
                 posti_disponibili_picker.setMaxValue(maxValue);
             }
         });
 
 
-        MaterialButton prenotaBT = findViewById(R.id.prenota_esperienza);
+        final MaterialButton prenotaBT = findViewById(R.id.prenota_esperienza);
 
 
         prenotaBT.setOnClickListener(new View.OnClickListener() {
@@ -207,28 +207,31 @@ public class BookExperienceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //START ON CLICK
 
-   /////// DA CONTROLLARE STO LAVORANDO QUI MA HO DOVUTO COMMITARE E FARE UNA PAUSA //////////////////
-
-                /*
-
-                // Create a new user with a first and last name
-                Map<String, Object> userDb = new HashMap<>();
-                userDb.put("ID_CREATORE_ESPERIENZA", ID_CREATORE);
-                userDb.put("ID_PRENOTANTE", mAuth.getCurrentUser().getUid());
-                userDb.put("ID_ESPERIENZA", ID_ESPERIENZA);
-                //data
-                //posti
-                //ore
-                //minuti
-                //prezzo
-                userDb.put("id", user.getUid());
 
 
+                //SISTEMA PAGAMENTI --- DA IMPLEMENTARE/////
+                //
+                // QUI AVVIENE IL PAGAMENTO, SE HA SUCCESSO SI PASSA AL SALVATAGGIO DELLA PRENOTAZIONE SUL DATABASE
+                //
+                ///////////////////////////////////////////
 
+
+                //SALVATAGGIO PRENOTAZIONE SUL DATABASE
+                /////// DA CONTROLLARE //////////////////
+                // Create a new booking
+                Map<String, Object> bookingDb = new HashMap<>();
+                bookingDb.put("ID_CREATORE_ESPERIENZA", ID_CREATORE);
+                bookingDb.put("ID_PRENOTANTE", mAuth.getCurrentUser().getUid());
+                bookingDb.put("ID_ESPERIENZA", ID_ESPERIENZA);
+                bookingDb.put("posti_prenotati", posti_disponibili_picker.getValue());
+                bookingDb.put("data_selezionata", dateList.get(date_selection.getValue())); //data --> controllare se si può fare upload di un Calendar
+                bookingDb.put("ore", ore);
+                bookingDb.put("minuti", minuti);
+                bookingDb.put("prezzo", prezzo);
 
                 // Add a new document with a generated ID
-                db.collection("utenti")
-                        .add(userDb)
+                db.collection("prenotazioni")
+                        .add(bookingDb)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
@@ -241,9 +244,7 @@ public class BookExperienceActivity extends AppCompatActivity {
                                 Log.w("", "Error adding document", e);
                             }
                         });
-*/
                 ////////////////////////////////////////////////////////////////////////////
-
 
                 //END ON CLICK
             }
