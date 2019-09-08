@@ -40,7 +40,8 @@ public class ViewBookingActivity extends AppCompatActivity {
         final String prezzo = getIntent().getStringExtra("prezzo");
         final String ore = getIntent().getStringExtra("ore");
         String minuti = getIntent().getStringExtra("minuti");
-        String posti_prenotati = getIntent().getStringExtra("posti_prenotati");
+        final String posti_prenotati = getIntent().getStringExtra("posti_prenotati");
+        
         String photoUri = getIntent().getStringExtra("photoUri");
         String data_prenotazione = getIntent().getStringExtra("data_prenotazione");
         final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
