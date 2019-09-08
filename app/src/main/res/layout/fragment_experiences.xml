@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:id="@+id/coordinatorLayout"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,122 +7,140 @@
     android:layout_height="match_parent">
 
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:elevation="0dp"
-            android:background="@color/colorPrimary">
-        </androidx.appcompat.widget.Toolbar>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:elevation="0dp"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:id="@id/background_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_gravity="right">
 
 
+        </LinearLayout>
 
-    <!--This the interface sitting behind the backdrop and shown when it is collapsed-->
-    <LinearLayout
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary"
-        android:padding="10dp"
-        android:layout_marginTop="?actionBarSize">
+        android:layout_marginTop="?actionBarSize"
+        android:background="@color/colorPrimary">
 
-        <EditText
-            android:id="@+id/searchTextView"
+        <!--Backdrop back layer-->
+        <LinearLayout
+            android:id="@+id/background_frame_x"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_search"
-            android:hint="Località"/>
+            android:orientation="vertical"
+            android:elevation="0dp"
+            android:padding="10dp">
 
-        <EditText
-            android:id="@+id/datesFilterButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
 
-    <!--This is the backdrop's content with a BottomSheetBehaviour applied to it-->
-    <LinearLayout
-        android:id="@+id/backdrop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior"
-        android:layout_marginTop="?actionBarSize">
+        </LinearLayout>
 
-        <!--This is the backdrop's header with a title and icon-->
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <!--Backdrop first layer  -->
+        <com.keiken.view.backdrop.BackdropFrontLayer
+            android:id="@+id/backdrop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="true"
-            android:background="@drawable/backdrop_background"
-            android:paddingTop="15dp"
-            android:paddingHorizontal="15dp"
-            app:behavior_peekHeight="56dp">
+            android:orientation="vertical"
+            android:elevation="1dp"
+            app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
 
-            <TextView
-                android:layout_width="0dp"
+            <!--Layer subheader-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="In corso"
-                android:textSize="17dp"
-                android:textColor="#000000"/>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <!--And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)-->
-            <!--<LinearLayout
                 android:orientation="vertical"
-                android:id="@+id/swiperefresh"
-                android:layout_width="match_parent"
-                android:layout_height="900dp"
-                android:background="#ffffff">
+                android:clickable="true"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="8dp"
+                android:background="@drawable/backdrop_background"
+                app:behavior_peekHeight="56dp">
 
-                <ScrollView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="none"
-                    android:padding="15dp">
-                </ScrollView>
-            -->
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Esperienze"
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
 
 
+                    <ImageView
+                        android:id="@+id/up_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/white_to_black_up_arrow"
+                        android:layout_gravity="right"/>
 
 
-
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:id="@+id/swiperefresh"
-                android:layout_width="match_parent"
-                android:background="#ffffff"
-                android:layout_height="match_parent">
+                </FrameLayout>
 
                 <View
+                    android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#dddddd"
-                    android:layout_marginHorizontal="15dp"/>
+                    android:background="#dddddd"/>
 
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/esperienze_in_corso"
-                            android:nestedScrollingEnabled="false"/>
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <!--Layer contente body-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:id="@+id/swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="1200dp"
+                android:background="#ffffff">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/esperienze_in_corso"
+                    android:nestedScrollingEnabled="false"/>
+
+
+
+
+
 
                 <!--The content's body goes here-->
 
 
-            </LinearLayout>
 
-    </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
+        </com.keiken.view.backdrop.BackdropFrontLayer>
 
 
-
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
+
+
+
+</FrameLayout>

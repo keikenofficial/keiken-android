@@ -6,10 +6,13 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -33,6 +36,7 @@ import com.keiken.view.RVAdapterExperience;
 import com.keiken.view.RVAdapterHome;
 import com.keiken.view.activity.ViewBookingActivity;
 import com.keiken.view.activity.ViewExperienceActivity;
+import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
 import androidx.annotation.NonNull;
@@ -69,7 +73,8 @@ public class ExperiencesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-
+    private LinearLayout  backgroundFrame;
+    private BackdropFrontLayerBehavior sheetBehavior;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -115,7 +120,7 @@ public class ExperiencesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        CoordinatorLayout c = (CoordinatorLayout)inflater.inflate(R.layout.fragment_experiences, container, false);
+        FrameLayout c = (FrameLayout) inflater.inflate(R.layout.fragment_experiences, container, false);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -127,10 +132,44 @@ public class ExperiencesFragment extends Fragment {
 
         LinearLayout contentLayout = c.findViewById(R.id.backdrop);
 
-        final BackdropFrontLayerBehavior sheetBehavior = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayout);
+
+
+        sheetBehavior = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayout);
         sheetBehavior.setFitToContents(false);
         sheetBehavior.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
+
+
+        final DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
+        float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+
+        backgroundFrame = c.findViewById(R.id.background_frame_x);
+
+
+
+        ViewTreeObserver viewTreeObserver = backgroundFrame.getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    backgroundFrame.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    int viewHeight = backgroundFrame.getBottom();
+
+                    int toolbarPx = (int) (80 * (displayMetrics.densityDpi / 160f));
+                    int bottomBarPx = (int) (56 * (displayMetrics.densityDpi / 160f));
+
+                    int peekHeight = displayMetrics.heightPixels - viewHeight - toolbarPx - bottomBarPx;
+
+
+                    sheetBehavior.setPeekHeight(peekHeight);
+                    //int bottomPx = (int)( 70 * (displayMetrics.densityDpi / 160f));
+                    //sheetBehaviorReviews.setPeekHeight(bottomPx);
+
+                    int marginPx = (int) (20 * (displayMetrics.densityDpi / 160f));
+
+                }
+            });
+        }
 
         //TOOLBAR//////////////////////////////////////////////////////////
         Toolbar toolbar = c.findViewById(R.id.toolbar);
