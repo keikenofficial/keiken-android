@@ -348,7 +348,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <ImageView
+                <ImageView
                 android:id="@+id/up_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -465,8 +465,6 @@
 
                 </LinearLayout>
 
-
-
                 <LinearLayout
                     android:id="@+id/header3"
                     android:layout_width="match_parent"
@@ -571,7 +569,11 @@
 
             </FrameLayout>
 
-
+            <View
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dddddd"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
