@@ -242,7 +242,7 @@ public class BookExperienceActivity extends AppCompatActivity {
                 //SALVATAGGIO PRENOTAZIONE SUL DATABASE
                 /////// DA CONTROLLARE //////////////////
                 // Create a new booking
-                Map<String, Object> bookingDb = new HashMap<>();
+                final Map<String, Object> bookingDb = new HashMap<>();
                 bookingDb.put("ID_CREATORE_ESPERIENZA", ID_CREATORE);
                 bookingDb.put("ID_PRENOTANTE", mAuth.getCurrentUser().getUid());
                 bookingDb.put("ID_ESPERIENZA", ID_ESPERIENZA);
@@ -252,30 +252,6 @@ public class BookExperienceActivity extends AppCompatActivity {
                 bookingDb.put("minuti", minuti);
                 bookingDb.put("prezzo", prezzo);
                 bookingDb.put("isAccepted", false);
-
-                // Add a new document with a generated ID
-                try {db.collection("prenotazioni")
-                        .add(bookingDb)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
-
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w("", "Error adding document", e);
-                                prenotaBT.setEnabled(true);
-                            }
-                        });
-                } catch (NullPointerException e) {
-                    Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
-                    prenotaBT.setEnabled(true);
-                }
-
 
                 //Aggiorno i dati della prenotazione salvata sul dabase in base ai dati registrati
                 final CollectionReference data = db.collection("esperienze").document(ID_ESPERIENZA).collection("date");
@@ -294,16 +270,41 @@ public class BookExperienceActivity extends AppCompatActivity {
                                     Calendar tempCalendar = new GregorianCalendar();
                                     tempCalendar.setTimeInMillis(tempTimestamp);
 
-                                    if( (tempCalendar.get(Calendar.DAY_OF_MONTH) == dateList.get(date_selection.getValue()).get(Calendar.DAY_OF_MONTH) ) && ( tempCalendar.get(Calendar.MONTH) == dateList.get(date_selection.getValue()).get(Calendar.MONTH) ) && ( tempCalendar.get(Calendar.YEAR) == dateList.get(date_selection.getValue()).get(Calendar.YEAR)) ){
+                                    if( (tempCalendar.get(Calendar.DAY_OF_MONTH) == dateList.get(date_selection.getValue()).get(Calendar.DAY_OF_MONTH) ) && ( tempCalendar.get(Calendar.MONTH) == dateList.get(date_selection.getValue()).get(Calendar.MONTH) ) && ( tempCalendar.get(Calendar.YEAR) == dateList.get(date_selection.getValue()).get(Calendar.YEAR)) && posti_rimanenti >= posti_prenotati ){
                                         Map<String, Object> map = new HashMap<>();
                                         map.put("posti_disponibili", posti_rimanenti);
                                         data.document(document.getId()).update(map);
+
+                                        // Add a new document with a generated ID
+                                        try {db.collection("prenotazioni")
+                                                .add(bookingDb)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+
+
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w("", "Error adding document", e);
+                                                        prenotaBT.setEnabled(true);
+                                                    }
+                                                });
+                                        } catch (NullPointerException e) {
+                                            Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                                            prenotaBT.setEnabled(true);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 });//Fine update
+
+
                 //Torno alla home
                 startActivity(new Intent(BookExperienceActivity.this, HomeActivity.class));
 
