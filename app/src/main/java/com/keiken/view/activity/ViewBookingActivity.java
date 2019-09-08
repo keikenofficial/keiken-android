@@ -1,7 +1,10 @@
 package com.keiken.view.activity;
 
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,12 +15,15 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.keiken.R;
 import com.keiken.controller.ImageController;
+import com.keiken.view.backdrop.BackdropFrontLayer;
+import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,10 +35,43 @@ public class ViewBookingActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private StorageReference storageReference;
 
+    private BackdropFrontLayerBehavior sheetBehavior, sheetBehaviorReviews, sheetBehaviorEdit;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_booking);
+
+        /* REVIEWS INIT
+        TextView reviewsButton = findViewById(R.id.reviews_button);
+
+        final BackdropFrontLayer contentLayout = findViewById(R.id.backdrop);
+        final BackdropFrontLayer contentLayoutReviews = findViewById(R.id.backdrop_reviews);
+        final BackdropFrontLayer contentLayoutEdit = findViewById(R.id.backdrop_edit);
+
+
+        sheetBehavior = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayout);
+        sheetBehavior.setFitToContents(false);
+        sheetBehavior.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
+        sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
+
+
+        reviewsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) { //open reviews layer
+
+                menuButton.setIcon(getResources().getDrawable(R.drawable.points_to_cross));
+                AnimatedVectorDrawable ic = (AnimatedVectorDrawable) menuButton.getIcon();
+                ic.start();
+
+                sheetBehaviorReviews.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
+            }
+        });
+        */
+
+
 
         //GET INTENT
         final String titolo = getIntent().getStringExtra("titolo");
@@ -95,7 +134,7 @@ public class ViewBookingActivity extends AppCompatActivity {
 
 
         final ImageView foto_utenteIV = findViewById(R.id.foto);
-        if(photoUri != null) {
+        if(foto_utente != null) {
             storageReference.child(foto_utente)
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override

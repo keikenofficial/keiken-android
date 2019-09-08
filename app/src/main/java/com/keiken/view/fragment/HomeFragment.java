@@ -200,7 +200,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                     if (document.exists()) {
                                                         Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
                                                         Calendar tempCalendar = new GregorianCalendar();
-                                                        tempCalendar.setTimeInMillis(tempTimestamp);
+                                                        tempCalendar.setTimeInMillis(tempTimestamp*1000);
                                                         Long nPostiDisponibili = (Long) document.get("posti_disponibili");
                                                         date.put(tempCalendar, nPostiDisponibili);
                                                     } else {
@@ -494,7 +494,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                             if (document.exists()) {
                                                 Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
                                                 Calendar tempCalendar = new GregorianCalendar();
-                                                tempCalendar.setTimeInMillis(tempTimestamp);
+                                                tempCalendar.setTimeInMillis(tempTimestamp*1000);
                                                 Long nPostiDisponibili = (Long) document.get("posti_disponibili");
                                                 date.put(tempCalendar, nPostiDisponibili);
                                             } else {
