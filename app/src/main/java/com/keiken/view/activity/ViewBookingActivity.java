@@ -92,7 +92,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         }
 
 
-        final ImageView foto_utenteIV = findViewById(R.id.foto);
+        final ImageView foto_utenteIV = findViewById(R.id.profile_pic);
         if(foto_utente != null) {
             storageReference.child(foto_utente)
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
