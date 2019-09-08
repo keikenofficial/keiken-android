@@ -54,6 +54,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 public class HomeFragment extends Fragment implements IOnBackPressed {
@@ -149,6 +150,115 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);//initially state to fully expanded
 
 
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        final RecyclerView rv = c.findViewById(R.id.esperienze);
+
+        final SwipeRefreshLayout pullToRefresh = c.findViewById(R.id.swiperefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                db.collection("esperienze").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            final ArrayList<Esperienza> esperienze = new ArrayList<>();
+
+                            //ArrayList<String> lista = new ArrayList<String>();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+
+                                if (document.exists()) {
+
+
+                                    //inizializzazione dati con valori presi dal DB
+
+                                    final Esperienza e;
+                                    final String titolo = (String) document.get("titolo");
+                                    final String descrizione = (String) document.get("descrizione");
+                                    final String luogo = (String) document.get("luogo");
+                                    final String ID_CREATORE = (String) document.get("ID_CREATORE");
+                                    final String prezzo = (String) document.get("prezzo");
+                                    final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
+                                    final long ore = (Long) document.get("ore");
+                                    final long minuti = (Long) document.get("minuti");
+                                    final long nPostiDisponibili = (Long) document.get("posti_massimi");
+                                    final String photoUri = (String) document.get("photoUri");
+                                    final String ID_ESPERIENZA =(String) document.getId();
+                                    //GET CALENDARIO
+
+                                    db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                Esperienza e;
+                                                HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if (document.exists()) {
+                                                        Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                                        Calendar tempCalendar = new GregorianCalendar();
+                                                        tempCalendar.setTimeInMillis(tempTimestamp);
+                                                        Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                                        date.put(tempCalendar, nPostiDisponibili);
+                                                    } else {
+                                                        Log.d("", "No such document");
+                                                    }
+                                                }
+                                                e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
+                                                    esperienze.add(e);
+
+
+                                                RVAdapterHome adapter = new RVAdapterHome(esperienze, new RVAdapterHome.OnItemClickListener() {
+                                                    @Override
+
+                                                    public void onItemClick(Esperienza esperienza) {
+                                                        Intent i = new Intent(getContext(), ViewExperienceActivity.class);
+                                                        i.putExtra("titolo", esperienza.getTitolo());
+                                                        i.putExtra("descrizione", esperienza.getDescrizione());
+                                                        i.putExtra("luogo", esperienza.getLuogo());
+                                                        i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
+                                                        i.putExtra("prezzo", esperienza.getPrezzo());
+                                                        i.putExtra("categorie", esperienza.getCategorie());
+                                                        i.putExtra("ore", Long.toString(esperienza.getOre()));
+                                                        i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
+                                                        i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
+                                                        i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                        i.putExtra("date", esperienza.getDate());
+                                                        i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
+
+                                                        startActivity(i);
+                                                    }
+                                                });
+                                                rv.setAdapter(adapter);
+
+                                            } else {
+                                                Log.d("", "get failed with ", task.getException());
+                                            }
+                                        }
+                                    });
+                                    Log.d("", "DocumentSnapshot data: " + document.getData());
+                                } else {
+                                    Log.d("", "No such document");
+                                }
+                            }
+                        }
+                        else {
+                            Log.d("", "get failed with ", task.getException());
+                        }
+                    }
+                });
+                pullToRefresh.setRefreshing(false);
+            }
+        });
+
+
+
+
+
 
         filterButton = c.findViewById(R.id.filter_button);
         upArrow = c.findViewById(R.id.up_arrow);
@@ -169,7 +279,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         final DisplayMetrics displayMetrics = getActivity().getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
 
-       backgroundFrame = c.findViewById(R.id.background_frame);
+        backgroundFrame = c.findViewById(R.id.background_frame);
         final int bFrameHeight = backgroundFrame.getBottom();
 
         //sheetBehavior.setPeekHeight(displayMetrics.heightPixels-bFrameHeight);
@@ -332,8 +442,6 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         RecyclerViewHeader headerRV = c.findViewById(R.id.rvHeader);
         headerRV.attachTo(rv);*/
 
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        final RecyclerView rv = c.findViewById(R.id.esperienze);
         rv.setLayoutManager(llm);
 
         rv.setFocusable(false);
