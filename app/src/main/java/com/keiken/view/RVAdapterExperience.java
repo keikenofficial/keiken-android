@@ -70,17 +70,111 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
 
     public class ExperienceViewHolder extends RecyclerView.ViewHolder {
         CardView cv;
+        TextView titolo;
+        TextView luogo;
+        RatingBar recensioni;
+        TextView user_name;
+        ImageView profile_pic;
+        TextView categorie;
+        TextView prezzo;
+        MaterialCardView profile_pic_ontainer;
+        ImageView foto;
+        String photoUrl;
 
 
         public ExperienceViewHolder(final View itemView) {
             super(itemView);
             cv = itemView.findViewById(R.id.cv);
-
+            titolo = itemView.findViewById(R.id.titolo);
+            luogo = itemView.findViewById(R.id.luogo);
+            recensioni = itemView.findViewById(R.id.rating);
+            user_name = itemView.findViewById(R.id.user_name);
+            profile_pic = itemView.findViewById(R.id.profile_pic);
+            categorie = itemView.findViewById(R.id.categorie);
+            prezzo = itemView.findViewById(R.id.prezzo);
+            profile_pic_ontainer = itemView.findViewById(R.id.profile_pic_ontainer);
+            foto = itemView.findViewById(R.id.foto);
         }
 
         public void bind(final Esperienza e, final RVAdapterExperience.OnItemClickListener listener) {
 
+            titolo.setText(e.getTitolo());
+            luogo.setText(e.getLuogo());
+            prezzo.setText(e.getPrezzo()+"\u20ac");
 
+            //DOWNLOAD IMMAGINE ESPERIENZA
+            mAuth = FirebaseAuth.getInstance();
+
+            db = FirebaseFirestore.getInstance();
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReference();
+
+            storageReference.child(e.getPhotoUri())
+                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // Got the download URL for 'photos/profile.png'
+                    new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle any error
+                }
+            });
+
+
+            //NOME E FOTO CREATORE
+            CollectionReference utenti = db.collection("utenti");
+            Query query = utenti.whereEqualTo("id", e.getID_CREATORE());
+            Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+
+                        try {
+                            QuerySnapshot result = task.getResult();
+                            List<DocumentSnapshot> documents = result.getDocuments();
+                            DocumentSnapshot document = documents.get(0);
+
+                            user_name.setText((String) document.get("name"));
+                            photoUrl = (String) document.get("photoUrl");
+
+                            if(photoUrl != null) {
+                                storageReference.child(photoUrl)
+                                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        // Got the download URL for 'photos/profile.png'
+                                        new ImageController.DownloadImageFromInternet(profile_pic).execute(uri.toString());
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+                                        // Handle any error
+                                    }
+                                });
+                            }
+                        } catch (Exception e ) {};
+
+                    }
+
+                }
+            });
+
+
+            String categorieString = "";
+            for(String temp : e.getCategorie()){
+                categorieString = categorieString.concat("#" + temp + " ");
+            }
+            categorie.setText(categorieString);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(e);
+                }
+            });
 
         }
 

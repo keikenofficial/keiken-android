@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -26,8 +27,10 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.exceptions.OutOfDateRangeException;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -36,7 +39,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.keiken.R;
@@ -45,6 +52,7 @@ import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +62,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+
+import org.w3c.dom.Document;
 
 import static com.keiken.controller.ImageController.createVoidImageFile;
 
@@ -176,29 +186,42 @@ public class BookExperienceActivity extends AppCompatActivity {
         }
 
         final NumberPicker date_selection = findViewById(R.id.date_selection);
+        date_selection.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         date_selection.setMinValue(0);
         date_selection.setMaxValue(dateMap.size()-1);
         date_selection.setDisplayedValues(dateToArray);
 
         final NumberPicker posti_disponibili_picker = findViewById(R.id.posti_disponibili);
-
+        posti_disponibili_picker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         //DA TESTARE, SETTA PER LA PRIMA DATA IL NUMERO DI POSTI
         posti_disponibili_picker.setMinValue(1);
         int maxValue = Integer.valueOf(dateMap.get((dateList.get(date_selection.getValue()))).intValue());
         posti_disponibili_picker.setMaxValue(maxValue);
 
+        final MaterialButton prenotaBT = findViewById(R.id.prenota_esperienza);
+        if(!(Integer.valueOf(dateMap.get((dateList.get(date_selection.getValue()))).intValue()) > 0)){
+            prenotaBT.setEnabled(false);
+        }
         //Set a value change listener for NumberPicker
         date_selection.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
-                posti_disponibili_picker.setMinValue(1);
+
                 int maxValue = Integer.valueOf(dateMap.get((dateList.get(date_selection.getValue()))).intValue()); //POCO ELEGANTE, SAREBBE MEGLIO TROVARE UNA SOLUZIONE ALTERNATIVA
-                posti_disponibili_picker.setMaxValue(maxValue);
+                if(maxValue>0) {
+                    posti_disponibili_picker.setVisibility(View.VISIBLE);
+                    posti_disponibili_picker.setMinValue(1);
+                    posti_disponibili_picker.setMaxValue(maxValue);
+                    prenotaBT.setEnabled(true);
+                } else {
+                    posti_disponibili_picker.setVisibility(View.GONE);
+                    prenotaBT.setEnabled(false);
+                }
             }
         });
 
 
-        final MaterialButton prenotaBT = findViewById(R.id.prenota_esperienza);
+
 
 
         prenotaBT.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +230,7 @@ public class BookExperienceActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //START ON CLICK
 
-
+                prenotaBT.setEnabled(false);
 
                 //SISTEMA PAGAMENTI --- DA IMPLEMENTARE/////
                 //
@@ -228,24 +251,52 @@ public class BookExperienceActivity extends AppCompatActivity {
                 bookingDb.put("ore", ore);
                 bookingDb.put("minuti", minuti);
                 bookingDb.put("prezzo", prezzo);
+                bookingDb.put("isAccepted", false);
 
                 // Add a new document with a generated ID
-                db.collection("prenotazioni")
+                try {db.collection("prenotazioni")
                         .add(bookingDb)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
+
+                                //Aggiorno i dati della prenotazione salvata sul dabase in base ai dati registrati
+                                final CollectionReference data = db.collection("esperienze").document(ID_ESPERIENZA).collection("date");
+                                data.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for(QueryDocumentSnapshot document : task.getResult()){
+                                                if(document.exists()){
+                                                    Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                                    Long posti_prenotati = new Long(posti_disponibili_picker.getValue());
+                                                    Long posti_rimanenti = nPostiDisponibili - posti_prenotati;
+
+                                                    Map<String, Object> map = new HashMap<>();
+                                                    map.put("posti_disponibili", posti_rimanenti);
+                                                    data.document(document.getId()).update(map);
+                                                }
+                                            }
+                                        }
+                                    }
+                                });//Fine update
+                                //Torno alla home
+                                startActivity(new Intent(BookExperienceActivity.this, HomeActivity.class));
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.w("", "Error adding document", e);
+                                prenotaBT.setEnabled(true);
                             }
                         });
+                } catch (NullPointerException e) {
+                    Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                    prenotaBT.setEnabled(true);
+                }
                 ////////////////////////////////////////////////////////////////////////////
-
                 //END ON CLICK
             }
         });

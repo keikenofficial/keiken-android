@@ -191,7 +191,9 @@ public class ViewExperienceActivity extends AppCompatActivity {
             prenotaEsperienza.setVisibility(View.GONE);
         }
 
-        prenotaEsperienza.setOnClickListener(new View.OnClickListener() {
+
+
+            prenotaEsperienza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ViewExperienceActivity.this, BookExperienceActivity.class);
