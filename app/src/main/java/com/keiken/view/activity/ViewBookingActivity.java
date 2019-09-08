@@ -95,7 +95,7 @@ public class ViewBookingActivity extends AppCompatActivity {
 
 
         final ImageView foto_utenteIV = findViewById(R.id.foto);
-        if(photoUri != null) {
+        if(foto_utente != null) {
             storageReference.child(foto_utente)
                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
