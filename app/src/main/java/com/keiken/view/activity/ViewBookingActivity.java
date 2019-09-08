@@ -39,7 +39,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         final String luogo = getIntent().getStringExtra("luogo");
         final String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
         final String prezzo = getIntent().getStringExtra("prezzo");
-        final String ore = getIntent().getStringExtra("ore");
+         String ore = getIntent().getStringExtra("ore");
         String minuti = getIntent().getStringExtra("minuti");
         final String posti_prenotati = getIntent().getStringExtra("posti_prenotati");
         
@@ -137,6 +137,9 @@ public class ViewBookingActivity extends AppCompatActivity {
         prezzoTV.setText("Prezzo a persona: " + prezzo + "\u20AC");
 
         TextView orarioTV = findViewById(R.id.orario);
+        int h = Integer.parseInt(ore);
+        if (h < 10)
+            ore = "0" + h;
         int min = Integer.parseInt(minuti);
         if (min <10)
             minuti ="0" + min;
