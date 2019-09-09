@@ -130,6 +130,9 @@ public class ViewBookingActivity extends AppCompatActivity {
         TextView dateTV = findViewById(R.id.date);
         dateTV.setText(data_prenotazione);
 
+        TextView user_name = findViewById(R.id.nome_utente);
+        user_name.setText(nome_utente);
+
         //ON CLICK LISTENER
         /*
         conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
@@ -285,9 +288,6 @@ public class ViewBookingActivity extends AppCompatActivity {
                 //DISPLAY WAITING FOR APPROVAL ICON
             }
 
-            TextView user_name = findViewById(R.id.nome_utente);
-            user_name.setText(nome_utente);
-
         } else {
             if (isAccpepted == true) {
                 reviews_button.setVisibility(View.GONE);
@@ -354,13 +354,6 @@ public class ViewBookingActivity extends AppCompatActivity {
                     startActivity(i);
                 }
             });
-
-
-
         }
-
-
-
-
     }
 }
