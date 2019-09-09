@@ -199,7 +199,7 @@ public class ViewBookingActivity extends AppCompatActivity {
             user_name.setText(nome_utente);
 
         } else {
-            if (isAccpepted = true) {
+            if (isAccpepted == true) {
                 reviews_button.setVisibility(View.GONE);
                 conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
                 //DISPLAY OK ICON
