@@ -396,17 +396,7 @@ public class ExperiencesFragment extends Fragment {
                     for (final QueryDocumentSnapshot document : task.getResult()) {
                         if (document.exists()) {
 
-                            //recupero ID_ESPERIENZA ed ID_CREATORE_ESPERIENZA per ogni prenotazione
-                            //da cui poi ricavare l'esperienza e la foto profilo/nome profilo da stampare
-                            final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
-                            final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
-                            final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
-                            final String ID_PRENOTAZIONE = document.getId();
-                            final long posti_prenotati = ((Long)document.get("posti_prenotati"));
-                            final String ore = (String) document.get("ore");
-                            final String minuti = (String) document.get("minuti");
-                            final String prezzo = (String) document.get("prezzo");
-                            final boolean isAccepted = (boolean) document.get("isAccepted");
+
 
                             //DA AGGIUNGERE CONTROLLO SE LA VARIABILE IS ACCEPTED è TRUE  O FALSE
                             // IN MODO DA MOSTRARE NEI DUE CASI UNA ICONA DI CONFERMA O MENO DELLA PRENOTAZIONE
@@ -414,10 +404,23 @@ public class ExperiencesFragment extends Fragment {
                             //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
                             Date tempDate = new Date(System.currentTimeMillis());
                             Timestamp timestamp = (Timestamp) document.get("data_selezionata");
-                            final Date data_prenotazione = timestamp.toDate();
+                            Date temp_data_prenotazione = timestamp.toDate();
 
                             //Controllo che la data della prenotazione sia effettivamente futura
-                            if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0) {
+                            if(Long.compare(temp_data_prenotazione.getTime(), tempDate.getTime()) >= 0) {
+                                //recupero ID_ESPERIENZA ed ID_CREATORE_ESPERIENZA per ogni prenotazione
+                                //da cui poi ricavare l'esperienza e la foto profilo/nome profilo da stampare
+                                final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
+                                final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
+                                final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
+                                final String ID_PRENOTAZIONE = document.getId();
+                                final long posti_prenotati = ((Long)document.get("posti_prenotati"));
+                                final String ore = (String) document.get("ore");
+                                final String minuti = (String) document.get("minuti");
+                                final String prezzo = (String) document.get("prezzo");
+                                final boolean isAccepted = (boolean) document.get("isAccepted");
+                                final Date data_prenotazione = timestamp.toDate();
+
                                 //Raccolgo nome utente e foto profilo
                                 final DocumentReference utenti = db.collection("utenti").document(ID_CREATORE_ESPERIENZA); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
                                 //TO-DO : SALVARE E PASSARE L'ID DOCUMENTO DEL CREATORE DELL'ESPERIENZA PER ALLEGGERIRE LA QUERY

@@ -58,9 +58,6 @@ public class ViewBookingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_booking);
 
 
-
-
-
         //GET INTENT
         final String titolo = getIntent().getStringExtra("titolo");
         String descrizione = getIntent().getStringExtra("descrizione");
