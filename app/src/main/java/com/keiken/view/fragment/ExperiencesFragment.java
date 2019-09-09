@@ -327,9 +327,12 @@ public class ExperiencesFragment extends Fragment {
 
 
                                     //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
-                                    Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data_selezionata")).get("timeInMillis");
+                                    //Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data_selezionata")).get("timeInMillis");
                                     final Calendar data_prenotazione = new GregorianCalendar();
-                                    data_prenotazione.setTimeInMillis(tempTimestamp);
+                                    //data_prenotazione.setTimeInMillis(tempTimestamp);
+
+                                    Timestamp timestamp = (Timestamp) document.get("data_selezionata");
+                                    data_prenotazione.setTime(timestamp.toDate());
 
                                     //Controllo che la data della prenotazione sia effettivamente futura
                                     Calendar c = Calendar.getInstance();
@@ -382,7 +385,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             final String photoUri = (String) document.get("photoUri");
                                                                             String ID_ESPERIENZA =(String) document.getId();
 
-                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione.getTime(), ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                             esperienze.add(e);
 
 
@@ -555,7 +558,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             final String photoUri = (String) document.get("photoUri");
                                                                             String ID_ESPERIENZA =(String) document.getId();
 
-                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione.getTime(), ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                             esperienze.add(e);
 
 
