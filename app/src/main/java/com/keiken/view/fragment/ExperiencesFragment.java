@@ -585,7 +585,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza);
                                                                             i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE_ESPERIENZA+"/foto_profilo");
                                                                             //PARAMETRI PRENOTAZIONE
-                                                                            i.putExtra("posti_prenotati", posti_prenotati);
+                                                                            i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
                                                                             i.putExtra("prezzo", prezzo);
                                                                             i.putExtra("isAccepted", String.valueOf(isAccepted));
                                                                             i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);

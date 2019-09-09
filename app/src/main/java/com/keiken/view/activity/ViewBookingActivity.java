@@ -108,6 +108,23 @@ public class ViewBookingActivity extends AppCompatActivity {
         final MaterialButton accetta_esperienza = findViewById(R.id.accetta_esperienza);
         final MaterialButton rifiuta_esperienza = findViewById(R.id.rifiuta_esperienza);
 
+        TextView prezzoTV = findViewById(R.id.prezzo);
+        prezzoTV.setText("Prezzo a persona: " + prezzo + "\u20AC");
+
+        TextView orarioTV = findViewById(R.id.orario);
+        int min = Integer.parseInt(minuti);
+        if (min < 10)
+            minuti = "0" + min;
+        orarioTV.setText(ore + ":" + minuti);
+        TextView posti_prenotatiTV = findViewById(R.id.posti_prenotati);
+        posti_prenotatiTV.setText("Posti prenotati: " + posti_prenotati);
+
+        TextView luogoTV = findViewById(R.id.luogo);
+        luogoTV.setText(luogo);
+
+        TextView dateTV = findViewById(R.id.date);
+        dateTV.setText(data_prenotazione);
+
         if(FirebaseAuth.getInstance().getCurrentUser().getUid() != ID_CREATORE) {
             final ImageView foto = findViewById(R.id.foto);
             if (photoUri != null) {
@@ -161,20 +178,6 @@ public class ViewBookingActivity extends AppCompatActivity {
             TextView descrizioneTV = findViewById(R.id.descrizione);
             descrizioneTV.setText(descrizione);
 
-            TextView luogoTV = findViewById(R.id.luogo);
-            luogoTV.setText(luogo);
-
-            TextView prezzoTV = findViewById(R.id.prezzo);
-            prezzoTV.setText("Prezzo a persona: " + prezzo + "\u20AC");
-
-            TextView orarioTV = findViewById(R.id.orario);
-            int min = Integer.parseInt(minuti);
-            if (min < 10)
-                minuti = "0" + min;
-            orarioTV.setText(ore + ":" + minuti);
-            TextView posti_prenotatiTV = findViewById(R.id.posti_prenotati);
-            posti_prenotatiTV.setText("Posti prenotati: " + posti_prenotati);
-
             reviews_button.setVisibility(View.GONE);
             if (isAccpepted = true) {
                 reviews_button.setVisibility(View.VISIBLE);
@@ -191,10 +194,6 @@ public class ViewBookingActivity extends AppCompatActivity {
 
                 //DISPLAY WAITING FOR APPROVAL ICON
             }
-
-
-            TextView dateTV = findViewById(R.id.date);
-            dateTV.setText(data_prenotazione);
 
             TextView user_name = findViewById(R.id.nome_utente);
             user_name.setText(nome_utente);
