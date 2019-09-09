@@ -48,7 +48,7 @@
 
         </LinearLayout>
 
-        <!--Backdrop first layer  -->
+        <!--Backdrop first layer //prenotazioni effettuate  -->
         <com.keiken.view.backdrop.BackdropFrontLayer
             android:id="@+id/backdrop"
             android:layout_width="match_parent"
@@ -104,9 +104,9 @@
 
 
             <!--Layer contente body-->
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:orientation="vertical"
-                android:id="@+id/swiperefresh"
+                android:id="@+id/swiperefresh_made"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#ffffff">
@@ -128,7 +128,7 @@
 
 
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </com.keiken.view.backdrop.BackdropFrontLayer>
 
@@ -137,7 +137,7 @@
 
 
 
-        <!--Backdrop second layer //recensioni -->
+        <!--Backdrop second layer //prenotazioni ricevute -->
         <com.keiken.view.backdrop.BackdropFrontLayer
             android:id="@+id/backdrop_reviews"
             android:layout_width="match_parent"
@@ -145,9 +145,6 @@
             android:orientation="vertical"
             android:elevation="6dp"
             app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
-
-
-
 
 
             <!--This is the backdrop's header with a title and icon-->
@@ -196,28 +193,23 @@
 
                 </FrameLayout>
 
+                <View
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dddddd"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-
-
-
-
-
             <!--And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)-->
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:orientation="vertical"
-                android:id="@+id/swiperefresh_reviews"
+                android:id="@+id/swiperefresh_received"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:behavior_peekHeight="64dp"
                 android:elevation="6dp"
                 android:background="#ffffff">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#dddddd"
-                    android:layout_marginHorizontal="15dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
@@ -225,7 +217,7 @@
                     android:id="@+id/esperienze_ricevute"
                     android:nestedScrollingEnabled="false"/>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         </com.keiken.view.backdrop.BackdropFrontLayer>
 
