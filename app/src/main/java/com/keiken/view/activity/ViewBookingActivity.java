@@ -58,7 +58,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         String ore = getIntent().getStringExtra("ore");
         String minuti = getIntent().getStringExtra("minuti");
         final String posti_prenotati = getIntent().getStringExtra("posti_prenotati");
-        
+
         String photoUri = getIntent().getStringExtra("photoUri");
         String data_prenotazione = getIntent().getStringExtra("data_prenotazione");
         final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
@@ -134,8 +134,8 @@ public class ViewBookingActivity extends AppCompatActivity {
         user_name.setText(nome_utente);
 
         //ON CLICK LISTENER
-        /*
-        conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+        ///////////////////////////////////////////// CONFERMA BUTTON
+        //conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);   NON CREDO CHE SERVA
         accetta_esperienza.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -158,7 +158,8 @@ public class ViewBookingActivity extends AppCompatActivity {
                                     conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
                                     //DISPLAY OK ICON
                                     confermata_rifiutata_textview.setVisibility(View.VISIBLE);
-                                    confermata_rifiutata_textview.setBackgroundColor(65280);
+                                    confermata_rifiutata_textview.setText("Prenotazione cofermata");
+                                    confermata_rifiutata_textview.setTextColor(65280);
                                 }
                             }
                         }
@@ -168,8 +169,8 @@ public class ViewBookingActivity extends AppCompatActivity {
                     rifiuta_esperienza.setEnabled(true);
                 }
             }
-        }); */ //Trovare il problema
-
+        });  //Trovare il problema
+/////////////////////////////////////////////////////////////////////////////////    FINE CONFERMA BUTTON
 
 
         /*
@@ -273,12 +274,13 @@ public class ViewBookingActivity extends AppCompatActivity {
 
             reviews_button.setVisibility(View.GONE);
             if (isAccpepted == true) {
-                reviews_button.setVisibility(View.VISIBLE);
+             //   reviews_button.setVisibility(View.VISIBLE);  /////////////// review button non c'è più
                 //ON CLICK HANDLER PER CREARE RECENSIONI.
                 //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
 
 
                 //DISPLAY OK ICON
+                conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
                 confermata_rifiutata_textview.setVisibility(View.VISIBLE);
                 confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
                 confermata_rifiutata_textview.setText("La tua prenotazione è stata confermata!");
