@@ -55,10 +55,10 @@ public class ViewBookingActivity extends AppCompatActivity {
         final String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
         final String ID_PRENOTANTE = getIntent().getStringExtra("ID_PRENOTANTE");
         final String prezzo = getIntent().getStringExtra("prezzo");
-         String ore = getIntent().getStringExtra("ore");
+        final String ore = getIntent().getStringExtra("ore");
         String minuti = getIntent().getStringExtra("minuti");
         final String posti_prenotati = getIntent().getStringExtra("posti_prenotati");
-
+        
         String photoUri = getIntent().getStringExtra("photoUri");
         String data_prenotazione = getIntent().getStringExtra("data_prenotazione");
         final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
@@ -189,22 +189,8 @@ public class ViewBookingActivity extends AppCompatActivity {
             } else {
                 reviews_button.setVisibility(View.GONE);
 
-        TextView orarioTV = findViewById(R.id.orario);
-        int h = Integer.parseInt(ore);
-        if (h < 10)
-            ore = "0" + h;
-        int min = Integer.parseInt(minuti);
-        if (min <10)
-            minuti ="0" + min;
-        orarioTV.setText(ore+":"+minuti);
-        TextView posti_prenotatiTV = findViewById(R.id.posti_prenotati);
-        posti_prenotatiTV.setText("Posti prenotati: "+posti_prenotati);
-        TextView reviews_button = findViewById(R.id.write_review_button);
-        reviews_button.setVisibility(View.GONE);
-        if(isAccpepted = true) {
-            reviews_button.setVisibility(View.VISIBLE);
-            //ON CLICK HANDLER PER CREARE RECENSIONI.
-            //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
+                //DISPLAY WAITING FOR APPROVAL ICON
+            }
 
 
             TextView dateTV = findViewById(R.id.date);

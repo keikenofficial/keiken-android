@@ -29,7 +29,6 @@ import com.keiken.R;
 import com.keiken.controller.ImageController;
 import com.keiken.model.Esperienza;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperience.ExperienceViewHolder> {
@@ -53,7 +52,7 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
 
     @Override
     public RVAdapterExperience.ExperienceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_booking, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_experience, parent, false);
         RVAdapterExperience.ExperienceViewHolder vh = new RVAdapterExperience.ExperienceViewHolder(v);
         return vh;
     }
@@ -70,46 +69,38 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
     }
 
     public class ExperienceViewHolder extends RecyclerView.ViewHolder {
+        CardView cv;
         TextView titolo;
         TextView luogo;
         RatingBar recensioni;
         TextView user_name;
         ImageView profile_pic;
+        TextView categorie;
+        TextView prezzo;
         MaterialCardView profile_pic_ontainer;
         ImageView foto;
         String photoUrl;
-        TextView data;
-
 
 
         public ExperienceViewHolder(final View itemView) {
             super(itemView);
+            cv = itemView.findViewById(R.id.cv);
             titolo = itemView.findViewById(R.id.titolo);
             luogo = itemView.findViewById(R.id.luogo);
             recensioni = itemView.findViewById(R.id.rating);
             user_name = itemView.findViewById(R.id.user_name);
             profile_pic = itemView.findViewById(R.id.profile_pic);
+            categorie = itemView.findViewById(R.id.categorie);
+            prezzo = itemView.findViewById(R.id.prezzo);
             profile_pic_ontainer = itemView.findViewById(R.id.profile_pic_ontainer);
             foto = itemView.findViewById(R.id.foto);
-            data = itemView.findViewById(R.id.data);
         }
 
         public void bind(final Esperienza e, final RVAdapterExperience.OnItemClickListener listener) {
 
             titolo.setText(e.getTitolo());
             luogo.setText(e.getLuogo());
-
-
-
-            String tempDate = "";
-            if (e.getData_prenotazione().get(Calendar.DAY_OF_MONTH) < 10)
-                tempDate += "0";
-            tempDate += e.getData_prenotazione().get(Calendar.DAY_OF_MONTH) + "/";
-            if (e.getData_prenotazione().get(Calendar.MONTH) < 10)
-                tempDate += "0";
-            tempDate += (e.getData_prenotazione().get(Calendar.MONTH) + "/" + (e.getData_prenotazione().get(Calendar.YEAR)));
-
-            data.setText(tempDate);
+            prezzo.setText(e.getPrezzo()+"\u20ac");
 
             //DOWNLOAD IMMAGINE ESPERIENZA
             mAuth = FirebaseAuth.getInstance();
@@ -171,6 +162,12 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
                 }
             });
 
+
+            String categorieString = "";
+            for(String temp : e.getCategorie()){
+                categorieString = categorieString.concat("#" + temp + " ");
+            }
+            categorie.setText(categorieString);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
