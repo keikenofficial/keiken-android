@@ -330,7 +330,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
                                         Map<String, Object> dateDb = new HashMap<>();
 
                                         for(Calendar tempCalendar : selectedDates) {
-                                            dateDb.put("data", tempCalendar);
+                                            dateDb.put("data", tempCalendar.getTime());
                                             dateDb.put("posti_disponibili", nPostiDisponibili);
 
                                             try {

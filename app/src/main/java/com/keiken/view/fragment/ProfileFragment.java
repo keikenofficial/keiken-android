@@ -267,14 +267,15 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
                                                 Esperienza e;
-                                                HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
+                                                HashMap<Date, Long> date = new HashMap<Date, Long>();
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     if (document.exists()) {
-                                                        Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
-                                                        Calendar tempCalendar = new GregorianCalendar();
-                                                        tempCalendar.setTimeInMillis(tempTimestamp);
+                                                        //Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                                        //Calendar tempCalendar = new GregorianCalendar();
+                                                        //tempCalendar.setTimeInMillis(tempTimestamp);
+                                                        Date data = (Date) document.get("data");
                                                         Long nPostiDisponibili = (Long) document.get("posti_disponibili");
-                                                        date.put(tempCalendar, nPostiDisponibili);
+                                                        date.put(data, nPostiDisponibili);
                                                     } else {
                                                         Log.d("", "No such document");
                                                     }
@@ -907,14 +908,15 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                     if (task.isSuccessful()) {
                                         Esperienza e;
-                                        HashMap<Calendar, Long> date = new HashMap<Calendar, Long>();
+                                        HashMap<Date, Long> date = new HashMap<Date, Long>();
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             if (document.exists()) {
-                                                Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
-                                                Calendar tempCalendar = new GregorianCalendar();
-                                                tempCalendar.setTimeInMillis(tempTimestamp);
+                                                //Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                                //Calendar tempCalendar = new GregorianCalendar();
+                                                //tempCalendar.setTimeInMillis(tempTimestamp);
+                                                Timestamp data = (Timestamp) document.get("data");
                                                 Long nPostiDisponibili = (Long) document.get("posti_disponibili");
-                                                date.put(tempCalendar, nPostiDisponibili);
+                                                date.put(data.toDate(), nPostiDisponibili);
                                             } else {
                                                 Log.d("", "No such document");
                                             }

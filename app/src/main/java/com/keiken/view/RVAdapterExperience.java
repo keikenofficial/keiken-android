@@ -99,15 +99,15 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
             titolo.setText(e.getTitolo());
             luogo.setText(e.getLuogo());
 
-            String tempDate = "";
+          /*  String tempDate = "";
             if (e.getData_prenotazione().get(Calendar.DAY_OF_MONTH) < 10)
                 tempDate += "0";
             tempDate += e.getData_prenotazione().get(Calendar.DAY_OF_MONTH) + "/";
             if (e.getData_prenotazione().get(Calendar.MONTH) < 10)
                 tempDate += "0";
             tempDate += (e.getData_prenotazione().get(Calendar.MONTH) + "/" + (e.getData_prenotazione().get(Calendar.YEAR)));
-
-            data.setText(tempDate);
+*/
+            data.setText(e.getData_prenotazione().toString().substring(0,10)+" 2019");
 
             //DOWNLOAD IMMAGINE ESPERIENZA
             mAuth = FirebaseAuth.getInstance();

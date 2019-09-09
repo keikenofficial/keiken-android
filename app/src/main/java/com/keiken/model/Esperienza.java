@@ -6,15 +6,15 @@ public class Esperienza {
 
     private String titolo, descrizione, luogo, ID_CREATORE, prezzo;
     private ArrayList<String> categorie;
-    private HashMap<Calendar, Long> date;
+    private HashMap<Date, Long> date;
     private long ore, minuti, nPostiDisponibili;
     private String photoUri;
     private String ID_ESPERIENZA;
 
-    private Calendar data_prenotazione;
+    private Date data_prenotazione;
 
     //COSTRUTTORE ESPERIENZA CON PIù DATE
-    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, HashMap<Calendar, Long> date, long ore, long minuti, long nPostiDisponibili, String photoUri, String ID_ESPERIENZA) {
+    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, HashMap<Date, Long> date, long ore, long minuti, long nPostiDisponibili, String photoUri, String ID_ESPERIENZA) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.luogo = luogo;
@@ -30,7 +30,7 @@ public class Esperienza {
     }
 
     //COSTRUTTORE PER ESPERIENZA CON UNA SINGOLA DATA
-    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, Calendar data_prenotazione, long ore, long minuti, long nPostiDisponibili, String photoUri, String ID_ESPERIENZA) {
+    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, Date data_prenotazione, long ore, long minuti, long nPostiDisponibili, String photoUri, String ID_ESPERIENZA) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.luogo = luogo;
@@ -71,7 +71,7 @@ public class Esperienza {
         return categorie;
     }
 
-    public HashMap<Calendar, Long> getDate() {
+    public HashMap<Date, Long> getDate() {
         return date;
     }
 
@@ -87,7 +87,7 @@ public class Esperienza {
         return nPostiDisponibili;
     }
 
-    public Calendar getData_prenotazione() {
+    public Date getData_prenotazione() {
         return data_prenotazione;
     }
 }

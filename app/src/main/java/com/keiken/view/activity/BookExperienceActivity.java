@@ -35,6 +35,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -52,6 +53,7 @@ import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -148,7 +150,7 @@ public class BookExperienceActivity extends AppCompatActivity {
         final String prezzo = getIntent().getStringExtra("prezzo");
         final String ore = getIntent().getStringExtra("ore");
         final String minuti = getIntent().getStringExtra("minuti");
-        final HashMap<Calendar, Long> dateMap = (HashMap<Calendar, Long>) getIntent().getSerializableExtra("date");
+        final HashMap<Date, Long> dateMap = (HashMap<Date, Long>) getIntent().getSerializableExtra("date");
         final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
 
 
@@ -165,16 +167,16 @@ public class BookExperienceActivity extends AppCompatActivity {
         orarioTV.setText(ore+":"+minuti);
 
         //Visualizza elenco date selezionabili
-        final ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
+        final ArrayList<Date> dateList = new ArrayList<Date>(dateMap.keySet());
         ArrayList<String> dateListString = new ArrayList<String>();
 
-        for(int i = 0; i<dateList.size(); i++){
-            String tempDate = dateList.get(i).get(Calendar.DAY_OF_MONTH) + "/";
-            if (dateList.get(i).get(Calendar.MONTH) < 10)
-                tempDate += "0";
-            tempDate += dateList.get(i).get(Calendar.MONTH) + "/" + dateList.get(i).get(Calendar.YEAR);
+        for(Date d: dateList){
+           // String tempDate = dateList.get(i).get(Calendar.DAY_OF_MONTH) + "/";
+           // if (dateList.get(i).get(Calendar.MONTH) < 10)
+           //     tempDate += "0";
+           // tempDate += dateList.get(i).get(Calendar.MONTH) + "/" + dateList.get(i).get(Calendar.YEAR);
 
-            dateListString.add(tempDate);
+            dateListString.add(d.toString().substring(0,10)+" 2019");
 
         }
         //final ArrayList<String> dateListStringToDB = new ArrayList<String>(dateListString);
@@ -247,7 +249,7 @@ public class BookExperienceActivity extends AppCompatActivity {
                 bookingDb.put("ID_PRENOTANTE", mAuth.getCurrentUser().getUid());
                 bookingDb.put("ID_ESPERIENZA", ID_ESPERIENZA);
                 bookingDb.put("posti_prenotati", posti_disponibili_picker.getValue());
-                bookingDb.put("data_selezionata", dateList.get(date_selection.getValue())); //data --> controllare se si può fare upload di un Calendar
+                bookingDb.put("data_selezionata", dateList.get(date_selection.getValue()));
                 bookingDb.put("ore", ore);
                 bookingDb.put("minuti", minuti);
                 bookingDb.put("prezzo", prezzo);
@@ -266,12 +268,16 @@ public class BookExperienceActivity extends AppCompatActivity {
                                     Long posti_rimanenti = nPostiDisponibili - posti_prenotati;
 
 
-                                    Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
-                                    Calendar tempCalendar = new GregorianCalendar();
-                                    tempCalendar.setTimeInMillis(tempTimestamp);
+                                   // Timestamp date = (Timestamp) document.get("data");
+                                   // Long tempTimestamp = date.toDate().getTime();
+                                   // Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                   // Calendar tempCalendar = new GregorianCalendar();
+                                    //tempCalendar.setTimeInMillis(tempTimestamp);
 
-                                    if( (tempCalendar.get(Calendar.DAY_OF_MONTH) == dateList.get(date_selection.getValue()).get(Calendar.DAY_OF_MONTH) ) && ( tempCalendar.get(Calendar.MONTH) == dateList.get(date_selection.getValue()).get(Calendar.MONTH) ) && ( tempCalendar.get(Calendar.YEAR) == dateList.get(date_selection.getValue()).get(Calendar.YEAR)) ) {
-                                        if (posti_rimanenti >= posti_prenotati) {
+            //TODO 1 -   DA CONTROLLARE    QUESTA RIGA E SE SERVE DE-COMMENTARLA E MODIFICARLA OPPORTUNAMENTE
+                                    // TODO 1 - if( (tempCalendar.get(Calendar.DAY_OF_MONTH) == dateList.get(date_selection.getValue()).get(Calendar.DAY_OF_MONTH) ) && ( tempCalendar.get(Calendar.MONTH) == dateList.get(date_selection.getValue()).get(Calendar.MONTH) ) && ( tempCalendar.get(Calendar.YEAR) == dateList.get(date_selection.getValue()).get(Calendar.YEAR)) ) {
+
+                      //TODO 2 - DA CONTROLLARE, MODIFICARE E RIFARE                  if (posti_rimanenti >= posti_prenotati) {
                                             Map<String, Object> map = new HashMap<>();
                                             map.put("posti_disponibili", posti_rimanenti);
                                             data.document(document.getId()).update(map);
@@ -298,12 +304,12 @@ public class BookExperienceActivity extends AppCompatActivity {
                                             } catch(NullPointerException e){
                                                 Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
                                                 prenotaBT.setEnabled(true);
-                                            }
-                                        }else{
-                                            Toast.makeText(getApplicationContext(), "Ci dispiace, per la data che hai scelto non ci sono più posti disponibili.", Toast.LENGTH_LONG).show();
-                                            prenotaBT.setEnabled(true);
+                                    //TODO  - 2      }
+                                    //TODO - 2    }else{
+                                      //TODO -2       Toast.makeText(getApplicationContext(), "Ci dispiace, per la data che hai scelto non ci sono più posti disponibili.", Toast.LENGTH_LONG).show();
+                                      //TODO -2      prenotaBT.setEnabled(true);
                                         }
-                                    }
+                                   // } TODO - 1
                                 }
                             }
                         }
