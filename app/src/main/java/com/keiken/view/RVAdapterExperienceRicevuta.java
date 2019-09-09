@@ -8,10 +8,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,9 +25,13 @@ import com.keiken.R;
 import com.keiken.controller.ImageController;
 import com.keiken.model.Esperienza;
 
+import java.util.Calendar;
 import java.util.List;
 
-public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperience.ExperienceViewHolder> {
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class RVAdapterExperienceRicevuta extends RecyclerView.Adapter<RVAdapterExperienceRicevuta.ExperienceViewHolder> {
 
 
     public interface OnItemClickListener {
@@ -39,26 +39,26 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
     }
 
     private List<Esperienza> esperienze;
-    private final RVAdapterExperience.OnItemClickListener listener;
+    private final RVAdapterExperienceRicevuta.OnItemClickListener listener;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private StorageReference storageReference;
 
-    public RVAdapterExperience(List<Esperienza> esperienze, RVAdapterExperience.OnItemClickListener listener) {
+    public RVAdapterExperienceRicevuta(List<Esperienza> esperienze, RVAdapterExperienceRicevuta.OnItemClickListener listener) {
         this.esperienze = esperienze;
         this.listener = listener;
     }
 
     @Override
-    public RVAdapterExperience.ExperienceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_booking, parent, false);
-        RVAdapterExperience.ExperienceViewHolder vh = new RVAdapterExperience.ExperienceViewHolder(v);
+    public RVAdapterExperienceRicevuta.ExperienceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_booking_ricevuta, parent, false);
+        RVAdapterExperienceRicevuta.ExperienceViewHolder vh = new RVAdapterExperienceRicevuta.ExperienceViewHolder(v);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(RVAdapterExperience.ExperienceViewHolder holder, int i) {
+    public void onBindViewHolder(RVAdapterExperienceRicevuta.ExperienceViewHolder holder, int i) {
         holder.bind(esperienze.get(i), listener);
     }
 
@@ -74,10 +74,11 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
         RatingBar recensioni;
         TextView user_name;
         ImageView profile_pic;
-
         MaterialCardView profile_pic_ontainer;
         ImageView foto;
         String photoUrl;
+        TextView data;
+
 
 
         public ExperienceViewHolder(final View itemView) {
@@ -89,12 +90,25 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
             profile_pic = itemView.findViewById(R.id.profile_pic);
             profile_pic_ontainer = itemView.findViewById(R.id.profile_pic_ontainer);
             foto = itemView.findViewById(R.id.foto);
+            data = itemView.findViewById(R.id.data);
         }
 
-        public void bind(final Esperienza e, final RVAdapterExperience.OnItemClickListener listener) {
+        public void bind(final Esperienza e, final RVAdapterExperienceRicevuta.OnItemClickListener listener) {
 
             titolo.setText(e.getTitolo());
             luogo.setText(e.getLuogo());
+
+
+
+            String tempDate = "";
+            if (e.getData_prenotazione().get(Calendar.DAY_OF_MONTH) < 10)
+                tempDate += "0";
+            tempDate += e.getData_prenotazione().get(Calendar.DAY_OF_MONTH) + "/";
+            if (e.getData_prenotazione().get(Calendar.MONTH) < 10)
+                tempDate += "0";
+            tempDate += (e.getData_prenotazione().get(Calendar.MONTH) + "/" + (e.getData_prenotazione().get(Calendar.YEAR)));
+
+            data.setText(tempDate);
 
             //DOWNLOAD IMMAGINE ESPERIENZA
             mAuth = FirebaseAuth.getInstance();
@@ -155,7 +169,6 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
 
                 }
             });
-
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

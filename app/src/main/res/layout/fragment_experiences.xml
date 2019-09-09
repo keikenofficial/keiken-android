@@ -140,7 +140,7 @@
         <com.keiken.view.backdrop.BackdropFrontLayer
             android:id="@+id/backdrop_reviews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:elevation="6dp"
             app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
