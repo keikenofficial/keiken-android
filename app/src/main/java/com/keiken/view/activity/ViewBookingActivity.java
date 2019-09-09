@@ -179,7 +179,7 @@ public class ViewBookingActivity extends AppCompatActivity {
             descrizioneTV.setText(descrizione);
 
             reviews_button.setVisibility(View.GONE);
-            if (isAccpepted = true) {
+            if (isAccpepted == true) {
                 reviews_button.setVisibility(View.VISIBLE);
                 //ON CLICK HANDLER PER CREARE RECENSIONI.
                 //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
