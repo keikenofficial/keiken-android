@@ -93,6 +93,9 @@ public class ExperiencesFragment extends Fragment {
 
     private ImageView downArrow;
     private LinearLayoutCompat header;
+    private LinearLayoutManager llm;
+    private LinearLayoutManager llm2;
+    private FrameLayout c;
 
 
     // activity listener interface
@@ -135,7 +138,7 @@ public class ExperiencesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final FrameLayout c = (FrameLayout) inflater.inflate(R.layout.fragment_experiences, container, false);
+        c = (FrameLayout) inflater.inflate(R.layout.fragment_experiences, container, false);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -278,8 +281,8 @@ public class ExperiencesFragment extends Fragment {
 
 
         //POPOLO LA RECYCLER VIEW
-        final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        final LinearLayoutManager llm2 = new LinearLayoutManager(getActivity());
+        llm = new LinearLayoutManager(getActivity());
+        llm2 = new LinearLayoutManager(getActivity());
         final LinearLayoutManager llm3 = new LinearLayoutManager(getActivity());
         final LinearLayoutManager llm4 = new LinearLayoutManager(getActivity());
 
@@ -359,6 +362,16 @@ public class ExperiencesFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        showBookingRicevuta(c,llm);
+        showBookingEffettuata(c, llm2);
+
+
+    }
 
     //EFFETTUATE
     public void showBookingEffettuata(FrameLayout c, LinearLayoutManager llm){
