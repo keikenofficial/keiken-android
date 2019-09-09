@@ -29,8 +29,10 @@ import com.google.firebase.storage.StorageReference;
 import com.keiken.R;
 import com.keiken.controller.ImageController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,7 +63,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
         minuti = getIntent().getStringExtra("minuti");
         String postiMax = getIntent().getStringExtra("nPostiDisponibili");
         String photoUri = getIntent().getStringExtra("photoUri");
-        final HashMap<Calendar, Long> dateMap = (HashMap<Calendar, Long>) getIntent().getSerializableExtra("date");
+        final HashMap<Date, Long> dateMap = (HashMap<Date, Long>) getIntent().getSerializableExtra("date");
         final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
         final LinearLayout profilo = findViewById(R.id.account);
 
@@ -127,11 +129,11 @@ public class ViewExperienceActivity extends AppCompatActivity {
         //
         ////////////////////////
 
-        ArrayList<Calendar> dateList = new ArrayList<Calendar>(dateMap.keySet());
+        ArrayList<Date> dateList = new ArrayList<Date>(dateMap.keySet());
 
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){
-            String tempDate = "";
+        /*    String tempDate = "";
             if (dateList.get(i).get(Calendar.DAY_OF_MONTH) < 10)
                 tempDate += "0";
              tempDate += dateList.get(i).get(Calendar.DAY_OF_MONTH) + "/";
@@ -139,7 +141,11 @@ public class ViewExperienceActivity extends AppCompatActivity {
                 tempDate += "0";
             tempDate += dateList.get(i).get(Calendar.MONTH) + "/" + dateList.get(i).get(Calendar.YEAR);;
 
-            dateTV.setText(dateTV.getText() + tempDate + " (Posti disponibili: "+dateMap.get(dateList.get(i)).toString() + ")\n");
+         */
+
+            SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+            String currentYear = formatYear.format(dateList.get(i));
+            dateTV.setText(dateTV.getText() + dateList.get(i).toString().substring(0,10) + " " +currentYear + " (Posti disponibili: "+dateMap.get(dateList.get(i)).toString() + ")\n");
         }
 
 
