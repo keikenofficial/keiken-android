@@ -35,6 +35,7 @@ import com.keiken.R;
 import com.keiken.model.Esperienza;
 import com.keiken.model.Prenotazione;
 import com.keiken.view.RVAdapterExperience;
+import com.keiken.view.RVAdapterExperienceRicevuta;
 import com.keiken.view.RVAdapterHome;
 import com.keiken.view.activity.ViewBookingActivity;
 import com.keiken.view.activity.ViewExperienceActivity;
@@ -567,8 +568,7 @@ public class ExperiencesFragment extends Fragment {
 
                                                                     //ARRIVATO A QUESTO PUNTO, PROCESSO TUTTI I DATI
                                                                     //STAMPA SU ADAPTER E INVIO DATI UTILI TRAMITE INTENT
-                                                                    RVAdapterExperience adapter = new RVAdapterExperience(esperienze, new RVAdapterExperience.OnItemClickListener() {
-                                                                        @Override
+                                                                    RVAdapterExperienceRicevuta adapter = new RVAdapterExperienceRicevuta(esperienze, new RVAdapterExperienceRicevuta.OnItemClickListener() {                                                                        @Override
                                                                         public void onItemClick(Esperienza esperienza) {
                                                                             Intent i = new Intent(getContext(), ViewBookingActivity.class);
                                                                             //DATI DA PASSARE AL ViewBookingActivity !!!!!!!!!!!!
