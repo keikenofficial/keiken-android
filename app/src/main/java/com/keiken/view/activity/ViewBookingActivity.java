@@ -125,7 +125,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         TextView dateTV = findViewById(R.id.date);
         dateTV.setText(data_prenotazione);
 
-        if(FirebaseAuth.getInstance().getCurrentUser().getUid() != ID_CREATORE) {
+        if(! FirebaseAuth.getInstance().getCurrentUser().getUid().equals(ID_CREATORE)) {
             final ImageView foto = findViewById(R.id.foto);
             if (photoUri != null) {
                 storageReference.child(photoUri)
@@ -179,7 +179,7 @@ public class ViewBookingActivity extends AppCompatActivity {
             descrizioneTV.setText(descrizione);
 
             reviews_button.setVisibility(View.GONE);
-            if (isAccpepted = true) {
+            if (isAccpepted == true) {
                 reviews_button.setVisibility(View.VISIBLE);
                 //ON CLICK HANDLER PER CREARE RECENSIONI.
                 //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
@@ -199,7 +199,7 @@ public class ViewBookingActivity extends AppCompatActivity {
             user_name.setText(nome_utente);
 
         } else {
-            if (isAccpepted = true) {
+            if (isAccpepted == true) {
                 reviews_button.setVisibility(View.GONE);
                 conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
                 //DISPLAY OK ICON

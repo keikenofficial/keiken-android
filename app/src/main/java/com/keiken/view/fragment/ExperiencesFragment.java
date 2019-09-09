@@ -386,6 +386,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
                                                                             i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
                                                                             i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                                            i.putExtra("descrizione", esperienza.getDescrizione());
                                                                             i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
                                                                                 //PARAMETRI CREATORE ESPERIENZA
                                                                             i.putExtra("nome_utente", nome_utente);
@@ -575,6 +576,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("titolo", esperienza.getTitolo());
                                                                             i.putExtra("luogo", esperienza.getLuogo());
                                                                             i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
+                                                                            i.putExtra("descrizione", esperienza.getDescrizione());
                                                                             i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
                                                                             i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
                                                                             i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
