@@ -270,7 +270,7 @@ public class BookExperienceActivity extends AppCompatActivity {
                                     Timestamp timestamp = (Timestamp) document.get("data");
                                     Date tempDate = timestamp.toDate();
 
-
+                                    Long time = tempDate.getTime();
 
 
                                    // Timestamp date = (Timestamp) document.get("data");
@@ -278,10 +278,8 @@ public class BookExperienceActivity extends AppCompatActivity {
                                    // Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
                                    // Calendar tempCalendar = new GregorianCalendar();
                                     //tempCalendar.setTimeInMillis(tempTimestamp);
-
-                                    if((tempDate.getDay() == dateList.get(date_selection.getValue()).getDay()) &&
-                                            (tempDate.getMonth() == dateList.get(date_selection.getValue()).getMonth()) &&
-                                                tempDate.getYear() == dateList.get(date_selection.getValue()).getYear() ){
+                                   
+                                    if(time.compareTo(dateList.get(date_selection.getValue()).getTime()) == 0){
                                     if (posti_rimanenti >= 0) {
                                             Map<String, Object> map = new HashMap<>();
                                             map.put("posti_disponibili", posti_rimanenti);
