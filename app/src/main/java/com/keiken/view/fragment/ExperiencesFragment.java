@@ -619,7 +619,7 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String photoUri = (String) document.get("photoUri");
                                                                     String ID_ESPERIENZA =(String) document.getId();
 
-                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                     esperienze.add(e);
 
 
@@ -632,7 +632,7 @@ public class ExperiencesFragment extends Fragment {
                                                                         //PARAMETRI ESPERIENZA
                                                                         i.putExtra("titolo", esperienza.getTitolo());
                                                                         i.putExtra("luogo", esperienza.getLuogo());
-                                                                        i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
+                                                                        i.putExtra("ID_CREATORE", ID_CREATORE);
                                                                         i.putExtra("descrizione", esperienza.getDescrizione());
                                                                         i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
                                                                         i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza

@@ -48,6 +48,10 @@ public class ViewBookingActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private StorageReference storageReference;
 
+    private ImageView foto_utenteIV;
+    private ImageView foto;
+    private TextView descrizioneTV;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -304,8 +308,8 @@ public class ViewBookingActivity extends AppCompatActivity {
             }
         });*/ // Trovare un metodo per fare un "soft_delete" della prenotazione
 
-        if(! FirebaseAuth.getInstance().getCurrentUser().getUid().equals(ID_CREATORE)) {
-            final ImageView foto = findViewById(R.id.foto);
+        if(!(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(ID_CREATORE))) {
+            foto = findViewById(R.id.foto);
             if (photoUri != null) {
                 storageReference.child(photoUri)
                         .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -323,7 +327,7 @@ public class ViewBookingActivity extends AppCompatActivity {
             }
 
 
-            final ImageView foto_utenteIV = findViewById(R.id.profile_pic);
+            foto_utenteIV = findViewById(R.id.profile_pic);
             if (foto_utente != null) {
                 storageReference.child(foto_utente)
                         .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -354,12 +358,12 @@ public class ViewBookingActivity extends AppCompatActivity {
                 }
             });
 
-            TextView descrizioneTV = findViewById(R.id.descrizione);
+            descrizioneTV = findViewById(R.id.descrizione);
             descrizioneTV.setText(descrizione);
 
             reviews_button.setVisibility(View.GONE);
-            if (isAccepted == true) {
-             //   reviews_button.setVisibility(View.VISIBLE);  /////////////// review button non c'è più
+            if (isAccepted) {
+
                 //ON CLICK HANDLER PER CREARE RECENSIONI.
                 //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
 
@@ -375,13 +379,14 @@ public class ViewBookingActivity extends AppCompatActivity {
                 //DISPLAY WAITING FOR APPROVAL ICON
             }
 
-        } else {
-            if (isAccepted == true) {
+        } else { //siamo i creatori
+            if (isAccepted) {
                 reviews_button.setVisibility(View.GONE);
                 conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
                 //DISPLAY OK ICON
                 confermata_rifiutata_textview.setVisibility(View.VISIBLE);
                 confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
+                confermata_rifiutata_textview.setText("La tua prenotazione è stata confermata!");
 
                 final ImageView foto = findViewById(R.id.foto);
                 if (photoUri != null) {
@@ -401,7 +406,7 @@ public class ViewBookingActivity extends AppCompatActivity {
                 }
 
 
-                final ImageView foto_utenteIV = findViewById(R.id.profile_pic);
+                foto_utenteIV = findViewById(R.id.profile_pic);
                 if (foto_utente_prenotante != null) {
                     storageReference.child(foto_utente_prenotante)
                             .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -440,7 +445,7 @@ public class ViewBookingActivity extends AppCompatActivity {
                 rifiuta_esperienza.setEnabled(true);
                 //DISPLAY WAITING FOR APPROVAL ICON
 
-                final ImageView foto = findViewById(R.id.foto);
+                foto = findViewById(R.id.foto);
                 if (photoUri != null) {
                     storageReference.child(photoUri)
                             .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -458,7 +463,7 @@ public class ViewBookingActivity extends AppCompatActivity {
                 }
 
 
-                final ImageView foto_utenteIV = findViewById(R.id.profile_pic);
+                foto_utenteIV = findViewById(R.id.profile_pic);
                 if (foto_utente_prenotante != null) {
                     storageReference.child(foto_utente_prenotante)
                             .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
