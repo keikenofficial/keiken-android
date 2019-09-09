@@ -164,7 +164,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
 
                     <TextView
@@ -206,7 +206,7 @@
                 android:orientation="vertical"
                 android:id="@+id/swiperefresh_received"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:behavior_peekHeight="64dp"
                 android:elevation="6dp"
                 android:background="#ffffff">
