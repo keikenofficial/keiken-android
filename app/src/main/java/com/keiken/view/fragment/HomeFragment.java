@@ -204,7 +204,8 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                         //Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
                                                         //Calendar tempCalendar = new GregorianCalendar();
                                                         //tempCalendar.setTimeInMillis(tempTimestamp);
-                                                        Date data = (Date) document.get("data");
+                                                        Timestamp timestamp = (Timestamp) document.get("data");
+                                                        Date data = timestamp.toDate();
                                                         Long nPostiDisponibili = (Long) document.get("posti_disponibili");
                                                         date.put(data, nPostiDisponibili);
                                                     } else {
