@@ -402,41 +402,32 @@ public class ExperiencesFragment extends Fragment {
                             final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
                             final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
                             final String ID_PRENOTAZIONE = document.getId();
-
                             final long posti_prenotati = ((Long)document.get("posti_prenotati"));
-
                             final String ore = (String) document.get("ore");
                             final String minuti = (String) document.get("minuti");
-
                             final String prezzo = (String) document.get("prezzo");
-
                             final boolean isAccepted = (boolean) document.get("isAccepted");
 
                             //DA AGGIUNGERE CONTROLLO SE LA VARIABILE IS ACCEPTED è TRUE  O FALSE
                             // IN MODO DA MOSTRARE NEI DUE CASI UNA ICONA DI CONFERMA O MENO DELLA PRENOTAZIONE
 
-
                             //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
                             Date tempDate = new Date(System.currentTimeMillis());
-
                             Timestamp timestamp = (Timestamp) document.get("data_selezionata");
                             final Date data_prenotazione = timestamp.toDate();
 
-
                             //Controllo che la data della prenotazione sia effettivamente futura
                             if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0) {
-
                                 //Raccolgo nome utente e foto profilo
-                                final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
+                                final DocumentReference utenti = db.collection("utenti").document(ID_CREATORE_ESPERIENZA); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
                                 //TO-DO : SALVARE E PASSARE L'ID DOCUMENTO DEL CREATORE DELL'ESPERIENZA PER ALLEGGERIRE LA QUERY
-                                Query query2 = utenti.whereEqualTo("id", ID_CREATORE_ESPERIENZA);
-                                Task<QuerySnapshot> querySnapshotTask = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                utenti.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if(task.isSuccessful()){
-                                            for(QueryDocumentSnapshot document2 : task.getResult()){
+                                            DocumentSnapshot document2 = task.getResult();
                                                 if(document2.exists()) {
-                                                    final String nome_utente = (String) document2.get("name");
+                                                    final String nome_utente_creatore = (String) document2.get("name"); // creatore
                                                     final String photo_url_creatore_esperienza = (String) document2.get("photoUrl");
 
                                                     //Raccolgo informazioni esperienza (immagine, etc)
@@ -445,21 +436,21 @@ public class ExperiencesFragment extends Fragment {
                                                         @Override
                                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                             if (task.isSuccessful()) {
-                                                                DocumentSnapshot document = task.getResult();
-                                                                if (document.exists()) {
+                                                                DocumentSnapshot document3 = task.getResult();
+                                                                if (document3.exists()) {
 
                                                                     final Esperienza e;
-                                                                    final String titolo = (String) document.get("titolo");
-                                                                    final String descrizione = (String) document.get("descrizione");
-                                                                    final String luogo = (String) document.get("luogo");
-                                                                    final String ID_CREATORE = (String) document.get("ID_CREATORE");
-                                                                    final String prezzo = (String) document.get("prezzo");
-                                                                    final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-                                                                    final Long ore = (Long) document.get("ore");
-                                                                    final long minuti = (Long) document.get("minuti");
-                                                                    final long nPostiDisponibili = (Long) document.get("posti_massimi");
-                                                                    final String photoUri = (String) document.get("photoUri");
-                                                                    String ID_ESPERIENZA =(String) document.getId();
+                                                                    final String titolo = (String) document3.get("titolo");
+                                                                    final String descrizione = (String) document3.get("descrizione");
+                                                                    final String luogo = (String) document3.get("luogo");
+                                                                    final String ID_CREATORE = (String) document3.get("ID_CREATORE");
+                                                                    final String prezzo = (String) document3.get("prezzo");
+                                                                    final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document3.get("categorie"));
+                                                                    final Long ore = (Long) document3.get("ore");
+                                                                    final long minuti = (Long) document3.get("minuti");
+                                                                    final long nPostiDisponibili = (Long) document3.get("posti_massimi");
+                                                                    final String photoUri = (String) document3.get("photoUri");
+                                                                    String ID_ESPERIENZA =(String) document3.getId();
 
                                                                     e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                     esperienze.add(e);
@@ -475,15 +466,15 @@ public class ExperiencesFragment extends Fragment {
                                                                             //PARAMETRI ESPERIENZA
                                                                             i.putExtra("titolo", esperienza.getTitolo());
                                                                             i.putExtra("luogo", esperienza.getLuogo());
-                                                                            i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
+                                                                            i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
                                                                             i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
                                                                             i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
                                                                             i.putExtra("photoUri", esperienza.getPhotoUri());
                                                                             i.putExtra("descrizione", esperienza.getDescrizione());
-                                                                            i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
+                                                                            i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
                                                                             i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
                                                                             //PARAMETRI CREATORE ESPERIENZA
-                                                                            i.putExtra("nome_utente", nome_utente);
+                                                                            i.putExtra("nome_utente", nome_utente_creatore);
                                                                             i.putExtra("photo_url_creatore_esperienza", photo_url_creatore_esperienza);
                                                                             i.putExtra("photo_url_prenotante_esperienza", "images/"+ID_PRENOTANTE+"/foto_profilo");
                                                                             //PARAMETRI PRENOTAZIONE
@@ -518,7 +509,7 @@ public class ExperiencesFragment extends Fragment {
                                                 } else {
                                                     Log.d("ERROR_DOCUMENT", "No such document");
                                                 }
-                                            }
+
                                         } else {
                                             Log.d("ERROR_TASK", "get failed with ", task.getException());
                                         }
@@ -596,14 +587,12 @@ public class ExperiencesFragment extends Fragment {
                             if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0){
 
                                 //Raccolgo nome utente e foto profilo
-                                final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
-                                //TO-DO : SALVARE E PASSARE L'ID DOCUMENTO DEL CREATORE DELL'ESPERIENZA PER ALLEGGERIRE LA QUERY
-                                Query query2 = utenti.whereEqualTo("id", ID_PRENOTANTE);
-                                Task<QuerySnapshot> querySnapshotTask = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                final DocumentReference utenti = db.collection("utenti").document(ID_PRENOTANTE);
+                                utenti.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if(task.isSuccessful()){
-                                            for(QueryDocumentSnapshot document2 : task.getResult()){
+                                            DocumentSnapshot document2 = task.getResult();
                                                 if(document2.exists()) {
                                                     final String nome_utente = (String) document2.get("name"); //prenotante
                                                     final String photo_url_prenotante_esperienza = (String) document2.get("photoUrl");
@@ -643,17 +632,17 @@ public class ExperiencesFragment extends Fragment {
                                                                         //PARAMETRI ESPERIENZA
                                                                         i.putExtra("titolo", esperienza.getTitolo());
                                                                         i.putExtra("luogo", esperienza.getLuogo());
-                                                                        i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
+                                                                        i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
                                                                         i.putExtra("descrizione", esperienza.getDescrizione());
                                                                         i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
                                                                         i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
                                                                         i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
                                                                         i.putExtra("photoUri", esperienza.getPhotoUri());
-                                                                        i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
+                                                                        i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
                                                                         //PARAMETRI CREATORE ESPERIENZA
                                                                         i.putExtra("nome_utente", nome_utente); //prenotante
                                                                         i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza); //prenotante
-                                                                        i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE_ESPERIENZA+"/foto_profilo");
+                                                                        i.putExtra("photo_url_creatore_esperienza", "images/"+esperienza.getID_CREATORE()+"/foto_profilo");
                                                                         //PARAMETRI PRENOTAZIONE
                                                                         i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
                                                                         i.putExtra("prezzo", prezzo);
@@ -679,7 +668,7 @@ public class ExperiencesFragment extends Fragment {
                                                 } else {
                                                     Log.d("ERROR_DOCUMENT", "No such document");
                                                 }
-                                            }
+
                                         } else {
                                             Log.d("ERROR_TASK", "get failed with ", task.getException());
                                         }
