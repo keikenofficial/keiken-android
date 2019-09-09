@@ -292,7 +292,7 @@
                 android:id="@+id/conferma_rifiuta_prenotazione_layout"
                 android:visibility="gone">
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/accetta_esperienza"
+                android:id="@+id/rifiuta_esperienza"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -307,7 +307,7 @@
                 android:layout_marginHorizontal="15dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/rifiuta_esperienza"
+                    android:id="@+id/accetta_esperienza"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"

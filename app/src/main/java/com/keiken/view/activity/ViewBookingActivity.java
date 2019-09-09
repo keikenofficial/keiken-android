@@ -125,6 +125,91 @@ public class ViewBookingActivity extends AppCompatActivity {
         TextView dateTV = findViewById(R.id.date);
         dateTV.setText(data_prenotazione);
 
+        //ON CLICK LISTENER
+        /*
+        conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+        accetta_esperienza.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                accetta_esperienza.setEnabled(false);
+                rifiuta_esperienza.setEnabled(false);
+                try{
+                    //UPDATE VARIABILE isAccepted
+                    final DocumentReference prenotazioniDb = db.collection("prenotazioni").document(ID_PRENOTAZIONE);
+                    prenotazioniDb.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task){
+                            if(task.isSuccessful()){
+                                DocumentSnapshot document = task.getResult();
+                                if(document.exists()){
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("isAccepted", true);
+                                    db.collection("prenotazioni").document(document.getId()).update(map);
+                                    Log.d("", "Modifica prenotazione accettata. ");
+
+                                    conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+                                    //DISPLAY OK ICON
+                                    confermata_rifiutata_textview.setVisibility(View.VISIBLE);
+                                    confermata_rifiutata_textview.setBackgroundColor(65280);
+                                }
+                            }
+                        }
+                    });
+                }catch (NullPointerException e){
+                    accetta_esperienza.setEnabled(true);
+                    rifiuta_esperienza.setEnabled(true);
+                }
+            }
+        }); */ //Trovare il problema
+
+
+
+        /*
+        rifiuta_esperienza.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                accetta_esperienza.setEnabled(false);
+                rifiuta_esperienza.setEnabled(false);
+
+                db.collection("prenotazioni").document(ID_PRENOTAZIONE)
+                        .delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("", "DocumentSnapshot successfully deleted!");
+                                try{
+                                    //UPDATE POSTI DISPONIBILI INTERROGO IL DATABASE VIA ID_ESPERIENZA
+                                    final DocumentReference esperienzeDb = db.collection("esperienze").document(ID_ESPERIENZA);
+                                    esperienzeDb.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task){
+                                            if(task.isSuccessful()){
+                                                DocumentSnapshot document = task.getResult();
+                                                if(document.exists()){
+                                                    Map<String, Object> map = new HashMap<>();
+                                                    long posti_massimi = Long.parseLong((String) document.get("posti_massimi"));
+                                                    long new_posti = posti_massimi + Long.parseLong(posti_prenotati);
+                                                    map.put("posti_massimi", new_posti);
+                                                    esperienzeDb.update(map);
+                                                }
+                                            }
+                                        }
+                                    });
+                                }catch (NullPointerException e){
+                                    accetta_esperienza.setEnabled(true);
+                                    rifiuta_esperienza.setEnabled(true);
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("", "Error deleting document", e);
+                            }
+                        });
+            }
+        });*/ // Trovare un metodo per fare un "soft_delete" della prenotazione
+
         if(! FirebaseAuth.getInstance().getCurrentUser().getUid().equals(ID_CREATORE)) {
             final ImageView foto = findViewById(R.id.foto);
             if (photoUri != null) {
@@ -209,90 +294,10 @@ public class ViewBookingActivity extends AppCompatActivity {
             } else {
                 reviews_button.setVisibility(View.GONE);
                 confermata_rifiutata_textview.setVisibility(View.GONE);
+                conferma_rifiuta_prenotazione_layout.setVisibility(View.VISIBLE);
                 accetta_esperienza.setEnabled(true);
                 rifiuta_esperienza.setEnabled(true);
                 //DISPLAY WAITING FOR APPROVAL ICON
-
-                //ON CLICK LISTENER
-                conferma_rifiuta_prenotazione_layout.setVisibility(View.VISIBLE);
-                accetta_esperienza.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view) {
-                        accetta_esperienza.setEnabled(false);
-                        rifiuta_esperienza.setEnabled(false);
-                        try{
-                            //UPDATE VARIABILE isAccepted
-                            final DocumentReference prenotazioniDb = db.collection("prenotazioni").document(ID_PRENOTAZIONE);
-                            prenotazioniDb.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task){
-                                    if(task.isSuccessful()){
-                                        DocumentSnapshot document = task.getResult();
-                                        if(document.exists()){
-                                            Map<String, Object> map = new HashMap<>();
-                                            map.put("isAccepted", true);
-                                            db.collection("prenotazioni").document(document.getId()).update(map);
-                                            Log.d("", "Modifica prenotazione accettata. ");
-
-                                            conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
-                                            //DISPLAY OK ICON
-                                            confermata_rifiutata_textview.setVisibility(View.VISIBLE);
-                                            confermata_rifiutata_textview.setBackgroundColor(65280);
-                                        }
-                                    }
-                                }
-                            });
-                        }catch (NullPointerException e){
-                            accetta_esperienza.setEnabled(true);
-                            rifiuta_esperienza.setEnabled(true);
-                        }
-                    }
-                });
-
-                rifiuta_esperienza.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view) {
-                        accetta_esperienza.setEnabled(false);
-                        rifiuta_esperienza.setEnabled(false);
-
-                        db.collection("prenotazioni").document(ID_PRENOTAZIONE)
-                                .delete()
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.d("", "DocumentSnapshot successfully deleted!");
-                                        try{
-                                            //UPDATE POSTI DISPONIBILI INTERROGO IL DATABASE VIA ID_ESPERIENZA
-                                            final DocumentReference esperienzeDb = db.collection("esperienze").document(ID_ESPERIENZA);
-                                            esperienzeDb.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task){
-                                                    if(task.isSuccessful()){
-                                                        DocumentSnapshot document = task.getResult();
-                                                        if(document.exists()){
-                                                            Map<String, Object> map = new HashMap<>();
-                                                            long posti_massimi = Long.parseLong((String) document.get("posti_massimi"));
-                                                            long new_posti = posti_massimi + Long.parseLong(posti_prenotati);
-                                                            map.put("posti_massimi", new_posti);
-                                                            esperienzeDb.update(map);
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        }catch (NullPointerException e){
-                                            accetta_esperienza.setEnabled(true);
-                                            rifiuta_esperienza.setEnabled(true);
-                                        }
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Log.w("", "Error deleting document", e);
-                                    }
-                                });
-                    }
-                });
 
             }
 
