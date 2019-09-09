@@ -55,7 +55,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         final String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
         final String ID_PRENOTANTE = getIntent().getStringExtra("ID_PRENOTANTE");
         final String prezzo = getIntent().getStringExtra("prezzo");
-        final String ore = getIntent().getStringExtra("ore");
+        String ore = getIntent().getStringExtra("ore");
         String minuti = getIntent().getStringExtra("minuti");
         final String posti_prenotati = getIntent().getStringExtra("posti_prenotati");
         
@@ -109,13 +109,18 @@ public class ViewBookingActivity extends AppCompatActivity {
         final MaterialButton rifiuta_esperienza = findViewById(R.id.rifiuta_esperienza);
 
         TextView prezzoTV = findViewById(R.id.prezzo);
-        prezzoTV.setText("Prezzo a persona: " + prezzo + "\u20AC");
+        prezzoTV.setText("Prezzo totale: " + prezzo + "\u20AC");
+
 
         TextView orarioTV = findViewById(R.id.orario);
+        int h = Integer.parseInt(ore);
         int min = Integer.parseInt(minuti);
-        if (min < 10)
-            minuti = "0" + min;
-        orarioTV.setText(ore + ":" + minuti);
+        if (h <10)
+            ore ="0" + ore;
+        if (min <10)
+            minuti ="0" + min;
+        orarioTV.setText(ore+":"+minuti);
+
         TextView posti_prenotatiTV = findViewById(R.id.posti_prenotati);
         posti_prenotatiTV.setText("Posti prenotati: " + posti_prenotati);
 

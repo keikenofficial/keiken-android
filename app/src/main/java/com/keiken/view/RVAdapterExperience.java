@@ -29,6 +29,7 @@ import com.keiken.R;
 import com.keiken.controller.ImageController;
 import com.keiken.model.Esperienza;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperience.ExperienceViewHolder> {
@@ -74,10 +75,11 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
         RatingBar recensioni;
         TextView user_name;
         ImageView profile_pic;
-
         MaterialCardView profile_pic_ontainer;
         ImageView foto;
         String photoUrl;
+        TextView data;
+
 
 
         public ExperienceViewHolder(final View itemView) {
@@ -89,12 +91,23 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
             profile_pic = itemView.findViewById(R.id.profile_pic);
             profile_pic_ontainer = itemView.findViewById(R.id.profile_pic_ontainer);
             foto = itemView.findViewById(R.id.foto);
+            data = itemView.findViewById(R.id.data);
         }
 
         public void bind(final Esperienza e, final RVAdapterExperience.OnItemClickListener listener) {
 
             titolo.setText(e.getTitolo());
             luogo.setText(e.getLuogo());
+
+            String tempDate = "";
+            if (e.getData_prenotazione().get(Calendar.DAY_OF_MONTH) < 10)
+                tempDate += "0";
+            tempDate += e.getData_prenotazione().get(Calendar.DAY_OF_MONTH) + "/";
+            if (e.getData_prenotazione().get(Calendar.MONTH) < 10)
+                tempDate += "0";
+            tempDate += (e.getData_prenotazione().get(Calendar.MONTH) + "/" + (e.getData_prenotazione().get(Calendar.YEAR)));
+
+            data.setText(tempDate);
 
             //DOWNLOAD IMMAGINE ESPERIENZA
             mAuth = FirebaseAuth.getInstance();

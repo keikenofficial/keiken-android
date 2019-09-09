@@ -57,7 +57,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
         final String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
         final String prezzo = getIntent().getStringExtra("prezzo");
         ArrayList<String> categorie = getIntent().getStringArrayListExtra("categorie");
-        final String ore = getIntent().getStringExtra("ore");
+        String ore = getIntent().getStringExtra("ore");
         minuti = getIntent().getStringExtra("minuti");
         String postiMax = getIntent().getStringExtra("nPostiDisponibili");
         String photoUri = getIntent().getStringExtra("photoUri");
@@ -110,7 +110,10 @@ public class ViewExperienceActivity extends AppCompatActivity {
         prezzoTV.setText("Prezzo a persona: " + prezzo + "\u20AC");
 
         TextView orarioTV = findViewById(R.id.orario);
+        int h = Integer.parseInt(ore);
         int min = Integer.parseInt(minuti);
+        if (h <10)
+            ore ="0" + ore;
         if (min <10)
             minuti ="0" + min;
         orarioTV.setText(ore+":"+minuti);
@@ -202,8 +205,8 @@ public class ViewExperienceActivity extends AppCompatActivity {
         }
 
 
-
-            prenotaEsperienza.setOnClickListener(new View.OnClickListener() {
+        final String finalOre = ore;
+        prenotaEsperienza.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ViewExperienceActivity.this, BookExperienceActivity.class);
@@ -211,7 +214,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
                 //passo i parametri per la prenotazione in modo da non dover interrogare il database nuovamente
                 i.putExtra("titolo", titolo);
                 i.putExtra("luogo", luogo);
-                i.putExtra("ore", ore);
+                i.putExtra("ore", finalOre);
                 i.putExtra("minuti", minuti);
                 i.putExtra("date", dateMap); // HAS MAP CON <CALENDAR, LONG> ----> <DATA, N_POSTI_DISPONIBILI>
                 //ALL'ATTO DELLA PRENOTAZIONE VA INTERROGATO IL DATABASE PER
