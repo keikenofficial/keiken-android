@@ -53,6 +53,10 @@ public class ViewBookingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_booking);
 
+
+
+
+
         //GET INTENT
         final String titolo = getIntent().getStringExtra("titolo");
         String descrizione = getIntent().getStringExtra("descrizione");
@@ -70,8 +74,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         final String nome_utente = getIntent().getStringExtra("nome_utente");
         final String foto_utente = getIntent().getStringExtra("photo_url_creatore_esperienza");
         final String foto_utente_prenotante = getIntent().getStringExtra("photo_url_prenotante_esperienza");
-        String isAcceptedString = getIntent().getStringExtra("isAccepted");
-        boolean isAccepted = isAcceptedString.matches("true");
+        boolean isAccepted = getIntent().getExtras().getBoolean("isAccepted");
         final String ID_PRENOTAZIONE = getIntent().getStringExtra("ID_PRENOTAZIONE");
 
         LinearLayout profilo = findViewById(R.id.account);

@@ -135,7 +135,7 @@ public class ExperiencesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FrameLayout c = (FrameLayout) inflater.inflate(R.layout.fragment_experiences, container, false);
+        final FrameLayout c = (FrameLayout) inflater.inflate(R.layout.fragment_experiences, container, false);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -278,170 +278,17 @@ public class ExperiencesFragment extends Fragment {
 
 
         //POPOLO LA RECYCLER VIEW
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        LinearLayoutManager llm2 = new LinearLayoutManager(getActivity());
-        rv = c.findViewById(R.id.esperienze_in_corso);
-        rv.setLayoutManager(llm2);
+        final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager llm2 = new LinearLayoutManager(getActivity());
 
-        rv.setFocusable(false);
-        rv.setHasFixedSize(true);
 
-        final CollectionReference prenotazioni = db.collection("prenotazioni");
+
 
         final SwipeRefreshLayout pullToRefreshMade = c.findViewById(R.id.swiperefresh_made);
         pullToRefreshMade.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
-                Query query = prenotazioni.whereEqualTo("ID_PRENOTANTE", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-
-                            //ARRAY DA PASSARE AL RVAdapterExperience
-                            final ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>();
-
-
-                            for (final QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.exists()) {
-
-                                    //recupero ID_ESPERIENZA ed ID_CREATORE_ESPERIENZA per ogni prenotazione
-                                    //da cui poi ricavare l'esperienza e la foto profilo/nome profilo da stampare
-                                    final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
-                                    final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
-                                    final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
-                                    final String ID_PRENOTAZIONE = document.getId();
-
-                                    final long posti_prenotati = ((Long)document.get("posti_prenotati"));
-
-                                    final String ore = (String) document.get("ore");
-                                    final String minuti = (String) document.get("minuti");
-
-                                    final String prezzo = (String) document.get("prezzo");
-
-                                    final boolean isAccepted = (boolean) document.get("isAccepted");
-
-                                    //DA AGGIUNGERE CONTROLLO SE LA VARIABILE IS ACCEPTED è TRUE  O FALSE
-                                    // IN MODO DA MOSTRARE NEI DUE CASI UNA ICONA DI CONFERMA O MENO DELLA PRENOTAZIONE
-
-
-                                    //RECUPERO LA DATA
-                                    Date tempDate = new Date(System.currentTimeMillis());
-
-                                    //data_prenotazione.setTimeInMillis(tempTimestamp);
-
-                                    Timestamp timestamp = (Timestamp) document.get("data_selezionata");
-                                    final Date data_prenotazione = timestamp.toDate();
-
-                                    //Controllo che la data della prenotazione sia effettivamente futura
-                                    //da aggiungere controllo sull'ora
-                                    if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0){
-
-                                        //Raccolgo nome utente e foto profilo
-                                        final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
-                                        //TO-DO : SALVARE E PASSARE L'ID DOCUMENTO DEL CREATORE DELL'ESPERIENZA PER ALLEGGERIRE LA QUERY
-                                        Query query2 = utenti.whereEqualTo("id", ID_CREATORE_ESPERIENZA);
-                                        Task<QuerySnapshot> querySnapshotTask = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    for(QueryDocumentSnapshot document2 : task.getResult()){
-                                                        if(document2.exists()) {
-                                                            final String nome_utente_creatore = (String) document2.get("name");
-                                                            final String photo_url_creatore_esperienza = (String) document2.get("photoUrl");
-
-                                                            //Raccolgo informazioni esperienza (immagine, etc)
-                                                            final DocumentReference esperienza = db.collection("esperienze").document(ID_ESPERIENZA_PRENOTATA);
-                                                            esperienza.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        DocumentSnapshot document = task.getResult();
-                                                                        if (document.exists()) {
-
-                                                                            final Esperienza e;
-                                                                            final String titolo = (String) document.get("titolo");
-                                                                            final String descrizione = (String) document.get("descrizione");
-                                                                            final String luogo = (String) document.get("luogo");
-                                                                            final String ID_CREATORE = (String) document.get("ID_CREATORE");
-                                                                            final String prezzo = (String) document.get("prezzo");
-                                                                            final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-                                                                            final Long ore = (Long) document.get("ore");
-                                                                            final long minuti = (Long) document.get("minuti");
-                                                                            final long nPostiDisponibili = (Long) document.get("posti_massimi");
-                                                                            final String photoUri = (String) document.get("photoUri");
-                                                                            String ID_ESPERIENZA =(String) document.getId();
-
-                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
-                                                                            esperienze.add(e);
-
-
-                                                                            //ARRIVATO A QUESTO PUNTO, PROCESSO TUTTI I DATI
-                                                                            //STAMPA SU ADAPTER E INVIO DATI UTILI TRAMITE INTENT
-                                                                            RVAdapterExperience adapter = new RVAdapterExperience(esperienze, new RVAdapterExperience.OnItemClickListener() {
-                                                                                @Override
-                                                                                public void onItemClick(Esperienza esperienza) {
-                                                                                    Intent i = new Intent(getContext(), ViewBookingActivity.class);
-                                                                                    //DATI DA PASSARE AL ViewBookingActivity !!!!!!!!!!!!
-                                                                                    //PARAMETRI ESPERIENZA
-                                                                                    i.putExtra("titolo", esperienza.getTitolo());
-                                                                                    i.putExtra("luogo", esperienza.getLuogo());
-                                                                                    i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
-                                                                                    i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
-                                                                                    i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
-                                                                                    i.putExtra("photoUri", esperienza.getPhotoUri()); //foto esperienza
-                                                                                    i.putExtra("descrizione", esperienza.getDescrizione());
-                                                                                    i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
-                                                                                    i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
-                                                                                    //PARAMETRI CREATORE ESPERIENZA
-                                                                                    i.putExtra("nome_utente", nome_utente_creatore); //nome utente creatore dell'esperienza -> viene passato nella view del prenotante
-                                                                                    i.putExtra("photo_url_creatore_esperienza", photo_url_creatore_esperienza);
-                                                                                    i.putExtra("photo_url_prenotante_esperienza", "images/"+ID_PRENOTANTE+"/foto_profilo");
-                                                                                    //PARAMETRI PRENOTAZIONE
-                                                                                    i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
-                                                                                    i.putExtra("prezzo", prezzo);
-                                                                                    i.putExtra("isAccepted", String.valueOf(isAccepted));
-                                                                                    i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
-                                                                                    //la data viene caricata come stringa, serve solo per essere mostrata all'utente
-                                                                                    SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
-                                                                                    String currentYear = formatYear.format(data_prenotazione);
-                                                                                    i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10) + " " +currentYear);
-
-                                                                                    startActivity(i);
-                                                                                }
-                                                                            });
-                                                                            rv.setAdapter(adapter);
-                                                                        } else {
-                                                                            Log.d("ERROR_DOCUMENT", "No such document");
-                                                                        }
-                                                                    } else {
-                                                                        Log.d("ERROR_TASK", "No such document");
-                                                                    }
-                                                                }
-                                                            }); //FINE QUERY ESPERIENZA
-                                                        } else {
-                                                            Log.d("ERROR_DOCUMENT", "No such document");
-                                                        }
-                                                    }
-                                                } else {
-                                                    Log.d("ERROR_TASK", "get failed with ", task.getException());
-                                                }
-                                            }
-                                        });
-                                        //FINE QUERY UTENTE_CREATORE
-                                    }
-
-
-                                } else {
-                                    Log.d("ERROR_DOCUMENT", "No such document");
-                                }
-                            }
-                        } else {
-                            Log.d("ERROR_TASK", "get failed with ", task.getException());
-                        }
-                    }
-                });
+                showBookingEffettuata(c, llm);
                 pullToRefreshMade.setRefreshing(false);
             }
         });
@@ -451,160 +298,76 @@ public class ExperiencesFragment extends Fragment {
         pullToRefreshReceived.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
-                Query query2 = prenotazioni.whereEqualTo("ID_CREATORE_ESPERIENZA", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                Task<QuerySnapshot> querySnapshotTask2 = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-
-                            //ARRAY DA PASSARE AL RVAdapterExperience
-                            final ArrayList<Esperienza> esperienze = new ArrayList<Esperienza>();
-
-
-                            for (final QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.exists()) {
-
-                                    //recupero ID_ESPERIENZA ed ID_CREATORE_ESPERIENZA per ogni prenotazione
-                                    //da cui poi ricavare l'esperienza e la foto profilo/nome profilo da stampare
-                                    final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
-                                    final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
-                                    final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
-                                    final String ID_PRENOTAZIONE = document.getId();
-
-                                    final long posti_prenotati = ((Long)document.get("posti_prenotati"));
-
-                                    final String ore = (String) document.get("ore");
-                                    final String minuti = (String) document.get("minuti");
-
-                                    final String prezzo = (String) document.get("prezzo");
-
-                                    final boolean isAccepted = (boolean) document.get("isAccepted");
-
-                                    //DA AGGIUNGERE CONTROLLO SE LA VARIABILE IS ACCEPTED è TRUE  O FALSE
-                                    // IN MODO DA MOSTRARE NEI DUE CASI UNA ICONA DI CONFERMA O MENO DELLA PRENOTAZIONE
-
-
-                                    //RECUPERO LA DATA
-                                    Date tempDate = new Date(System.currentTimeMillis());
-
-                                    Timestamp timestamp = (Timestamp) document.get("data_selezionata");
-                                    final Date data_prenotazione = timestamp.toDate();
-
-
-                                    //Controllo che la data della prenotazione sia effettivamente futura
-                                    if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0){
-
-                                        //Raccolgo nome utente e foto profilo
-                                        final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
-                                        //TO-DO : SALVARE E PASSARE L'ID DOCUMENTO DEL CREATORE DELL'ESPERIENZA PER ALLEGGERIRE LA QUERY
-                                        Query query2 = utenti.whereEqualTo("id", ID_PRENOTANTE);
-                                        Task<QuerySnapshot> querySnapshotTask = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if(task.isSuccessful()){
-                                                    for(QueryDocumentSnapshot document2 : task.getResult()){
-                                                        if(document2.exists()) {
-                                                            final String nome_utente = (String) document2.get("name");
-                                                            final String photo_url_prenotante_esperienza = (String) document2.get("photoUrl");
-
-                                                            //Raccolgo informazioni esperienza (immagine, etc)
-                                                            final DocumentReference esperienza = db.collection("esperienze").document(ID_ESPERIENZA_PRENOTATA);
-                                                            esperienza.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        DocumentSnapshot document = task.getResult();
-                                                                        if (document.exists()) {
-
-                                                                            final Esperienza e;
-                                                                            final String titolo = (String) document.get("titolo");
-                                                                            final String descrizione = (String) document.get("descrizione");
-                                                                            final String luogo = (String) document.get("luogo");
-                                                                            final String ID_CREATORE = (String) document.get("ID_CREATORE");
-                                                                            final String prezzo = (String) document.get("prezzo");
-                                                                            final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
-                                                                            final Long ore = (Long) document.get("ore");
-                                                                            final long minuti = (Long) document.get("minuti");
-                                                                            final long nPostiDisponibili = (Long) document.get("posti_massimi");
-                                                                            final String photoUri = (String) document.get("photoUri");
-                                                                            String ID_ESPERIENZA =(String) document.getId();
-
-                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
-                                                                            esperienze.add(e);
-
-
-                                                                            //ARRIVATO A QUESTO PUNTO, PROCESSO TUTTI I DATI
-                                                                            //STAMPA SU ADAPTER E INVIO DATI UTILI TRAMITE INTENT
-                                                                            RVAdapterExperienceRicevuta adapter = new RVAdapterExperienceRicevuta(esperienze, new RVAdapterExperienceRicevuta.OnItemClickListener() {                                                                        @Override
-                                                                            public void onItemClick(Esperienza esperienza) {
-                                                                                Intent i = new Intent(getContext(), ViewBookingActivity.class);
-                                                                                //DATI DA PASSARE AL ViewBookingActivity !!!!!!!!!!!!
-                                                                                //PARAMETRI ESPERIENZA
-                                                                                i.putExtra("titolo", esperienza.getTitolo());
-                                                                                i.putExtra("luogo", esperienza.getLuogo());
-                                                                                i.putExtra("ID_CREATORE", ID_CREATORE);
-                                                                                i.putExtra("descrizione", esperienza.getDescrizione());
-                                                                                i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
-                                                                                i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
-                                                                                i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
-                                                                                i.putExtra("photoUri", esperienza.getPhotoUri());
-                                                                                i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
-                                                                                //PARAMETRI CREATORE ESPERIENZA
-                                                                                i.putExtra("nome_utente", nome_utente);
-                                                                                i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza);
-                                                                                i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE+"/foto_profilo");
-                                                                                //PARAMETRI PRENOTAZIONE
-                                                                                i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
-                                                                                i.putExtra("prezzo", prezzo);
-                                                                                i.putExtra("isAccepted", String.valueOf(isAccepted));
-                                                                                i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
-                                                                                //la data viene caricata come stringa, serve solo per essere mostrata all'utente
-
-                                                                                SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
-                                                                                String currentYear = formatYear.format(data_prenotazione);
-                                                                                i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10) + " " +currentYear);
-
-                                                                                startActivity(i);
-                                                                            }
-                                                                            });
-                                                                            rv2.setAdapter(adapter);
-                                                                        } else {
-                                                                            Log.d("ERROR_DOCUMENT", "No such document");
-                                                                        }
-                                                                    } else {
-                                                                        Log.d("ERROR_TASK", "No such document");
-                                                                    }
-                                                                }
-                                                            }); //FINE QUERY ESPERIENZA
-                                                        } else {
-                                                            Log.d("ERROR_DOCUMENT", "No such document");
-                                                        }
-                                                    }
-                                                } else {
-                                                    Log.d("ERROR_TASK", "get failed with ", task.getException());
-                                                }
-                                            }
-                                        });
-                                        //FINE QUERY UTENTE_CREATORE
-                                    }
-
-
-                                } else {
-                                    Log.d("ERROR_DOCUMENT", "No such document");
-                                }
-                            }
-                        } else {
-                            Log.d("ERROR_TASK", "get failed with ", task.getException());
-                        }
-                    }
-                });
+                showBookingRicevuta(c, llm2);
                 pullToRefreshReceived.setRefreshing(false);
             }
         });
 
+        showBookingEffettuata(c, llm);
+        showBookingRicevuta(c, llm2);
 
+
+        return c;
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+
+    // onAttach : set activity listener
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        // if implemented by activity, set listener
+        if(activity instanceof OnPageListener) {
+            pageListener = (OnPageListener) activity;
+        }
+        // else create local listener (code never executed in this example)
+        else pageListener = new OnPageListener() {
+            @Override
+            public void onPage1(String s) {
+                Log.d("PAG1","Button event from page 1 : "+s);
+            }
+        };
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
+
+    //EFFETTUATE
+    public void showBookingEffettuata(FrameLayout c, LinearLayoutManager llm){
         //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE PRENOTATE    (PRENOTAZIONI EFFETTUATE)
+        rv = c.findViewById(R.id.esperienze_in_corso);
+        rv.setLayoutManager(llm);
+
+        rv.setFocusable(false);
+        rv.setHasFixedSize(true);
+
+        final CollectionReference prenotazioni = db.collection("prenotazioni");
         Query query = prenotazioni.whereEqualTo("ID_PRENOTANTE", FirebaseAuth.getInstance().getCurrentUser().getUid());
         Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -619,7 +382,7 @@ public class ExperiencesFragment extends Fragment {
                         if (document.exists()) {
 
                             //recupero ID_ESPERIENZA ed ID_CREATORE_ESPERIENZA per ogni prenotazione
-                                //da cui poi ricavare l'esperienza e la foto profilo/nome profilo da stampare
+                            //da cui poi ricavare l'esperienza e la foto profilo/nome profilo da stampare
                             final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
                             final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
                             final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
@@ -635,7 +398,7 @@ public class ExperiencesFragment extends Fragment {
                             final boolean isAccepted = (boolean) document.get("isAccepted");
 
                             //DA AGGIUNGERE CONTROLLO SE LA VARIABILE IS ACCEPTED è TRUE  O FALSE
-                                // IN MODO DA MOSTRARE NEI DUE CASI UNA ICONA DI CONFERMA O MENO DELLA PRENOTAZIONE
+                            // IN MODO DA MOSTRARE NEI DUE CASI UNA ICONA DI CONFERMA O MENO DELLA PRENOTAZIONE
 
 
                             //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
@@ -650,7 +413,7 @@ public class ExperiencesFragment extends Fragment {
 
                                 //Raccolgo nome utente e foto profilo
                                 final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
-                                                                                                                    //TO-DO : SALVARE E PASSARE L'ID DOCUMENTO DEL CREATORE DELL'ESPERIENZA PER ALLEGGERIRE LA QUERY
+                                //TO-DO : SALVARE E PASSARE L'ID DOCUMENTO DEL CREATORE DELL'ESPERIENZA PER ALLEGGERIRE LA QUERY
                                 Query query2 = utenti.whereEqualTo("id", ID_CREATORE_ESPERIENZA);
                                 Task<QuerySnapshot> querySnapshotTask = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
@@ -694,7 +457,7 @@ public class ExperiencesFragment extends Fragment {
                                                                         public void onItemClick(Esperienza esperienza) {
                                                                             Intent i = new Intent(getContext(), ViewBookingActivity.class);
                                                                             //DATI DA PASSARE AL ViewBookingActivity !!!!!!!!!!!!
-                                                                                //PARAMETRI ESPERIENZA
+                                                                            //PARAMETRI ESPERIENZA
                                                                             i.putExtra("titolo", esperienza.getTitolo());
                                                                             i.putExtra("luogo", esperienza.getLuogo());
                                                                             i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
@@ -704,23 +467,23 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("descrizione", esperienza.getDescrizione());
                                                                             i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
                                                                             i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
-                                                                                //PARAMETRI CREATORE ESPERIENZA
+                                                                            //PARAMETRI CREATORE ESPERIENZA
                                                                             i.putExtra("nome_utente", nome_utente);
                                                                             i.putExtra("photo_url_creatore_esperienza", photo_url_creatore_esperienza);
                                                                             i.putExtra("photo_url_prenotante_esperienza", "images/"+ID_PRENOTANTE+"/foto_profilo");
-                                                                                //PARAMETRI PRENOTAZIONE
+                                                                            //PARAMETRI PRENOTAZIONE
                                                                             i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
                                                                             i.putExtra("prezzo", prezzo);
-                                                                            i.putExtra("isAccepted", String.valueOf(isAccepted));
+                                                                            i.putExtra("isAccepted", isAccepted);
                                                                             i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
-                                                                                    //la data viene caricata come stringa, serve solo per essere mostrata all'utente
-                                                                      //      String tempDate = "";
-                                                                      //      if (data_prenotazione.get(Calendar.DAY_OF_MONTH) < 10)
-                                                                      //          tempDate += "0";
-                                                                      //      tempDate += data_prenotazione.get(Calendar.DAY_OF_MONTH) + "/";
-                                                                      //      if (data_prenotazione.get(Calendar.MONTH) < 10)
-                                                                      //          tempDate += "0";
-                                                                      //      tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
+                                                                            //la data viene caricata come stringa, serve solo per essere mostrata all'utente
+                                                                            //      String tempDate = "";
+                                                                            //      if (data_prenotazione.get(Calendar.DAY_OF_MONTH) < 10)
+                                                                            //          tempDate += "0";
+                                                                            //      tempDate += data_prenotazione.get(Calendar.DAY_OF_MONTH) + "/";
+                                                                            //      if (data_prenotazione.get(Calendar.MONTH) < 10)
+                                                                            //          tempDate += "0";
+                                                                            //      tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
                                                                             SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
                                                                             String currentYear = formatYear.format(data_prenotazione.getTime());
                                                                             i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10)+" " +currentYear);
@@ -760,36 +523,13 @@ public class ExperiencesFragment extends Fragment {
             }
         });
         //FINE QUERY PRENOTAZIONI
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////////////PRENOTAZIONI RICEVUTE///////////////////////////////////////////
-
+    //RICEVUTE
+    public void showBookingRicevuta(FrameLayout c, LinearLayoutManager llm2){
         //POPOLO LA RECYCLER VIEW
         rv2 = c.findViewById(R.id.esperienze_ricevute);
-        rv2.setLayoutManager(llm);
+        rv2.setLayoutManager(llm2);
 
         rv2.setFocusable(false);
         rv2.setHasFixedSize(true);
@@ -797,7 +537,7 @@ public class ExperiencesFragment extends Fragment {
 
         //QUERY DAL DATABASE PER RICEVERE LE PRENOTAZIONI RICEVUTE
         final CollectionReference prenotazioniRicevute = db.collection("prenotazioni");
-        Query query2 = prenotazioni.whereEqualTo("ID_CREATORE_ESPERIENZA", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Query query2 = prenotazioniRicevute.whereEqualTo("ID_CREATORE_ESPERIENZA", FirebaseAuth.getInstance().getCurrentUser().getUid());
         Task<QuerySnapshot> querySnapshotTask2 = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -882,35 +622,35 @@ public class ExperiencesFragment extends Fragment {
                                                                     //ARRIVATO A QUESTO PUNTO, PROCESSO TUTTI I DATI
                                                                     //STAMPA SU ADAPTER E INVIO DATI UTILI TRAMITE INTENT
                                                                     RVAdapterExperienceRicevuta adapter = new RVAdapterExperienceRicevuta(esperienze, new RVAdapterExperienceRicevuta.OnItemClickListener() {                                                                        @Override
-                                                                        public void onItemClick(Esperienza esperienza) {
-                                                                            Intent i = new Intent(getContext(), ViewBookingActivity.class);
-                                                                            //DATI DA PASSARE AL ViewBookingActivity !!!!!!!!!!!!
-                                                                            //PARAMETRI ESPERIENZA
-                                                                            i.putExtra("titolo", esperienza.getTitolo());
-                                                                            i.putExtra("luogo", esperienza.getLuogo());
-                                                                            i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
-                                                                            i.putExtra("descrizione", esperienza.getDescrizione());
-                                                                            i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
-                                                                            i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
-                                                                            i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
-                                                                            i.putExtra("photoUri", esperienza.getPhotoUri());
-                                                                            i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
-                                                                            //PARAMETRI CREATORE ESPERIENZA
-                                                                            i.putExtra("nome_utente", nome_utente); //prenotante
-                                                                            i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza); //prenotante
-                                                                            i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE_ESPERIENZA+"/foto_profilo");
-                                                                            //PARAMETRI PRENOTAZIONE
-                                                                            i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
-                                                                            i.putExtra("prezzo", prezzo);
-                                                                            i.putExtra("isAccepted", String.valueOf(isAccepted));
-                                                                            i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
-                                                                            //la data viene caricata come stringa, serve solo per essere mostrata all'utente
+                                                                    public void onItemClick(Esperienza esperienza) {
+                                                                        Intent i = new Intent(getContext(), ViewBookingActivity.class);
+                                                                        //DATI DA PASSARE AL ViewBookingActivity !!!!!!!!!!!!
+                                                                        //PARAMETRI ESPERIENZA
+                                                                        i.putExtra("titolo", esperienza.getTitolo());
+                                                                        i.putExtra("luogo", esperienza.getLuogo());
+                                                                        i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
+                                                                        i.putExtra("descrizione", esperienza.getDescrizione());
+                                                                        i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
+                                                                        i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
+                                                                        i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
+                                                                        i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                                        i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
+                                                                        //PARAMETRI CREATORE ESPERIENZA
+                                                                        i.putExtra("nome_utente", nome_utente); //prenotante
+                                                                        i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza); //prenotante
+                                                                        i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE_ESPERIENZA+"/foto_profilo");
+                                                                        //PARAMETRI PRENOTAZIONE
+                                                                        i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
+                                                                        i.putExtra("prezzo", prezzo);
+                                                                        i.putExtra("isAccepted", isAccepted);
+                                                                        i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
+                                                                        //la data viene caricata come stringa, serve solo per essere mostrata all'utente
                                                                         SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
                                                                         String currentYear = formatYear.format(data_prenotazione.getTime());
                                                                         i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10)+" " +currentYear);
 
-                                                                            startActivity(i);
-                                                                        }
+                                                                        startActivity(i);
+                                                                    }
                                                                     });
                                                                     rv2.setAdapter(adapter);
                                                                 } else {
@@ -944,53 +684,7 @@ public class ExperiencesFragment extends Fragment {
             }
         });
         //FINE QUERY PRENOTAZIONI
-        return c;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
 
-    // onAttach : set activity listener
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        // if implemented by activity, set listener
-        if(activity instanceof OnPageListener) {
-            pageListener = (OnPageListener) activity;
-        }
-        // else create local listener (code never executed in this example)
-        else pageListener = new OnPageListener() {
-            @Override
-            public void onPage1(String s) {
-                Log.d("PAG1","Button event from page 1 : "+s);
-            }
-        };
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
