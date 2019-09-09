@@ -93,8 +93,6 @@ public class ExperiencesFragment extends Fragment {
 
     private ImageView downArrow;
     private LinearLayoutCompat header;
-    private LinearLayoutManager llm;
-    private LinearLayoutManager llm2;
     private FrameLayout c;
 
 
@@ -281,8 +279,8 @@ public class ExperiencesFragment extends Fragment {
 
 
         //POPOLO LA RECYCLER VIEW
-        llm = new LinearLayoutManager(getActivity());
-        llm2 = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager llm2 = new LinearLayoutManager(getActivity());
         final LinearLayoutManager llm3 = new LinearLayoutManager(getActivity());
         final LinearLayoutManager llm4 = new LinearLayoutManager(getActivity());
 
@@ -367,8 +365,10 @@ public class ExperiencesFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        showBookingRicevuta(c,llm);
-        showBookingEffettuata(c, llm2);
+        final LinearLayoutManager llm5 = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager llm6 = new LinearLayoutManager(getActivity());
+        showBookingRicevuta(c,llm5);
+        showBookingEffettuata(c, llm6);
 
 
     }
