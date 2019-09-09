@@ -326,29 +326,17 @@ public class ExperiencesFragment extends Fragment {
                                     // IN MODO DA MOSTRARE NEI DUE CASI UNA ICONA DI CONFERMA O MENO DELLA PRENOTAZIONE
 
 
-                                    //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
-                                    //Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data_selezionata")).get("timeInMillis");
-                                    final Calendar data_prenotazione = new GregorianCalendar();
+                                    //RECUPERO LA DATA
+                                    Date tempDate = new Date(System.currentTimeMillis());
+
                                     //data_prenotazione.setTimeInMillis(tempTimestamp);
 
                                     Timestamp timestamp = (Timestamp) document.get("data_selezionata");
-                                    data_prenotazione.setTime(timestamp.toDate());
+                                    final Date data_prenotazione = timestamp.toDate();
 
                                     //Controllo che la data della prenotazione sia effettivamente futura
-                                    Calendar c = Calendar.getInstance();
-                                    int currentYear = c.get(Calendar.YEAR);
-                                    int currentMonth = c.get(Calendar.MONTH);
-                                    int currentDay = c.get(Calendar.DAY_OF_MONTH);
-                                    int currentHour = c.get(Calendar.HOUR_OF_DAY);
-                                    int currentMinute = c.get(Calendar.MINUTE);
-
-                                    int sYear = data_prenotazione.get(Calendar.YEAR);
-                                    int sMonth = data_prenotazione.get(Calendar.MONTH);
-                                    int sDay = data_prenotazione.get(Calendar.DAY_OF_MONTH);
-                                    if(!( (sYear < currentYear) || (sYear == currentYear && sMonth < currentMonth)
-                                            || (sYear == currentYear && sMonth == currentMonth && sDay < currentDay)
-                                            || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) < currentHour)
-                                            || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) == currentHour && Integer.parseInt(minuti) < currentMinute))){
+                                    //da aggiungere controllo sull'ora
+                                    if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0){
 
                                         //Raccolgo nome utente e foto profilo
                                         final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
@@ -360,7 +348,7 @@ public class ExperiencesFragment extends Fragment {
                                                 if(task.isSuccessful()){
                                                     for(QueryDocumentSnapshot document2 : task.getResult()){
                                                         if(document2.exists()) {
-                                                            final String nome_utente = (String) document2.get("name");
+                                                            final String nome_utente_creatore = (String) document2.get("name");
                                                             final String photo_url_creatore_esperienza = (String) document2.get("photoUrl");
 
                                                             //Raccolgo informazioni esperienza (immagine, etc)
@@ -385,7 +373,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             final String photoUri = (String) document.get("photoUri");
                                                                             String ID_ESPERIENZA =(String) document.getId();
 
-                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione.getTime(), ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                             esperienze.add(e);
 
 
@@ -402,11 +390,11 @@ public class ExperiencesFragment extends Fragment {
                                                                                     i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
                                                                                     i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
                                                                                     i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
-                                                                                    i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                                                    i.putExtra("photoUri", esperienza.getPhotoUri()); //foto esperienza
                                                                                     i.putExtra("descrizione", esperienza.getDescrizione());
                                                                                     i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
                                                                                     //PARAMETRI CREATORE ESPERIENZA
-                                                                                    i.putExtra("nome_utente", nome_utente);
+                                                                                    i.putExtra("nome_utente", nome_utente_creatore); //nome utente creatore dell'esperienza -> viene passato nella view del prenotante
                                                                                     i.putExtra("photo_url_creatore_esperienza", photo_url_creatore_esperienza);
                                                                                     i.putExtra("photo_url_prenotante_esperienza", "images/"+ID_PRENOTANTE+"/foto_profilo");
                                                                                     //PARAMETRI PRENOTAZIONE
@@ -415,15 +403,9 @@ public class ExperiencesFragment extends Fragment {
                                                                                     i.putExtra("isAccepted", String.valueOf(isAccepted));
                                                                                     i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
                                                                                     //la data viene caricata come stringa, serve solo per essere mostrata all'utente
-                                                                                    String tempDate = "";
-                                                                                    if (data_prenotazione.get(Calendar.DAY_OF_MONTH) < 10)
-                                                                                        tempDate += "0";
-                                                                                    tempDate += data_prenotazione.get(Calendar.DAY_OF_MONTH) + "/";
-                                                                                    if (data_prenotazione.get(Calendar.MONTH) < 10)
-                                                                                        tempDate += "0";
-                                                                                    tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
-
-                                                                                    i.putExtra("data_prenotazione", tempDate);
+                                                                                    SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+                                                                                    String currentYear = formatYear.format(data_prenotazione);
+                                                                                    i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10) + " " +currentYear);
 
                                                                                     startActivity(i);
                                                                                 }
@@ -502,31 +484,15 @@ public class ExperiencesFragment extends Fragment {
                                     // IN MODO DA MOSTRARE NEI DUE CASI UNA ICONA DI CONFERMA O MENO DELLA PRENOTAZIONE
 
 
-                                    //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
+                                    //RECUPERO LA DATA
+                                    Date tempDate = new Date(System.currentTimeMillis());
 
-                                    Timestamp timestamp = (Timestamp) document.get("data");
-                                    Date data = timestamp.toDate();
+                                    Timestamp timestamp = (Timestamp) document.get("data_selezionata");
+                                    final Date data_prenotazione = timestamp.toDate();
 
-
-                                    //Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data_selezionata")).get("timeInMillis");
-                                    final Calendar data_prenotazione = new GregorianCalendar();
-                                    data_prenotazione.setTimeInMillis(data.getTime());
 
                                     //Controllo che la data della prenotazione sia effettivamente futura
-                                    Calendar c = Calendar.getInstance();
-                                    int currentYear = c.get(Calendar.YEAR);
-                                    int currentMonth = c.get(Calendar.MONTH);
-                                    int currentDay = c.get(Calendar.DAY_OF_MONTH);
-                                    int currentHour = c.get(Calendar.HOUR_OF_DAY);
-                                    int currentMinute = c.get(Calendar.MINUTE);
-
-                                    int sYear = data_prenotazione.get(Calendar.YEAR);
-                                    int sMonth = data_prenotazione.get(Calendar.MONTH);
-                                    int sDay = data_prenotazione.get(Calendar.DAY_OF_MONTH);
-                                    if(!( (sYear < currentYear) || (sYear == currentYear && sMonth < currentMonth)
-                                            || (sYear == currentYear && sMonth == currentMonth && sDay < currentDay)
-                                            || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) < currentHour)
-                                            || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) == currentHour && Integer.parseInt(minuti) < currentMinute))){
+                                    if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0){
 
                                         //Raccolgo nome utente e foto profilo
                                         final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
@@ -563,7 +529,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             final String photoUri = (String) document.get("photoUri");
                                                                             String ID_ESPERIENZA =(String) document.getId();
 
-                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione.getTime(), ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                            e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                             esperienze.add(e);
 
 
@@ -593,15 +559,10 @@ public class ExperiencesFragment extends Fragment {
                                                                                 i.putExtra("isAccepted", String.valueOf(isAccepted));
                                                                                 i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
                                                                                 //la data viene caricata come stringa, serve solo per essere mostrata all'utente
-                                                                                String tempDate = "";
-                                                                                if (data_prenotazione.get(Calendar.DAY_OF_MONTH) < 10)
-                                                                                    tempDate += "0";
-                                                                                tempDate += data_prenotazione.get(Calendar.DAY_OF_MONTH) + "/";
-                                                                                if (data_prenotazione.get(Calendar.MONTH) < 10)
-                                                                                    tempDate += "0";
-                                                                                tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
 
-                                                                                i.putExtra("data_prenotazione", tempDate);
+                                                                                SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+                                                                                String currentYear = formatYear.format(data_prenotazione);
+                                                                                i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10) + " " +currentYear);
 
                                                                                 startActivity(i);
                                                                             }
@@ -677,27 +638,14 @@ public class ExperiencesFragment extends Fragment {
 
 
                             //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
-                            Timestamp d = (Timestamp) document.get("data_selezionata");
-                            Long tempTimestamp = d.toDate().getTime();
-                            //Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data_selezionata")).get("timeInMillis");
-                            final Calendar data_prenotazione = new GregorianCalendar();
-                            data_prenotazione.setTimeInMillis(tempTimestamp);
+                            Date tempDate = new Date(System.currentTimeMillis());
+
+                            Timestamp timestamp = (Timestamp) document.get("data_selezionata");
+                            final Date data_prenotazione = timestamp.toDate();
+
 
                             //Controllo che la data della prenotazione sia effettivamente futura
-                            Calendar c = Calendar.getInstance();
-                            int currentYear = c.get(Calendar.YEAR);
-                            int currentMonth = c.get(Calendar.MONTH);
-                            int currentDay = c.get(Calendar.DAY_OF_MONTH);
-                            int currentHour = c.get(Calendar.HOUR_OF_DAY);
-                            int currentMinute = c.get(Calendar.MINUTE);
-
-                            int sYear = data_prenotazione.get(Calendar.YEAR);
-                            int sMonth = data_prenotazione.get(Calendar.MONTH);
-                            int sDay = data_prenotazione.get(Calendar.DAY_OF_MONTH);
-                            if(!( (sYear < currentYear) || (sYear == currentYear && sMonth < currentMonth)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay < currentDay)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) < currentHour)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) == currentHour && Integer.parseInt(minuti) < currentMinute))){
+                            if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0) {
 
                                 //Raccolgo nome utente e foto profilo
                                 final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
@@ -734,7 +682,7 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String photoUri = (String) document.get("photoUri");
                                                                     String ID_ESPERIENZA =(String) document.getId();
 
-                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione.getTime(), ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                     esperienze.add(e);
 
 
@@ -773,7 +721,7 @@ public class ExperiencesFragment extends Fragment {
                                                                       //      tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
                                                                             SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
                                                                             String currentYear = formatYear.format(data_prenotazione.getTime());
-                                                                            i.putExtra("data_prenotazione", data_prenotazione.getTime().toString().substring(0,10)+" " +currentYear);
+                                                                            i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10)+" " +currentYear);
 
                                                                             startActivity(i);
                                                                         }
@@ -881,33 +829,14 @@ public class ExperiencesFragment extends Fragment {
 
 
                             //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
+                            Date tempDate = new Date(System.currentTimeMillis());
+
                             Timestamp timestamp = (Timestamp) document.get("data_selezionata");
-                            Date dataSelez = timestamp.toDate();
+                            final Date data_prenotazione = timestamp.toDate();
 
-                            //Long tempTimestamp = (Long) ((HashMap<SavedFragment, Object>) document.get("data_selezionata")).getTime();
-                            //final Calendar data_prenotazione = new GregorianCalendar();
-                            //data_prenotazione.setTimeInMillis(tempTimestamp);
-                            //final Date data_prenotazione = new Date();
-                            //data_prenotazione.getTime();
-
-                            final Calendar data_prenotazione = new GregorianCalendar();
-                            data_prenotazione.setTime(dataSelez);
 
                             //Controllo che la data della prenotazione sia effettivamente futura
-                            Calendar c = Calendar.getInstance();
-                            int currentYear = c.get(Calendar.YEAR);
-                            int currentMonth = c.get(Calendar.MONTH);
-                            int currentDay = c.get(Calendar.DAY_OF_MONTH);
-                            int currentHour = c.get(Calendar.HOUR_OF_DAY);
-                            int currentMinute = c.get(Calendar.MINUTE);
-
-                            int sYear = data_prenotazione.get(Calendar.YEAR);
-                            int sMonth = data_prenotazione.get(Calendar.MONTH);
-                            int sDay = data_prenotazione.get(Calendar.DAY_OF_MONTH);
-                            if(!( (sYear < currentYear) || (sYear == currentYear && sMonth < currentMonth)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay < currentDay)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) < currentHour)
-                                    || (sYear == currentYear && sMonth == currentMonth && sDay == currentDay && Integer.parseInt(ore) == currentHour && Integer.parseInt(minuti) < currentMinute))){
+                            if(Long.compare(data_prenotazione.getTime(), tempDate.getTime()) >= 0){
 
                                 //Raccolgo nome utente e foto profilo
                                 final CollectionReference utenti = db.collection("utenti"); //ANDREBBE PRESO SOLO IL DOCUMENTO , NON AVENDO L'ID DEL DOCUMENTO MA  DELL'UTENTE BISOGNA ITERARE IL CONTROLLO ANCHE SE DARà SOLO UN RISULTATO SEMPRE -> 1 SOLO ID PER UTENTE
@@ -944,7 +873,7 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String photoUri = (String) document.get("photoUri");
                                                                     String ID_ESPERIENZA =(String) document.getId();
 
-                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione.getTime(), ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                     esperienze.add(e);
 
 
@@ -974,15 +903,9 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("isAccepted", String.valueOf(isAccepted));
                                                                             i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
                                                                             //la data viene caricata come stringa, serve solo per essere mostrata all'utente
-                                                                            String tempDate = "";
-                                                                            if (data_prenotazione.get(Calendar.DAY_OF_MONTH) < 10)
-                                                                                tempDate += "0";
-                                                                            tempDate += data_prenotazione.get(Calendar.DAY_OF_MONTH) + "/";
-                                                                            if (data_prenotazione.get(Calendar.MONTH) < 10)
-                                                                                tempDate += "0";
-                                                                            tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
-
-                                                                            i.putExtra("data_prenotazione", tempDate);
+                                                                        SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+                                                                        String currentYear = formatYear.format(data_prenotazione.getTime());
+                                                                        i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10)+" " +currentYear);
 
                                                                             startActivity(i);
                                                                         }

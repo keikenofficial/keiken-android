@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -22,9 +23,13 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -66,7 +71,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         final String foto_utente = getIntent().getStringExtra("photo_url_creatore_esperienza");
         final String foto_utente_prenotante = getIntent().getStringExtra("photo_url_prenotante_esperienza");
         String isAcceptedString = getIntent().getStringExtra("isAccepted");
-        boolean isAccpepted = isAcceptedString.matches("true");
+        boolean isAccepted = isAcceptedString.matches("true");
         final String ID_PRENOTAZIONE = getIntent().getStringExtra("ID_PRENOTAZIONE");
 
         LinearLayout profilo = findViewById(R.id.account);
@@ -173,6 +178,83 @@ public class ViewBookingActivity extends AppCompatActivity {
 /////////////////////////////////////////////////////////////////////////////////    FINE CONFERMA BUTTON
 
 
+        //DA IMPLEMENTARE (?) ALLA MODIFICA/ELIMINA DEL DOCUMENTO PREVIENE EVENTUALI CRASH
+        /*
+        db.collection("prenotazioni").whereEqualTo("ID_PRENOTANTE", ID_PRENOTANTE)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                        if (e != null) {
+                            Log.w("", "listen:error", e);
+                            return;
+                        }
+
+                        for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                            switch (dc.getType()) {
+                                case ADDED:
+                                    //Here i am getting full newly added documents
+
+                                    break;
+                                case MODIFIED:
+                                    //here i am getting which is modified document,ok fine...,But i want to get only the filed which i modified instance of getting full documents..
+                                    if(dc.getDocument().get("isAccepted").equals("true")) {
+                                        if (!FirebaseAuth.getInstance().getCurrentUser().getUid().equals(ID_CREATORE)) {
+                                            //non è il creatore
+
+                                            //DISPLAY OK ICON
+                                            conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+                                            confermata_rifiutata_textview.setVisibility(View.VISIBLE);
+                                            confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
+                                            confermata_rifiutata_textview.setText("La tua prenotazione è stata confermata!");
+
+                                            conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+                                            //DISPLAY OK ICON
+                                            confermata_rifiutata_textview.setVisibility(View.VISIBLE);
+                                            confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
+                                        } else {
+
+                                        }
+                                    }
+                                    break;
+                                case REMOVED:
+                                    Intent i = new Intent(ViewBookingActivity.this, HomeActivity.class);
+                                    break;
+                            }
+                        }
+
+                    }
+                });
+
+        db.collection("prenotazioni").whereEqualTo("ID_CREATORE_ESPERIENZA", ID_CREATORE)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+
+                        if (e != null) {
+                            Log.w(TAG, "listen:error", e);
+                            return;
+                        }
+
+                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                            switch (dc.getType()) {
+                                case ADDED:
+                                    //Here i am getting full newly added documents
+                                    break;
+                                case MODIFIED:
+                                    //here i am getting which is modified document,ok fine...,But i want to get only the filed which i modified instance of getting full documents..
+                                    break;
+                                case REMOVED:
+
+                                    break;
+                            }
+                        }
+
+                    }
+                });
+        */
+
+
         /*
         rifiuta_esperienza.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -273,7 +355,7 @@ public class ViewBookingActivity extends AppCompatActivity {
             descrizioneTV.setText(descrizione);
 
             reviews_button.setVisibility(View.GONE);
-            if (isAccpepted == true) {
+            if (isAccepted == true) {
              //   reviews_button.setVisibility(View.VISIBLE);  /////////////// review button non c'è più
                 //ON CLICK HANDLER PER CREARE RECENSIONI.
                 //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
@@ -291,7 +373,7 @@ public class ViewBookingActivity extends AppCompatActivity {
             }
 
         } else {
-            if (isAccpepted == true) {
+            if (isAccepted == true) {
                 reviews_button.setVisibility(View.GONE);
                 conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
                 //DISPLAY OK ICON
