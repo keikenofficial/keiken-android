@@ -146,7 +146,7 @@ public class ExperiencesFragment extends Fragment {
 
 
 
-///////////////////////////////////////////////// PRENOTAZIONI RICEVUTE//////////
+///////////////////////////////////////////////// PRENOTAZIONI EFFETTUATE//////////
         sheetBehavior = (BackdropFrontLayerBehavior) BottomSheetBehavior.from(contentLayout);
         sheetBehavior.setFitToContents(false);
         sheetBehavior.setHideable(false);//prevents the boottom sheet from completely hiding off the screen
@@ -259,6 +259,9 @@ public class ExperiencesFragment extends Fragment {
             });
         }*/
 
+
+
+
         //TOOLBAR//////////////////////////////////////////////////////////
         Toolbar toolbar = c.findViewById(R.id.toolbar);
         toolbar.setElevation(0);
@@ -278,7 +281,7 @@ public class ExperiencesFragment extends Fragment {
         rv.setHasFixedSize(true);
 
 
-        //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE PRENOTATE
+        //QUERY DAL DATABASE PER RICEVERE LE VARIE ESPERIENZE PRENOTATE    (PRENOTAZIONI EFFETTUATE)
         final CollectionReference prenotazioni = db.collection("prenotazioni");
         Query query = prenotazioni.whereEqualTo("ID_PRENOTANTE", FirebaseAuth.getInstance().getCurrentUser().getUid());
         Task<QuerySnapshot> querySnapshotTask = query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -298,7 +301,7 @@ public class ExperiencesFragment extends Fragment {
                             final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
                             final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
                             final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
-                            final String ID_PRENOTAZIONE = (String) document.get("ID_PRENOTAZIONE");
+                            final String ID_PRENOTAZIONE = document.getId();
 
                             final long posti_prenotati = ((Long)document.get("posti_prenotati"));
 
@@ -463,6 +466,14 @@ public class ExperiencesFragment extends Fragment {
 
 
 
+
+
+
+
+
+
+//////////////////////////////////PRENOTAZIONI RICEVUTE///////////////////////////////////////////
+
         //POPOLO LA RECYCLER VIEW
         rv2 = c.findViewById(R.id.esperienze_ricevute);
         rv2.setLayoutManager(llm);
@@ -491,7 +502,7 @@ public class ExperiencesFragment extends Fragment {
                             final String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
                             final String ID_ESPERIENZA_PRENOTATA = (String) document.get("ID_ESPERIENZA");
                             final String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
-                            final String ID_PRENOTAZIONE = (String) document.get("ID_PRENOTAZIONE");
+                            final String ID_PRENOTAZIONE = document.getId();
 
                             final long posti_prenotati = ((Long)document.get("posti_prenotati"));
 
@@ -575,7 +586,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             //PARAMETRI ESPERIENZA
                                                                             i.putExtra("titolo", esperienza.getTitolo());
                                                                             i.putExtra("luogo", esperienza.getLuogo());
-                                                                            i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
+                                                                            i.putExtra("ID_CREATORE", ID_CREATORE);
                                                                             i.putExtra("descrizione", esperienza.getDescrizione());
                                                                             i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
                                                                             i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
@@ -585,7 +596,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             //PARAMETRI CREATORE ESPERIENZA
                                                                             i.putExtra("nome_utente", nome_utente);
                                                                             i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza);
-                                                                            i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE_ESPERIENZA+"/foto_profilo");
+                                                                            i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE+"/foto_profilo");
                                                                             //PARAMETRI PRENOTAZIONE
                                                                             i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
                                                                             i.putExtra("prezzo", prezzo);
