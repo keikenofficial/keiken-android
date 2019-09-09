@@ -52,6 +52,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -524,7 +525,8 @@ public class ExperiencesFragment extends Fragment {
 
 
                             //RECUPERO LA DATA PASSANDO PER IL TIMESTAMP
-                            Date dataSelez = (Date) document.get("data_selezionata");
+                            Timestamp timestamp = (Timestamp) document.get("data_selezionata");
+                            Date dataSelez = timestamp.toDate();
 
                             //Long tempTimestamp = (Long) ((HashMap<SavedFragment, Object>) document.get("data_selezionata")).getTime();
                             //final Calendar data_prenotazione = new GregorianCalendar();

@@ -179,7 +179,6 @@ public class BookExperienceActivity extends AppCompatActivity {
             SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
             String currentYear = formatYear.format(d);
             dateListString.add(d.toString().substring(0,10)+" " +currentYear);
-
         }
         //final ArrayList<String> dateListStringToDB = new ArrayList<String>(dateListString);
 
