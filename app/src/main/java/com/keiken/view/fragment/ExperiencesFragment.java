@@ -280,6 +280,8 @@ public class ExperiencesFragment extends Fragment {
         //POPOLO LA RECYCLER VIEW
         final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         final LinearLayoutManager llm2 = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager llm3 = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager llm4 = new LinearLayoutManager(getActivity());
 
 
 
@@ -288,7 +290,7 @@ public class ExperiencesFragment extends Fragment {
         pullToRefreshMade.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                showBookingEffettuata(c, llm);
+                showBookingEffettuata(c, llm3);
                 pullToRefreshMade.setRefreshing(false);
             }
         });
@@ -298,7 +300,7 @@ public class ExperiencesFragment extends Fragment {
         pullToRefreshReceived.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                showBookingRicevuta(c, llm2);
+                showBookingRicevuta(c, llm4);
                 pullToRefreshReceived.setRefreshing(false);
             }
         });
