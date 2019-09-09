@@ -296,6 +296,55 @@ public class ViewBookingActivity extends AppCompatActivity {
                 confermata_rifiutata_textview.setVisibility(View.VISIBLE);
                 confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
 
+                final ImageView foto = findViewById(R.id.foto);
+                if (photoUri != null) {
+                    storageReference.child(photoUri)
+                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Got the download URL for 'photos/profile.png'
+                            new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any error
+                        }
+                    });
+                }
+
+
+                final ImageView foto_utenteIV = findViewById(R.id.profile_pic);
+                if (foto_utente_prenotante != null) {
+                    storageReference.child(foto_utente_prenotante)
+                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Got the download URL for 'photos/profile.png'
+                            new ImageController.DownloadImageFromInternet(foto_utenteIV).execute(uri.toString());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any error
+                        }
+                    });
+                }
+
+                profilo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
+
+                        //passo i parametri per la visualizzazione del profilo
+                        i.putExtra("ID_PROFILO", ID_PRENOTANTE);
+                        i.putExtra("profile_pic", foto_utente_prenotante);
+                        i.putExtra("name", nome_utente);
+
+                        startActivity(i);
+                    }
+                });
+
             } else {
                 reviews_button.setVisibility(View.GONE);
                 confermata_rifiutata_textview.setVisibility(View.GONE);
@@ -304,56 +353,60 @@ public class ViewBookingActivity extends AppCompatActivity {
                 rifiuta_esperienza.setEnabled(true);
                 //DISPLAY WAITING FOR APPROVAL ICON
 
-            }
-
-            final ImageView foto = findViewById(R.id.foto);
-            if (photoUri != null) {
-                storageReference.child(photoUri)
-                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        // Got the download URL for 'photos/profile.png'
-                        new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any error
-                    }
-                });
-            }
-
-
-            final ImageView foto_utenteIV = findViewById(R.id.profile_pic);
-            if (foto_utente_prenotante != null) {
-                storageReference.child(foto_utente_prenotante)
-                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        // Got the download URL for 'photos/profile.png'
-                        new ImageController.DownloadImageFromInternet(foto_utenteIV).execute(uri.toString());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any error
-                    }
-                });
-            }
-
-            profilo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
-
-                    //passo i parametri per la visualizzazione del profilo
-                    i.putExtra("ID_PROFILO", ID_PRENOTANTE);
-                    i.putExtra("profile_pic", foto_utente_prenotante);
-                    i.putExtra("name", nome_utente);
-
-                    startActivity(i);
+                final ImageView foto = findViewById(R.id.foto);
+                if (photoUri != null) {
+                    storageReference.child(photoUri)
+                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Got the download URL for 'photos/profile.png'
+                            new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any error
+                        }
+                    });
                 }
-            });
+
+
+                final ImageView foto_utenteIV = findViewById(R.id.profile_pic);
+                if (foto_utente_prenotante != null) {
+                    storageReference.child(foto_utente_prenotante)
+                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            // Got the download URL for 'photos/profile.png'
+                            new ImageController.DownloadImageFromInternet(foto_utenteIV).execute(uri.toString());
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Handle any error
+                        }
+                    });
+                }
+
+                profilo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
+
+                        //passo i parametri per la visualizzazione del profilo
+                        i.putExtra("ID_PROFILO", ID_PRENOTANTE);
+                        i.putExtra("profile_pic", foto_utente_prenotante);
+                        i.putExtra("name", nome_utente);
+
+                        startActivity(i);
+                    }
+                });
+
+            }
+
+
+
+
         }
     }
 }
