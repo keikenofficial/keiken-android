@@ -267,6 +267,11 @@ public class BookExperienceActivity extends AppCompatActivity {
                                     Long posti_prenotati = new Long(posti_disponibili_picker.getValue());
                                     Long posti_rimanenti = nPostiDisponibili - posti_prenotati;
 
+                                    Timestamp timestamp = (Timestamp) document.get("data");
+                                    Date tempDate = timestamp.toDate();
+
+
+
 
                                    // Timestamp date = (Timestamp) document.get("data");
                                    // Long tempTimestamp = date.toDate().getTime();
@@ -274,10 +279,10 @@ public class BookExperienceActivity extends AppCompatActivity {
                                    // Calendar tempCalendar = new GregorianCalendar();
                                     //tempCalendar.setTimeInMillis(tempTimestamp);
 
-            //TODO 1 -   DA CONTROLLARE    QUESTA RIGA E SE SERVE DE-COMMENTARLA E MODIFICARLA OPPORTUNAMENTE
-                                    // TODO 1 - if( (tempCalendar.get(Calendar.DAY_OF_MONTH) == dateList.get(date_selection.getValue()).get(Calendar.DAY_OF_MONTH) ) && ( tempCalendar.get(Calendar.MONTH) == dateList.get(date_selection.getValue()).get(Calendar.MONTH) ) && ( tempCalendar.get(Calendar.YEAR) == dateList.get(date_selection.getValue()).get(Calendar.YEAR)) ) {
-
-                      //TODO 2 - DA CONTROLLARE, MODIFICARE E RIFARE                  if (posti_rimanenti >= posti_prenotati) {
+                                    if((tempDate.getDay() == dateList.get(date_selection.getValue()).getDay()) &&
+                                            (tempDate.getMonth() == dateList.get(date_selection.getValue()).getMonth()) &&
+                                                tempDate.getYear() == dateList.get(date_selection.getValue()).getYear() ){
+                                    if (posti_rimanenti >= 0) {
                                             Map<String, Object> map = new HashMap<>();
                                             map.put("posti_disponibili", posti_rimanenti);
                                             data.document(document.getId()).update(map);
@@ -304,12 +309,12 @@ public class BookExperienceActivity extends AppCompatActivity {
                                             } catch(NullPointerException e){
                                                 Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
                                                 prenotaBT.setEnabled(true);
-                                    //TODO  - 2      }
-                                    //TODO - 2    }else{
-                                      //TODO -2       Toast.makeText(getApplicationContext(), "Ci dispiace, per la data che hai scelto non ci sono più posti disponibili.", Toast.LENGTH_LONG).show();
-                                      //TODO -2      prenotaBT.setEnabled(true);
+                                         }
+                                       }else{
+                                            Toast.makeText(getApplicationContext(), "Ci dispiace, per la data che hai scelto non ci sono più posti disponibili.", Toast.LENGTH_LONG).show();
+                                           prenotaBT.setEnabled(true);
                                         }
-                                   // } TODO - 1
+                                    }
                                 }
                             }
                         }
