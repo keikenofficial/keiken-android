@@ -52,6 +52,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -413,8 +414,9 @@ public class ExperiencesFragment extends Fragment {
                                                                       //      if (data_prenotazione.get(Calendar.MONTH) < 10)
                                                                       //          tempDate += "0";
                                                                       //      tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
-
-                                                                            i.putExtra("data_prenotazione", data_prenotazione.getTime().toString().substring(0,10)+" 2019");
+                                                                            SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+                                                                            String currentYear = formatYear.format(data_prenotazione.getTime());
+                                                                            i.putExtra("data_prenotazione", data_prenotazione.getTime().toString().substring(0,10)+" " +currentYear);
 
                                                                             startActivity(i);
                                                                         }
