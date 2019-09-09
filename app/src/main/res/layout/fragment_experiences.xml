@@ -52,7 +52,7 @@
         <com.keiken.view.backdrop.BackdropFrontLayer
             android:id="@+id/backdrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:elevation="1dp"
             app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
@@ -108,7 +108,7 @@
                 android:orientation="vertical"
                 android:id="@+id/swiperefresh"
                 android:layout_width="match_parent"
-                android:layout_height="1200dp"
+                android:layout_height="match_parent"
                 android:background="#ffffff">
 
 
