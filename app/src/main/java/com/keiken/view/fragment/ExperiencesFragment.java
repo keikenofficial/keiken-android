@@ -393,6 +393,7 @@ public class ExperiencesFragment extends Fragment {
                                                                                     i.putExtra("photoUri", esperienza.getPhotoUri()); //foto esperienza
                                                                                     i.putExtra("descrizione", esperienza.getDescrizione());
                                                                                     i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
+                                                                                    i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
                                                                                     //PARAMETRI CREATORE ESPERIENZA
                                                                                     i.putExtra("nome_utente", nome_utente_creatore); //nome utente creatore dell'esperienza -> viene passato nella view del prenotante
                                                                                     i.putExtra("photo_url_creatore_esperienza", photo_url_creatore_esperienza);
@@ -702,6 +703,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("photoUri", esperienza.getPhotoUri());
                                                                             i.putExtra("descrizione", esperienza.getDescrizione());
                                                                             i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
+                                                                            i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
                                                                                 //PARAMETRI CREATORE ESPERIENZA
                                                                             i.putExtra("nome_utente", nome_utente);
                                                                             i.putExtra("photo_url_creatore_esperienza", photo_url_creatore_esperienza);
@@ -848,7 +850,7 @@ public class ExperiencesFragment extends Fragment {
                                         if(task.isSuccessful()){
                                             for(QueryDocumentSnapshot document2 : task.getResult()){
                                                 if(document2.exists()) {
-                                                    final String nome_utente = (String) document2.get("name");
+                                                    final String nome_utente = (String) document2.get("name"); //prenotante
                                                     final String photo_url_prenotante_esperienza = (String) document2.get("photoUrl");
 
                                                     //Raccolgo informazioni esperienza (immagine, etc)
@@ -873,7 +875,7 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String photoUri = (String) document.get("photoUri");
                                                                     String ID_ESPERIENZA =(String) document.getId();
 
-                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
                                                                     esperienze.add(e);
 
 
@@ -886,7 +888,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             //PARAMETRI ESPERIENZA
                                                                             i.putExtra("titolo", esperienza.getTitolo());
                                                                             i.putExtra("luogo", esperienza.getLuogo());
-                                                                            i.putExtra("ID_CREATORE", ID_CREATORE);
+                                                                            i.putExtra("ID_CREATORE", ID_CREATORE_ESPERIENZA);
                                                                             i.putExtra("descrizione", esperienza.getDescrizione());
                                                                             i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
                                                                             i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
@@ -894,9 +896,9 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("photoUri", esperienza.getPhotoUri());
                                                                             i.putExtra("ID_ESPERIENZA", ID_ESPERIENZA_PRENOTATA);
                                                                             //PARAMETRI CREATORE ESPERIENZA
-                                                                            i.putExtra("nome_utente", nome_utente);
-                                                                            i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza);
-                                                                            i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE+"/foto_profilo");
+                                                                            i.putExtra("nome_utente", nome_utente); //prenotante
+                                                                            i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza); //prenotante
+                                                                            i.putExtra("photo_url_creatore_esperienza", "images/"+ID_CREATORE_ESPERIENZA+"/foto_profilo");
                                                                             //PARAMETRI PRENOTAZIONE
                                                                             i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
                                                                             i.putExtra("prezzo", prezzo);
