@@ -93,7 +93,7 @@ import static com.keiken.controller.ImageController.*;
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * {@link ProfileFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * to handle interaction events.s
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -233,7 +233,7 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         final RecyclerView rv = c.findViewById(R.id.esperienze);
 
-        final SwipeRefreshLayout pullToRefresh = c.findViewById(R.id.swiperefresh);
+        final SwipeRefreshLayout pullToRefresh = c.findViewById(R.id.swiperefresh_my_experiences);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
