@@ -125,7 +125,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         TextView dateTV = findViewById(R.id.date);
         dateTV.setText(data_prenotazione);
 
-        if(FirebaseAuth.getInstance().getCurrentUser().getUid() != ID_CREATORE) {
+        if(! FirebaseAuth.getInstance().getCurrentUser().getUid().equals(ID_CREATORE)) {
             final ImageView foto = findViewById(R.id.foto);
             if (photoUri != null) {
                 storageReference.child(photoUri)
