@@ -207,7 +207,7 @@
                 android:orientation="vertical"
                 android:id="@+id/swiperefresh_reviews"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 app:behavior_peekHeight="64dp"
                 android:elevation="6dp"
                 android:background="#ffffff">
