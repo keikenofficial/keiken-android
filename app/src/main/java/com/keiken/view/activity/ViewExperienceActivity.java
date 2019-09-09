@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import com.keiken.R;
 import com.keiken.controller.ImageController;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -141,7 +142,10 @@ public class ViewExperienceActivity extends AppCompatActivity {
             tempDate += dateList.get(i).get(Calendar.MONTH) + "/" + dateList.get(i).get(Calendar.YEAR);;
 
          */
-            dateTV.setText(dateTV.getText() + dateList.get(i).toString().substring(0,10) +" 2019" + " (Posti disponibili: "+dateMap.get(dateList.get(i)).toString() + ")\n");
+
+            SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+            String currentYear = formatYear.format(dateList.get(i));
+            dateTV.setText(dateTV.getText() + dateList.get(i).toString().substring(0,10) + " " +currentYear + " (Posti disponibili: "+dateMap.get(dateList.get(i)).toString() + ")\n");
         }
 
 

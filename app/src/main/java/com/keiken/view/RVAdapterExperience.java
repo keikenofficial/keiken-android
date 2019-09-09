@@ -29,6 +29,7 @@ import com.keiken.R;
 import com.keiken.controller.ImageController;
 import com.keiken.model.Esperienza;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -107,7 +108,10 @@ public class RVAdapterExperience extends RecyclerView.Adapter<RVAdapterExperienc
                 tempDate += "0";
             tempDate += (e.getData_prenotazione().get(Calendar.MONTH) + "/" + (e.getData_prenotazione().get(Calendar.YEAR)));
 */
-            data.setText(e.getData_prenotazione().toString().substring(0,10)+" 2019");
+
+            SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+            String currentYear = formatYear.format(e.getData_prenotazione());
+            data.setText(e.getData_prenotazione().toString().substring(0,10)+" "+ currentYear);
 
             //DOWNLOAD IMMAGINE ESPERIENZA
             mAuth = FirebaseAuth.getInstance();
