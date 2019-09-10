@@ -1,6 +1,7 @@
 package com.keiken.view.activity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,6 +40,7 @@ import com.keiken.controller.ImageController;
 
 import org.w3c.dom.Document;
 
+import java.sql.Struct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,9 +51,7 @@ public class ViewBookingActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private StorageReference storageReference;
 
-    private ImageView foto_utenteIV;
-    private ImageView foto;
-    private TextView descrizioneTV;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,27 +59,30 @@ public class ViewBookingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_booking);
 
 
+
+
+
         //GET INTENT
         final String titolo = getIntent().getStringExtra("titolo");
-        String descrizione = getIntent().getStringExtra("descrizione");
+        final String descrizione = getIntent().getStringExtra("descrizione");
         final String luogo = getIntent().getStringExtra("luogo");
-        final String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
-        final String ID_PRENOTANTE = getIntent().getStringExtra("ID_PRENOTANTE");
-        final String prezzo = getIntent().getStringExtra("prezzo");
-        String ore = getIntent().getStringExtra("ore");
-        String minuti = getIntent().getStringExtra("minuti");
-        final String posti_prenotati = getIntent().getStringExtra("posti_prenotati");
+        //final String ID_CREATORE = getIntent().getStringExtra("ID_CREATORE");
+        //final String ID_PRENOTANTE = getIntent().getStringExtra("ID_PRENOTANTE");
+        //final String prezzo = getIntent().getStringExtra("prezzo");
+        //String ore = getIntent().getStringExtra("ore");
+        //String minuti = getIntent().getStringExtra("minuti");
+        //final String posti_prenotati = getIntent().getStringExtra("posti_prenotati");
 
-        String photoUri = getIntent().getStringExtra("photoUri");
-        String data_prenotazione = getIntent().getStringExtra("data_prenotazione");
+        final String photoUri = getIntent().getStringExtra("photoUri");
+        /*String data_prenotazione = getIntent().getStringExtra("data_prenotazione");
         final String ID_ESPERIENZA = getIntent().getStringExtra("ID_ESPERIENZA");
         final String nome_utente = getIntent().getStringExtra("nome_utente");
         final String foto_utente = getIntent().getStringExtra("photo_url_creatore_esperienza");
         final String foto_utente_prenotante = getIntent().getStringExtra("photo_url_prenotante_esperienza");
-        boolean isAccepted = getIntent().getExtras().getBoolean("isAccepted");
+        boolean isAccepted = getIntent().getExtras().getBoolean("isAccepted");*/
         final String ID_PRENOTAZIONE = getIntent().getStringExtra("ID_PRENOTAZIONE");
 
-        LinearLayout profilo = findViewById(R.id.account);
+        final LinearLayout profilo = findViewById(R.id.account);
 
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);
@@ -94,17 +98,7 @@ public class ViewBookingActivity extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-
-        //CONTROLLO SU isAccepted + show() icona relativa allo stato della prenotazione ->
-        //                                                                            // x == DENIED
-        //                                                                            // ? == ONGOING
-        //                                                                            // v == ACCEPTED
-
-
-        //TO-DO
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////
 
         TextView reviews_button = findViewById(R.id.write_review_button);
 
@@ -117,35 +111,220 @@ public class ViewBookingActivity extends AppCompatActivity {
         final MaterialButton accetta_esperienza = findViewById(R.id.accetta_esperienza);
         final MaterialButton rifiuta_esperienza = findViewById(R.id.rifiuta_esperienza);
 
-        TextView prezzoTV = findViewById(R.id.prezzo);
-        prezzoTV.setText("Prezzo totale: " + prezzo + "\u20AC");
+        final TextView prezzoTV = findViewById(R.id.prezzo);
+
+        final TextView orarioTV = findViewById(R.id.orario);
+        final TextView posti_prenotatiTV = findViewById(R.id.posti_prenotati);
+        final TextView luogoTV = findViewById(R.id.luogo);
+        final TextView dateTV = findViewById(R.id.date);
+        final ImageView foto = findViewById(R.id.foto);
+        final TextView user_name = findViewById(R.id.nome_utente);
+        final ImageView foto_utenteIV = findViewById(R.id.profile_pic);
+        final TextView descrizioneTV = findViewById(R.id.descrizione);
+
+        ///////////////////////////////////////////////
+
+        final CollectionReference prenotazioniRicevute = db.collection("prenotazioni");
+        Query query2 = prenotazioniRicevute.whereEqualTo("ID_CREATORE_ESPERIENZA", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Task<QuerySnapshot> querySnapshotTask2 = query2.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for(final DocumentSnapshot document : task.getResult()){
+                        String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
+                        String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
+                        String prezzo = (String) document.get("prezzo");
+                        String ore = (String) document.get("ore");
+                        String minuti = (String) document.get("minuti");
+                        String posti_prenotati = (String) document.get("posti_prenotati");
+                        String data_prenotazione = (String) document.get("data_selezionata");
+                        boolean isAccepted = (boolean) document.get("isAccepted");
+
+                        prezzoTV.setText("Prezzo totale: " + prezzo + "\u20AC");
+
+                        int h = Integer.parseInt(ore);
+                        int min = Integer.parseInt(minuti);
+                        if (h <10)
+                            ore ="0" + ore;
+                        if (min <10)
+                            minuti ="0" + min;
+                        orarioTV.setText(ore+":"+minuti);
+                        posti_prenotatiTV.setText("Posti prenotati: " + posti_prenotati);
+                        descrizioneTV.setText(descrizione);
+                        luogoTV.setText(luogo);
+                        dateTV.setText(data_prenotazione);
+                        if (photoUri != null) {
+                            storageReference.child(photoUri)
+                                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Got the download URL for 'photos/profile.png'
+                                    new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any error
+                                }
+                            });
+                        }
+
+                        if(ID_CREATORE_ESPERIENZA.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                            //SONO IL CREATORE
+                            if (isAccepted) {
+                                conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+                                //DISPLAY OK ICON
+                                confermata_rifiutata_textview.setVisibility(View.VISIBLE);
+                                confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
+                                confermata_rifiutata_textview.setText("Hai confermato la prenotazione. ");
+                            }
+
+                            final DocumentReference utentiDb = db.collection("utenti").document(ID_PRENOTANTE);
+                            utentiDb.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.isSuccessful()) {
+                                        final DocumentSnapshot document = task.getResult();
+
+                                        final String nome_utente_prenotante = (String) document.get("name");
+                                        final String foto_utente_prenotante = (String) document.get("photoUrl");
+
+                                        user_name.setText(nome_utente_prenotante);
 
 
-        TextView orarioTV = findViewById(R.id.orario);
-        int h = Integer.parseInt(ore);
-        int min = Integer.parseInt(minuti);
-        if (h <10)
-            ore ="0" + ore;
-        if (min <10)
-            minuti ="0" + min;
-        orarioTV.setText(ore+":"+minuti);
+                                        if (foto_utente_prenotante != null) {
+                                            storageReference.child(foto_utente_prenotante)
+                                                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    // Got the download URL for 'photos/profile.png'
+                                                    new ImageController.DownloadImageFromInternet(foto_utenteIV).execute(uri.toString());
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception exception) {
+                                                    // Handle any error
+                                                }
+                                            });
+                                        }
+                                        profilo.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
 
-        TextView posti_prenotatiTV = findViewById(R.id.posti_prenotati);
-        posti_prenotatiTV.setText("Posti prenotati: " + posti_prenotati);
+                                                //passo i parametri per la visualizzazione del profilo
+                                                i.putExtra("ID_PROFILO", document.getId());
+                                                i.putExtra("profile_pic", foto_utente_prenotante);
+                                                i.putExtra("name", nome_utente_prenotante);
 
-        TextView luogoTV = findViewById(R.id.luogo);
-        luogoTV.setText(luogo);
+                                                startActivity(i);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        } else {
+                            //SONO IL PRENOTANTE
 
-        TextView dateTV = findViewById(R.id.date);
-        dateTV.setText(data_prenotazione);
+                            if (isAccepted) {
 
-        TextView user_name = findViewById(R.id.nome_utente);
-        user_name.setText(nome_utente);
+                                //ON CLICK HANDLER PER CREARE RECENSIONI.
+                                //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
+
+
+                                //DISPLAY OK ICON
+                                conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+                                confermata_rifiutata_textview.setVisibility(View.VISIBLE);
+                                confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
+                                confermata_rifiutata_textview.setText("La tua prenotazione è stata confermata!");
+                            }
+
+                            //carico foto e nome utente
+                            final DocumentReference utentiDb = db.collection("utenti").document(ID_CREATORE_ESPERIENZA);
+                            utentiDb.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if(task.isSuccessful()){
+                                        final DocumentSnapshot document = task.getResult();
+                                        final String nome_utente = (String) document.get("name");
+                                        final String foto_utente = (String) document.get("photoUrl");
+
+                                        user_name.setText(nome_utente);
+
+
+                                        if (foto_utente != null) {
+                                            storageReference.child(foto_utente)
+                                                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    // Got the download URL for 'photos/profile.png'
+                                                    new ImageController.DownloadImageFromInternet(foto_utenteIV).execute(uri.toString());
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception exception) {
+                                                    // Handle any error
+                                                }
+                                            });
+                                        }
+                                        profilo.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View view) {
+                                                Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
+
+                                                //passo i parametri per la visualizzazione del profilo
+                                                i.putExtra("ID_PROFILO", document.getId());
+                                                i.putExtra("profile_pic", foto_utente);
+                                                i.putExtra("name", nome_utente);
+
+                                                startActivity(i);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+
+                    }
+                }
+            }
+        });
+
+
+        //SE è L'UTENTE PRENOTANTE
+
+
+
+
+
+
+
+
+
+
+        //CONTROLLO SU isAccepted + show() icona relativa allo stato della prenotazione ->
+        //                                                                            // x == DENIED
+        //                                                                            // ? == ONGOING
+        //                                                                            // v == ACCEPTED
+
+
+        //TO-DO
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
 
         //ON CLICK LISTENER
         ///////////////////////////////////////////// CONFERMA BUTTON
         //conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);   NON CREDO CHE SERVA
-        accetta_esperienza.setOnClickListener(new View.OnClickListener(){
+  /*      accetta_esperienza.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 accetta_esperienza.setEnabled(false);
@@ -178,7 +357,7 @@ public class ViewBookingActivity extends AppCompatActivity {
                     rifiuta_esperienza.setEnabled(true);
                 }
             }
-        });  //Trovare il problema
+        });  //Trovare il problema  */
 /////////////////////////////////////////////////////////////////////////////////    FINE CONFERMA BUTTON
 
 
@@ -304,198 +483,5 @@ public class ViewBookingActivity extends AppCompatActivity {
                         });
             }
         });*/ // Trovare un metodo per fare un "soft_delete" della prenotazione
-
-        if(!(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(ID_CREATORE))) {
-            foto = findViewById(R.id.foto);
-            if (photoUri != null) {
-                storageReference.child(photoUri)
-                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        // Got the download URL for 'photos/profile.png'
-                        new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any error
-                    }
-                });
-            }
-
-
-            foto_utenteIV = findViewById(R.id.profile_pic);
-            if (foto_utente != null) {
-                storageReference.child(foto_utente)
-                        .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        // Got the download URL for 'photos/profile.png'
-                        new ImageController.DownloadImageFromInternet(foto_utenteIV).execute(uri.toString());
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle any error
-                    }
-                });
-            }
-
-            profilo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
-
-                    //passo i parametri per la visualizzazione del profilo
-                    i.putExtra("ID_PROFILO", ID_CREATORE);
-                    i.putExtra("profile_pic", foto_utente);
-                    i.putExtra("name", nome_utente);
-
-                    startActivity(i);
-                }
-            });
-
-            descrizioneTV = findViewById(R.id.descrizione);
-            descrizioneTV.setText(descrizione);
-
-            reviews_button.setVisibility(View.GONE);
-            if (isAccepted) {
-
-                //ON CLICK HANDLER PER CREARE RECENSIONI.
-                //è POSSIBILE SCRIVERE UNA VOOLTA SOLA LA RECENSIONE PER OGNI ESPERIENZA, NON MODIFICABILE, NON ELIMINABILE
-
-
-                //DISPLAY OK ICON
-                conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
-                confermata_rifiutata_textview.setVisibility(View.VISIBLE);
-                confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
-                confermata_rifiutata_textview.setText("La tua prenotazione è stata confermata!");
-            } else {
-                reviews_button.setVisibility(View.GONE);
-
-                //DISPLAY WAITING FOR APPROVAL ICON
-            }
-
-        } else { //siamo i creatori
-            if (isAccepted) {
-                reviews_button.setVisibility(View.GONE);
-                conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
-                //DISPLAY OK ICON
-                confermata_rifiutata_textview.setVisibility(View.VISIBLE);
-                confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
-                confermata_rifiutata_textview.setText("La tua prenotazione è stata confermata!");
-
-                final ImageView foto = findViewById(R.id.foto);
-                if (photoUri != null) {
-                    storageReference.child(photoUri)
-                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            // Got the download URL for 'photos/profile.png'
-                            new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any error
-                        }
-                    });
-                }
-
-
-                foto_utenteIV = findViewById(R.id.profile_pic);
-                if (foto_utente_prenotante != null) {
-                    storageReference.child(foto_utente_prenotante)
-                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            // Got the download URL for 'photos/profile.png'
-                            new ImageController.DownloadImageFromInternet(foto_utenteIV).execute(uri.toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any error
-                        }
-                    });
-                }
-
-                profilo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
-
-                        //passo i parametri per la visualizzazione del profilo
-                        i.putExtra("ID_PROFILO", ID_PRENOTANTE);
-                        i.putExtra("profile_pic", foto_utente_prenotante);
-                        i.putExtra("name", nome_utente);
-
-                        startActivity(i);
-                    }
-                });
-
-            } else {
-                reviews_button.setVisibility(View.GONE);
-                confermata_rifiutata_textview.setVisibility(View.GONE);
-                conferma_rifiuta_prenotazione_layout.setVisibility(View.VISIBLE);
-                accetta_esperienza.setEnabled(true);
-                rifiuta_esperienza.setEnabled(true);
-                //DISPLAY WAITING FOR APPROVAL ICON
-
-                foto = findViewById(R.id.foto);
-                if (photoUri != null) {
-                    storageReference.child(photoUri)
-                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            // Got the download URL for 'photos/profile.png'
-                            new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any error
-                        }
-                    });
-                }
-
-
-                foto_utenteIV = findViewById(R.id.profile_pic);
-                if (foto_utente_prenotante != null) {
-                    storageReference.child(foto_utente_prenotante)
-                            .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            // Got the download URL for 'photos/profile.png'
-                            new ImageController.DownloadImageFromInternet(foto_utenteIV).execute(uri.toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle any error
-                        }
-                    });
-                }
-
-                profilo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(ViewBookingActivity.this, ViewProfileActivity.class);
-
-                        //passo i parametri per la visualizzazione del profilo
-                        i.putExtra("ID_PROFILO", ID_PRENOTANTE);
-                        i.putExtra("profile_pic", foto_utente_prenotante);
-                        i.putExtra("name", nome_utente);
-
-                        startActivity(i);
-                    }
-                });
-
-            }
-
-
-
-
-        }
     }
 }
