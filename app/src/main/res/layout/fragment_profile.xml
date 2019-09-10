@@ -328,6 +328,7 @@
                                 android:text=""
                                 android:gravity="center"
                                 android:paddingTop="20dp"
+                                android:visibility="gone"
                                 android:paddingHorizontal="15dp"
                                 android:paddingBottom="14dp"/>
 

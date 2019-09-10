@@ -184,11 +184,22 @@ public class ViewProfileActivity extends AppCompatActivity {
         String profile_pic = getIntent().getStringExtra("profile_pic");
         String name = getIntent().getStringExtra("name");
         String surname = getIntent().getStringExtra("surname");
+        String bio = getIntent().getStringExtra("bio");
+
 
         TextView nameTV = findViewById(R.id.user_name);
         final ImageView profile_picIV = findViewById(R.id.profile_pic);
 
         nameTV.setText(name+" "+surname);
+
+
+        TextView bioTV = findViewById(R.id.bio);
+        if (bio != null && !bio.equals("")) {
+            bioTV.setText(bio);
+            bioTV.setVisibility(View.VISIBLE);
+        }
+
+
 
         if (profile_pic != null) {
             storageReference.child(profile_pic)

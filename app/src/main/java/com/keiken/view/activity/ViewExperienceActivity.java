@@ -191,6 +191,8 @@ public class ViewExperienceActivity extends AppCompatActivity {
                     final String photoUrl = (String) document.get("photoUrl");
                     final String nome_utente = (String) document.get("name");
                     final String cognome_utente = (String) document.get("surname");
+                    final String bio = (String) document.get("bio");
+
                     profilo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -205,6 +207,8 @@ public class ViewExperienceActivity extends AppCompatActivity {
                                 i.putExtra("profile_pic", photoUrl);
                                 i.putExtra("name", nome_utente);
                                 i.putExtra("surname", cognome_utente);
+                                i.putExtra("bio", bio);
+
 
                                 startActivity(i);
                             }

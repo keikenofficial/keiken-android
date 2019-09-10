@@ -274,6 +274,18 @@
                                 android:paddingTop="14dp"
                                 android:paddingBottom="14dp"/>
 
+                            <!--Bio-->
+                            <TextView
+                                android:id="@+id/bio"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000000"
+                                android:textSize="16dp"
+                                android:text=""
+                                android:gravity="center"
+                                android:paddingTop="20dp"
+                                android:paddingHorizontal="15dp"
+                                android:paddingBottom="14dp"/>
 
 
                             <LinearLayout
