@@ -554,7 +554,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                             HashMap<Date, Long> dateMap = new HashMap<Date, Long>(e.getDate());
                                                             ArrayList<Date> dateEsperienza = new ArrayList<Date>(dateMap.keySet());
                                                             Collections.sort(dateEsperienza);
-                                                            if ((dateEsperienza.get(0).compareTo(end_day) > 0) || (dateEsperienza.get(dateEsperienza.size()).compareTo(start_day) < 0)) {
+                                                            if ((dateEsperienza.get(0).compareTo(end_day) > 0) || (dateEsperienza.get(dateEsperienza.size()-1).compareTo(start_day) < 0)) {
                                                                 da_aggiungere = false;
                                                             }
                                                     }
