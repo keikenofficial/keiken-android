@@ -506,9 +506,19 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
                                                 float left_bar = prezzoRSB.getLeftSeekBar().getProgress();
                                                 float right_bar = prezzoRSB.getRightSeekBar().getProgress();
-                                                if(!(left_bar == 0) && !(right_bar == 9999)) {
+                                                if(!(left_bar == 0) || !(right_bar == 250)) {
+                                                    if(!(right_bar == 250) && !(left_bar == 0)) {
                                                         if (Float.parseFloat(e.getPrezzo()) < left_bar || Float.parseFloat(e.getPrezzo()) > right_bar)
                                                             da_aggiungere = false;
+                                                    } else if (!(left_bar == 0) && (right_bar == 250)){
+                                                        if (Float.parseFloat(e.getPrezzo()) < left_bar) {
+                                                            da_aggiungere = false;
+                                                        }
+                                                    } else if ((left_bar == 0) && !(right_bar == 250)) {
+                                                        if (Float.parseFloat(e.getPrezzo()) > right_bar) {
+                                                            da_aggiungere = false;
+                                                        }
+                                                    }
                                                 }
                                                 ArrayList<String> categorie = new ArrayList<String>();
 
