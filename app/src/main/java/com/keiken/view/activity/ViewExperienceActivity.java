@@ -128,12 +128,31 @@ public class ViewExperienceActivity extends AppCompatActivity {
 
         
         ChipGroup categorieCP = findViewById(R.id.categorie);
+        Chip culturaC = findViewById(R.id.cultura);
+        Chip sportC = findViewById(R.id.sport);
+        Chip musicaC = findViewById(R.id.musica);
+        Chip ciboC = findViewById(R.id.cibo);
+        Chip divertimentoC = findViewById(R.id.divertimento);
+        for(String categoria : categorie){
+            switch (categoria){
+                case "Cultura":
+                    culturaC.setText(categoria);
+                    break;
+                case "Sport":
+                    sportC.setText(categoria);
+                    break;
+                case "Musica":
+                    musicaC.setText(categoria);
+                    break;
+                case "Cibo":
+                    ciboC.setText(categoria);
+                    break;
+                case "Divertimento":
+                    divertimentoC.setText(categoria);
+                    break;
+            }
 
-        for(int i = 0; i<categorie.size(); i++){
-            Chip chip = new Chip(getApplicationContext());
-            chip.setChipText(categorie.get(i));
-            chip.setCloseIconEnabled(false);
-            categorieCP.addView(chip);
+
         }
 
         ArrayList<Date> dateList = new ArrayList<Date>(dateMap.keySet());
