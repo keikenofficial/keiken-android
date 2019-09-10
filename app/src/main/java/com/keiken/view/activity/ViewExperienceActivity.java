@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.annimon.stream.ComparatorCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,6 +33,9 @@ import com.keiken.controller.ImageController;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -130,6 +134,8 @@ public class ViewExperienceActivity extends AppCompatActivity {
         ////////////////////////
 
         ArrayList<Date> dateList = new ArrayList<Date>(dateMap.keySet());
+        Collections.sort(dateList);
+
 
         TextView dateTV = findViewById(R.id.date);
         for(int i = 0; i<dateList.size(); i++){

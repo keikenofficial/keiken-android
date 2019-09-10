@@ -54,6 +54,7 @@ import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -169,6 +170,8 @@ public class BookExperienceActivity extends AppCompatActivity {
 
         //Visualizza elenco date selezionabili
         final ArrayList<Date> dateList = new ArrayList<Date>(dateMap.keySet());
+        Collections.sort(dateList);
+
         ArrayList<String> dateListString = new ArrayList<String>();
 
         for(Date d: dateList){
