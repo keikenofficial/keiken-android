@@ -173,7 +173,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
                     profilo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent i = new Intent(ViewExperienceActivity.this, ViewProfileActivity.class);
 
 
                             if (ID_CREATORE.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
