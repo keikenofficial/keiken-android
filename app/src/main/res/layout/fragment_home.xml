@@ -130,7 +130,7 @@
                 app:rsb_thumb_height="14dp"
                 app:rsb_thumb_width="14dp"
                 app:rsb_min="0"
-                app:rsb_max="9999"
+                app:rsb_max="1000"
                 app:rsb_min_interval="1"
                 app:rsb_indicator_show_mode="alwaysShowAfterTouch"
                 app:rsb_indicator_text_color="@color/White"
