@@ -490,26 +490,25 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                     }
                                                 }
                                                 e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
-                                                if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
-                                                    esperienze.add(e);
+                                                boolean da_aggiungere = true;
+                                                if (e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
+                                                    da_aggiungere = false;
+
+
 
 
                                                 final String luogo = luogoET.getText().toString();
                                                 if(!luogo.equals("")){
-                                                    for(Esperienza e_test : esperienze) {
-                                                        if(!luogo.equals(e_test.getLuogo())){
-                                                            esperienze.remove(e_test);
+                                                        if(!luogo.equals(e.getLuogo())){
+                                                            da_aggiungere = false;
                                                         }
-                                                    }
                                                 }
 
                                                 float left_bar = prezzoRSB.getLeftSeekBar().getProgress();
                                                 float right_bar = prezzoRSB.getRightSeekBar().getProgress();
                                                 if(!(left_bar == 0) && !(right_bar == 9999)) {
-                                                    for (Esperienza e_test : esperienze) {
-                                                        if (Float.parseFloat(e_test.getPrezzo()) < left_bar || Float.parseFloat(e_test.getPrezzo()) > right_bar)
-                                                            esperienze.remove(e_test);
-                                                    }
+                                                        if (Float.parseFloat(e.getPrezzo()) < left_bar || Float.parseFloat(e.getPrezzo()) > right_bar)
+                                                            da_aggiungere = false;
                                                 }
                                                 ArrayList<String> categorie = new ArrayList<String>();
 
@@ -520,23 +519,21 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                     }
                                                 }
                                                 if(categorie.size()>0) {
-                                                    for (Esperienza e_test : esperienze) {
                                                         boolean containsCat = false;
                                                         for (String c : categorie) {
-                                                            if (e_test.getCategorie().contains(c)) {
+                                                            if (e.getCategorie().contains(c)) {
                                                                 containsCat = true;
                                                                 continue;
                                                             }
                                                         }
                                                         if (!containsCat)
-                                                            esperienze.remove(e);
-                                                    }
+                                                            da_aggiungere = false;
                                                 }
                                                 int posti_selezionati = numberPicker.getValue();
-                                                for (Esperienza e_test : esperienze){
-                                                    if(e_test.getnPostiDisponibili() < posti_selezionati)
-                                                        esperienze.remove(e_test);
-                                                }
+
+                                                    if(e.getnPostiDisponibili() < posti_selezionati)
+                                                       da_aggiungere = false;
+
 
 
                                                 Calendar startCal = dateDRCV.getStartDate();
@@ -545,18 +542,17 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                                                     Date start_day = startCal.getTime();
                                                     Date end_day = endCal.getTime();
                                                     if (!(start_day == null) && !(end_day == null)) {
-                                                        for (Esperienza e_test : esperienze) {
                                                             HashMap<Date, Long> dateMap = new HashMap<Date, Long>(e.getDate());
                                                             ArrayList<Date> dateEsperienza = (ArrayList<Date>) dateMap.keySet();
                                                             Collections.sort(dateEsperienza);
                                                             if ((dateEsperienza.get(0).compareTo(end_day) > 0) || (dateEsperienza.get(dateEsperienza.size()).compareTo(start_day) < 0)) {
-                                                                esperienze.remove(e);
+                                                                da_aggiungere = false;
                                                             }
-                                                        }
                                                     }
                                                 }
 
-
+                                                if(da_aggiungere)
+                                                    esperienze.add(e);
 
                                                 RVAdapterHome adapter = new RVAdapterHome(esperienze, new RVAdapterHome.OnItemClickListener() {
                                                     @Override
