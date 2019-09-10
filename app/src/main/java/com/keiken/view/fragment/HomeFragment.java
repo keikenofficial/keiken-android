@@ -418,7 +418,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         final EditText luogoET = c.findViewById(R.id.luogo);
 
         final RangeSeekBar prezzoRSB = c.findViewById(R.id.seekbar);
-        prezzoRSB.setRight(9999);
+        prezzoRSB.setRight(250);
         prezzoRSB.setLeft(0);
         prezzoRSB.setIndicatorTextDecimalFormat("0000");
         prezzoRSB.setEnableThumbOverlap(false);
