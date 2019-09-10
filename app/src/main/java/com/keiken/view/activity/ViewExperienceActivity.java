@@ -175,13 +175,19 @@ public class ViewExperienceActivity extends AppCompatActivity {
                         public void onClick(View view) {
                             Intent i = new Intent(ViewExperienceActivity.this, ViewProfileActivity.class);
 
-                            //passo i parametri per la visualizzazione del profilo
-                            i.putExtra("ID_PROFILO", ID_CREATORE);
-                            i.putExtra("profile_pic", photoUrl);
-                            i.putExtra("name", nome_utente);
-                            i.putExtra("surname", cognome_utente);
 
-                            startActivity(i);
+                            if (ID_CREATORE.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                                onBackPressed();
+                            else {
+                                Intent i = new Intent(ViewExperienceActivity.this, ViewProfileActivity.class);
+                                //passo i parametri per la visualizzazione del profilo
+                                i.putExtra("ID_PROFILO", ID_CREATORE);
+                                i.putExtra("profile_pic", photoUrl);
+                                i.putExtra("name", nome_utente);
+                                i.putExtra("surname", cognome_utente);
+
+                                startActivity(i);
+                            }
                         }
                     });
 
