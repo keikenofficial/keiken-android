@@ -172,7 +172,6 @@
                                 android:textSize="17sp"
                                 android:inputType="numberDecimal"
                                 android:lines="1"
-                                android:maxLength="4"
                                 android:theme="@style/AppTheme.EditText.Black"/>
                         </com.google.android.material.textfield.TextInputLayout>
 

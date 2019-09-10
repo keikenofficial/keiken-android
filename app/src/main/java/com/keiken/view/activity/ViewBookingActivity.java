@@ -247,7 +247,9 @@ public class ViewBookingActivity extends AppCompatActivity {
                         Date data_prenotazione = timestamp.toDate();
                         boolean isAccepted = (boolean) document.get("isAccepted");
 
-                        prezzoTV.setText("Prezzo totale: " + prezzo + "\u20AC");
+                        float prezzo_totale = Float.parseFloat(prezzo) * posti_prenotati;
+
+                        prezzoTV.setText("Prezzo totale: " + prezzo_totale + "\u20AC");
 
                         int h = Integer.parseInt(ore);
                         int min = Integer.parseInt(minuti);

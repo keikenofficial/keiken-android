@@ -18,6 +18,8 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -71,6 +73,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.fabric.sdk.android.services.common.Crash;
 
@@ -121,6 +125,11 @@ public class CreateExperienceActivity extends AppCompatActivity {
         final EditText descrizioneEditText = findViewById(R.id.descrizione_edit);
         final EditText luogoEditText = findViewById(R.id.luogo);
         final EditText prezzoEditText = findViewById(R.id.prezzo);
+        prezzoEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(4,2)});
+
+
+
+
         final ChipGroup categoriaChip = findViewById(R.id.categorie);
         final TimePicker timePicker = findViewById(R.id.timePicker);
         final NumberPicker pickerPosti = findViewById(R.id.posti_disponibili);
@@ -583,7 +592,23 @@ public class CreateExperienceActivity extends AppCompatActivity {
     }
 
 
+    public class DecimalDigitsInputFilter implements InputFilter {
 
+        Pattern mPattern;
 
+        public DecimalDigitsInputFilter(int digitsBeforeZero,int digitsAfterZero) {
+            mPattern=Pattern.compile("[0-9]{0," + (digitsBeforeZero-1) + "}+((\\.[0-9]{0," + (digitsAfterZero-1) + "})?)||(\\.)?");
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+
+            Matcher matcher=mPattern.matcher(dest);
+            if(!matcher.matches())
+                return "";
+            return null;
+        }
+
+    }
 }
 
