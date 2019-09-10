@@ -557,16 +557,17 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
                 Calendar startCal = dateDRCV.getStartDate();
                 Calendar endCal = dateDRCV.getEndDate();
-
-                Date start_day = startCal.getTime();
-                Date end_day = endCal.getTime();
-                if(!(start_day == null) && !(end_day == null)){
-                    for(Esperienza e : esperienze){
-                        HashMap<Date, Long> dateMap = new HashMap<Date, Long>(e.getDate());
-                        ArrayList<Date> dateEsperienza = (ArrayList<Date>) dateMap.keySet();
-                        Collections.sort(dateEsperienza);
-                        if( (dateEsperienza.get(0).compareTo(end_day) > 0) || (dateEsperienza.get(dateEsperienza.size()).compareTo(start_day) <0) ){
-                            esperienze.remove(e);
+                if(startCal != null && endCal != null) {
+                    Date start_day = startCal.getTime();
+                    Date end_day = endCal.getTime();
+                    if (!(start_day == null) && !(end_day == null)) {
+                        for (Esperienza e : esperienze) {
+                            HashMap<Date, Long> dateMap = new HashMap<Date, Long>(e.getDate());
+                            ArrayList<Date> dateEsperienza = (ArrayList<Date>) dateMap.keySet();
+                            Collections.sort(dateEsperienza);
+                            if ((dateEsperienza.get(0).compareTo(end_day) > 0) || (dateEsperienza.get(dateEsperienza.size()).compareTo(start_day) < 0)) {
+                                esperienze.remove(e);
+                            }
                         }
                     }
                 }
