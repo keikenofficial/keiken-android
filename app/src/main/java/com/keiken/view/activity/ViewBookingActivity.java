@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
@@ -41,6 +42,8 @@ import com.keiken.controller.ImageController;
 import org.w3c.dom.Document;
 
 import java.sql.Struct;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -137,7 +140,8 @@ public class ViewBookingActivity extends AppCompatActivity {
                         String ore = (String) document.get("ore");
                         String minuti = (String) document.get("minuti");
                         long posti_prenotati = (Long) document.get("posti_prenotati");
-                        String data_prenotazione = (String) document.get("data_selezionata");
+                        Timestamp timestamp = (Timestamp) document.get("data_selezionata");
+                        Date data_prenotazione = timestamp.toDate();
                         boolean isAccepted = (boolean) document.get("isAccepted");
 
                         prezzoTV.setText("Prezzo totale: " + prezzo + "\u20AC");
@@ -152,7 +156,10 @@ public class ViewBookingActivity extends AppCompatActivity {
                         posti_prenotatiTV.setText("Posti prenotati: " + posti_prenotati);
                         descrizioneTV.setText(descrizione);
                         luogoTV.setText(luogo);
-                        dateTV.setText(data_prenotazione);
+
+                        SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+                        String currentYear = formatYear.format(data_prenotazione.getTime());
+                        dateTV.setText(data_prenotazione.toString().substring(0,10)+" " +currentYear);
                         if (photoUri != null) {
                             storageReference.child(photoUri)
                                     .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
