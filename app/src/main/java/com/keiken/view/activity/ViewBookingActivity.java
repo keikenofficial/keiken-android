@@ -103,7 +103,6 @@ public class ViewBookingActivity extends AppCompatActivity {
 
         ////////////////
 
-        TextView reviews_button = findViewById(R.id.write_review_button);
 
         final TextView confermata_rifiutata_textview = findViewById(R.id.confermata_rifiutata_textview);
         confermata_rifiutata_textview.setVisibility(View.GONE);
@@ -140,16 +139,20 @@ public class ViewBookingActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 DocumentSnapshot document = task.getResult();
                                 if(document.exists()){
+
+                                    conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+                                    //DISPLAY OK ICON
+                                    confermata_rifiutata_textview.setBackgroundColor(65280);
+                                    confermata_rifiutata_textview.setText("Hai confermato la prenotazione");
+                                    confermata_rifiutata_textview.setVisibility(View.VISIBLE);
+
+
                                     Map<String, Object> map = new HashMap<>();
                                     map.put("isAccepted", true);
                                     db.collection("prenotazioni").document(ID_PRENOTAZIONE).update(map);
                                     Log.d("", "Modifica prenotazione accettata. ");
 
-                                    conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
-                                    //DISPLAY OK ICON
-                                    confermata_rifiutata_textview.setVisibility(View.VISIBLE);
-                                    confermata_rifiutata_textview.setText("Prenotazione cofermata");
-                                    confermata_rifiutata_textview.setTextColor(65280);
+
                                 }
                             }
                         }
@@ -396,7 +399,10 @@ public class ViewBookingActivity extends AppCompatActivity {
                                 confermata_rifiutata_textview.setText("La tua prenotazione è stata confermata!");
                             } else {
                                 //DISPLAY IN PROGRSS
-
+                                conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);
+                                confermata_rifiutata_textview.setVisibility(View.VISIBLE);
+                                confermata_rifiutata_textview.setBackgroundColor(65280); //GREEN
+                                confermata_rifiutata_textview.setText("Prenotazione in attesa di conferma");
 
                             }
                         }
