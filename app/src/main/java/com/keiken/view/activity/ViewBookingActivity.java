@@ -230,7 +230,65 @@ public class ViewBookingActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        } else {
+                        }
+
+                    }
+                }
+            }
+        });
+
+
+
+        //PRENOTANTE
+
+        final CollectionReference prenotazioniEffettuate = db.collection("prenotazioni");
+        Query queryEffettuate = prenotazioniRicevute.whereEqualTo("ID_PRENOTANTE", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        Task<QuerySnapshot> querySnapshotTaskEffettuate = queryEffettuate.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for(final DocumentSnapshot document : task.getResult()){
+                        String ID_CREATORE_ESPERIENZA = (String) document.get("ID_CREATORE_ESPERIENZA");
+                        String ID_PRENOTANTE = (String) document.get("ID_PRENOTANTE");
+                        String prezzo = (String) document.get("prezzo");
+                        String ore = (String) document.get("ore");
+                        String minuti = (String) document.get("minuti");
+                        long posti_prenotati = (Long) document.get("posti_prenotati");
+                        Timestamp timestamp = (Timestamp) document.get("data_selezionata");
+                        Date data_prenotazione = timestamp.toDate();
+                        boolean isAccepted = (boolean) document.get("isAccepted");
+
+                        prezzoTV.setText("Prezzo totale: " + prezzo + "\u20AC");
+
+                        int h = Integer.parseInt(ore);
+                        int min = Integer.parseInt(minuti);
+                        if (h <10)
+                            ore ="0" + ore;
+                        if (min <10)
+                            minuti ="0" + min;
+                        orarioTV.setText(ore+":"+minuti);
+                        posti_prenotatiTV.setText("Posti prenotati: " + posti_prenotati);
+                        descrizioneTV.setText(descrizione);
+                        luogoTV.setText(luogo);
+
+                        SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+                        String currentYear = formatYear.format(data_prenotazione.getTime());
+                        dateTV.setText(data_prenotazione.toString().substring(0,10)+" " +currentYear);
+                        if (photoUri != null) {
+                            storageReference.child(photoUri)
+                                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Got the download URL for 'photos/profile.png'
+                                    new ImageController.DownloadImageFromInternet(foto).execute(uri.toString());
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any error
+                                }
+                            });
+                        }
                             //SONO IL PRENOTANTE
 
                             if (isAccepted) {
@@ -290,12 +348,14 @@ public class ViewBookingActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-                        }
-
                     }
                 }
             }
         });
+
+
+
+
         //TO-DO
 
 
