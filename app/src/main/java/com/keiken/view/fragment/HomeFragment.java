@@ -14,15 +14,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.archit.calendardaterangepicker.customviews.DateRangeCalendarView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +38,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.JsonSerializer;
+import com.jaygoo.widget.RangeSeekBar;
 import com.keiken.R;
 import com.keiken.model.Esperienza;
 import com.keiken.view.IOnBackPressed;
@@ -43,10 +50,12 @@ import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
 import java.io.IOException;
+import java.sql.Array;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -67,7 +76,6 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
     private MaterialButton filterButton;
     private ImageView upArrow;
     private TextView header1;
-    private LinearLayout header2, header3;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -141,8 +149,6 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
 
         header1 = c.findViewById(R.id.header1);
-        header2 = c.findViewById(R.id.header2);
-        header3 = c.findViewById(R.id.header3);
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
         contentLayout.setTouchIntercept(BackdropFrontLayer.NONE);
@@ -339,9 +345,6 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
 
 
-
-
-
         upArrow.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -357,13 +360,12 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                ic2.start();
 
 
-               header1.setVisibility(View.GONE);
-               header2.setVisibility(View.VISIBLE);
-               header3.setVisibility(View.GONE);
+
 
            }
        });
 
+        final MaterialButton filtraBT = c.findViewById(R.id.filtra);
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -383,10 +385,8 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
 
+                    filtraBT.setEnabled(true);
 
-                    header1.setVisibility(View.GONE);
-                    header2.setVisibility(View.GONE);
-                    header3.setVisibility(View.VISIBLE);
 
                 }
                 else {
@@ -402,9 +402,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
                     sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     // recursiveLoopChildren(true, contentLayout);
 
-                    header1.setVisibility(View.GONE);
-                    header2.setVisibility(View.VISIBLE);
-                    header3.setVisibility(View.GONE);
+
 
                 }
             }
@@ -414,14 +412,237 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
 
 
+        //FILTRI
+
+
+        final EditText luogoET = c.findViewById(R.id.luogo);
+
+        final RangeSeekBar prezzoRSB = c.findViewById(R.id.seekbar);
+        prezzoRSB.setRight(9999);
+        prezzoRSB.setLeft(0);
+        prezzoRSB.setIndicatorTextDecimalFormat("0000");
+        prezzoRSB.setEnableThumbOverlap(false);
+
+        final ChipGroup categorieCG = c.findViewById(R.id.categorie);
+
+        final com.shawnlin.numberpicker.NumberPicker numberPicker = (com.shawnlin.numberpicker.NumberPicker) c.findViewById(R.id.posti_selezionati);
+        numberPicker.setDividerColorResource(R.color.White);
+        numberPicker.setTextColorResource(R.color.White);
+        numberPicker.setSelectedTextColorResource(R.color.Gray);
+
+
+        final DateRangeCalendarView dateDRCV = c.findViewById(R.id.calendar);
+
+
+        filtraBT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filtraBT.setEnabled(false);
+                final ArrayList<Esperienza> esperienze = new ArrayList<>();
+
+                db.collection("esperienze").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            //ArrayList<String> lista = new ArrayList<String>();
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+
+                                if (document.exists()) {
+
+
+                                    //inizializzazione dati con valori presi dal DB
+
+                                    final Esperienza e;
+                                    final String titolo = (String) document.get("titolo");
+                                    final String descrizione = (String) document.get("descrizione");
+                                    final String luogo = (String) document.get("luogo");
+                                    final String ID_CREATORE = (String) document.get("ID_CREATORE");
+                                    final String prezzo = (String) document.get("prezzo");
+                                    final ArrayList<String> categorie = new ArrayList<String>((ArrayList<String>) document.get("categorie"));
+                                    final long ore = (Long) document.get("ore");
+                                    final long minuti = (Long) document.get("minuti");
+                                    final long nPostiDisponibili = (Long) document.get("posti_massimi");
+                                    final String photoUri = (String) document.get("photoUri");
+                                    final String ID_ESPERIENZA =(String) document.getId();
+                                    //GET CALENDARIO
+
+                                    db.collection("esperienze").document(document.getId()).collection("date").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                Esperienza e;
+                                                HashMap<Date, Long> date = new HashMap<Date, Long>();
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    if (document.exists()) {
+                                                        //Long tempTimestamp = (Long) ((HashMap<String, Object>) document.get("data")).get("timeInMillis");
+                                                        //Calendar tempCalendar = new GregorianCalendar();
+                                                        //tempCalendar.setTimeInMillis(tempTimestamp);
+                                                        Timestamp data = (Timestamp) document.get("data");
+                                                        Long nPostiDisponibili = (Long) document.get("posti_disponibili");
+                                                        date.put(data.toDate(), nPostiDisponibili);
+                                                    } else {
+                                                        Log.d("", "No such document");
+                                                    }
+                                                }
+                                                e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, date, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                if (!e.getID_CREATORE().equals(mAuth.getCurrentUser().getUid()))
+                                                    esperienze.add(e);
+
+                                            } else {
+                                                Log.d("", "get failed with ", task.getException());
+                                            }
+                                        }
+                                    });
+                                    Log.d("", "DocumentSnapshot data: " + document.getData());
+                                } else {
+                                    Log.d("", "No such document");
+                                }
+                            }
+                        }
+                        else {
+                            Log.d("", "get failed with ", task.getException());
+                        }
+                    }
+                });
+
+                final String luogo = luogoET.getText().toString();
+                if(!luogo.equals("")){
+                    for(Esperienza e : esperienze) {
+                        if(!luogo.equals(e.getLuogo())){
+                            esperienze.remove(e);
+                        }
+                    }
+                }
+
+                float left_bar = prezzoRSB.getLeftSeekBar().getProgress();
+                float right_bar = prezzoRSB.getRightSeekBar().getProgress();
+                if(!(left_bar == 0) && !(right_bar == 9999)) {
+                    for (Esperienza e : esperienze) {
+                        if (Float.parseFloat(e.getPrezzo()) < left_bar || Float.parseFloat(e.getPrezzo()) > right_bar)
+                            esperienze.remove(e);
+                    }
+                }
+                ArrayList<String> categorie = new ArrayList<String>();
+
+                for (int i = 0; i < categorieCG.getChildCount(); i++){
+                    Chip tempChip = (Chip) categorieCG.getChildAt(i);
+                    if(tempChip.isChecked()){
+                        categorie.add(tempChip.getText().toString());
+                    }
+                }
+                if(categorie.size()>0) {
+                    for (Esperienza e : esperienze) {
+                        boolean containsCat = false;
+                        for (String c : categorie) {
+                            if (e.getCategorie().contains(c)) {
+                                containsCat = true;
+                                continue;
+                            }
+                        }
+                        if (!containsCat)
+                            esperienze.remove(e);
+                    }
+                }
+                int posti_selezionati = numberPicker.getValue();
+                for (Esperienza e : esperienze){
+                    if(e.getnPostiDisponibili() < posti_selezionati)
+                        esperienze.remove(e);
+                }
+
+
+                Calendar startCal = dateDRCV.getStartDate();
+                Calendar endCal = dateDRCV.getEndDate();
+
+                Date start_day = startCal.getTime();
+                Date end_day = endCal.getTime();
+                if(!(start_day == null) && !(end_day == null)){
+                    for(Esperienza e : esperienze){
+                        HashMap<Date, Long> dateMap = new HashMap<Date, Long>(e.getDate());
+                        ArrayList<Date> dateEsperienza = (ArrayList<Date>) dateMap.keySet();
+                        Collections.sort(dateEsperienza);
+                        if( (dateEsperienza.get(0).compareTo(end_day) > 0) || (dateEsperienza.get(dateEsperienza.size()).compareTo(start_day) <0) ){
+                            esperienze.remove(e);
+                        }
+                    }
+                }
+
+
+
+                RVAdapterHome adapter = new RVAdapterHome(esperienze, new RVAdapterHome.OnItemClickListener() {
+                    @Override
+
+                    public void onItemClick(Esperienza esperienza) {
+                        Intent i = new Intent(getContext(), ViewExperienceActivity.class);
+                        i.putExtra("titolo", esperienza.getTitolo());
+                        i.putExtra("descrizione", esperienza.getDescrizione());
+                        i.putExtra("luogo", esperienza.getLuogo());
+                        i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
+                        i.putExtra("prezzo", esperienza.getPrezzo());
+                        i.putExtra("categorie", esperienza.getCategorie());
+                        i.putExtra("ore", Long.toString(esperienza.getOre()));
+                        i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
+                        i.putExtra("nPostiDisponibili", Long.toString(esperienza.getnPostiDisponibili()));
+                        i.putExtra("photoUri", esperienza.getPhotoUri());
+                        i.putExtra("date", esperienza.getDate());
+                        i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
+
+                        startActivity(i);
+                    }
+                });
+                rv.setAdapter(adapter);
+
+
+
+                /* GET FROM DB
+                try{
+                    db.collection("esperienze").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                            if (task.isSuccessful()) {
+
+                                final ArrayList<Esperienza> esperienze = new ArrayList<>();
+
+                                //ArrayList<String> lista = new ArrayList<String>();
+
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                }
+                            }
+                        }
+                    });
+
+                }catch (NullPointerException e){
+
+                }*/
+
+
+
+
+                filterButton.setIcon(getResources().getDrawable(R.drawable.cross_to_filter));
+                AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)filterButton.getIcon();
+                ic.start();
+
+                upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+                AnimatedVectorDrawable ic2 =  (AnimatedVectorDrawable)upArrow.getDrawable();
+                ic2.start();
+
+                sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+            }
+        });
 
 
 
 
 
-
-
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -555,9 +776,13 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         });
 
 
+
+
+
+
+
         return c;
     }
-
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -639,9 +864,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
 
 
-            header1.setVisibility(View.GONE);
-            header2.setVisibility(View.VISIBLE);
-            header3.setVisibility(View.GONE);
+
 
 
             return true;

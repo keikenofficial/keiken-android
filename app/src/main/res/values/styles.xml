@@ -74,6 +74,10 @@
         <item name="colorControlNormal">@color/Black</item>
     </style>
 
+    <style name="NumberPickerThemeWhite" parent="AppTheme">
+        <item name="colorControlNormal">@color/White</item>
+    </style>
+
 
 
 </resources>

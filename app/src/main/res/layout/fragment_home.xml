@@ -21,17 +21,17 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:theme="@style/AppTheme.EditText"
-            android:textColor="#ffffff"
-            android:hint="Località"
-            android:textColorHint="#70ffffff"
-            android:drawableLeft="@drawable/ic_search"
-            android:drawablePadding="4dp"
-            android:layout_marginBottom="3dp"
-            android:layout_weight="0.8"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:id="@+id/title"
+                android:textColorHint="#70ffffff"
+                android:text="Keiken"
+                android:textSize="24sp"
+                android:layout_marginBottom="3dp"
+                android:gravity="center"
+                android:layout_weight="0.8"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/filter_button"
@@ -92,6 +92,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:theme="@style/AppTheme.EditText"
+                android:textColor="#ffffff"
+                android:hint="Località"
+                android:id="@+id/luogo"
+                android:textColorHint="#70ffffff"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="4dp"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="0.8"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -117,6 +129,9 @@
                 app:rsb_thumb_drawable="@drawable/thumb_gradient"
                 app:rsb_thumb_height="14dp"
                 app:rsb_thumb_width="14dp"
+                app:rsb_min="0"
+                app:rsb_max="9999"
+                app:rsb_min_interval="1"
                 app:rsb_indicator_show_mode="alwaysShowAfterTouch"
                 app:rsb_indicator_text_color="@color/White"
                 app:rsb_indicator_width="wrap_content"
@@ -152,7 +167,8 @@
                     <com.google.android.material.chip.ChipGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/categorie">
 
                 <com.google.android.material.chip.Chip
                     style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -248,16 +264,14 @@
                 android:textSize="17sp"
                 android:layout_marginHorizontal="15dp"/>
 
-            <EditText
-                android:layout_width="40dp"
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/posti_selezionati"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.EditText"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="17sp"
-                android:textColor="#ffffff"
-                android:inputType="number"
-                android:maxLength="2"/>
+                app:np_textSize="17sp"
+                app:np_max="99"
+                app:np_min="1"
+                app:np_value="1"/>
 
             <View
                 android:layout_width="match_parent"
@@ -302,7 +316,8 @@
                 app:strokeColor="#ffffff"
                 app:backgroundTint="#40ffffff"
                 app:strokeWidth="0dp"
-                android:text="Azzera filtri"
+                android:text="Filtra"
+                android:id="@+id/filtra"
                 app:rippleColor="#30ffffff"
                 android:textColor="#ffffff"
                 android:textAllCaps="false"
@@ -355,108 +370,6 @@
                     android:textSize="17sp"
                     android:textColor="#000000"
                     android:textStyle="bold"/>
-
-                <!--filtri header-->
-                <LinearLayout
-                    android:id="@+id/header2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Filtri:  "
-                        android:textSize="17sp"
-                        android:textColor="#000000"
-                        android:textStyle="bold"/>
-
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:layout_width="match_parent"
-                            android:layout_height="26dp">
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bologna"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0 - 50€"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Viaggi"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Arte"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sport"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="5 persone"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="10/01/2019 - 15/01/2019"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                        </com.google.android.material.chip.ChipGroup>
-
-                    </HorizontalScrollView>
-
-
-                </LinearLayout>
 
 
                 <LinearLayout
