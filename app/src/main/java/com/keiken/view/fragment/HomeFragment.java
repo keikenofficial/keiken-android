@@ -426,7 +426,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
         final com.shawnlin.numberpicker.NumberPicker numberPicker = (com.shawnlin.numberpicker.NumberPicker) c.findViewById(R.id.posti_selezionati);
         numberPicker.setDividerColorResource(R.color.White);
-        numberPicker.setTextColorResource(R.color.White);
+        numberPicker.setSelectedTextColorResource(R.color.White);
         numberPicker.setSelectedTextColorResource(R.color.Gray);
 
 

@@ -31,7 +31,8 @@
                 android:textSize="24sp"
                 android:layout_marginBottom="3dp"
                 android:gravity="center"
-                android:layout_weight="0.8"/>
+                android:layout_weight="0.8"
+                android:visibility="invisible"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/filter_button"
@@ -103,7 +104,8 @@
                 android:drawableLeft="@drawable/ic_search"
                 android:drawablePadding="4dp"
                 android:layout_marginBottom="3dp"
-                android:layout_weight="0.8"/>
+                android:layout_weight="0.8"
+                android:layout_marginHorizontal="15dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -271,7 +273,9 @@
                 app:np_textSize="17sp"
                 app:np_max="99"
                 app:np_min="1"
-                app:np_value="1"/>
+                app:np_value="1"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="horizontal"/>
 
             <View
                 android:layout_width="match_parent"
