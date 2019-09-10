@@ -136,7 +136,7 @@ public class ViewBookingActivity extends AppCompatActivity {
                         String prezzo = (String) document.get("prezzo");
                         String ore = (String) document.get("ore");
                         String minuti = (String) document.get("minuti");
-                        String posti_prenotati = (String) document.get("posti_prenotati");
+                        long posti_prenotati = (Long) document.get("posti_prenotati");
                         String data_prenotazione = (String) document.get("data_selezionata");
                         boolean isAccepted = (boolean) document.get("isAccepted");
 
@@ -289,38 +289,10 @@ public class ViewBookingActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        //SE è L'UTENTE PRENOTANTE
-
-
-
-
-
-
-
-
-
-
-        //CONTROLLO SU isAccepted + show() icona relativa allo stato della prenotazione ->
-        //                                                                            // x == DENIED
-        //                                                                            // ? == ONGOING
-        //                                                                            // v == ACCEPTED
-
-
         //TO-DO
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
         //ON CLICK LISTENER
         ///////////////////////////////////////////// CONFERMA BUTTON
         //conferma_rifiuta_prenotazione_layout.setVisibility(View.GONE);   NON CREDO CHE SERVA
