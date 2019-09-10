@@ -455,7 +455,7 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String photoUri = (String) document3.get("photoUri");
                                                                     String ID_ESPERIENZA =(String) document3.getId();
 
-                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_CREATORE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA, ID_PRENOTAZIONE);
                                                                     esperienze.add(e);
 
 
@@ -465,38 +465,12 @@ public class ExperiencesFragment extends Fragment {
                                                                         @Override
                                                                         public void onItemClick(Esperienza esperienza) {
                                                                             Intent i = new Intent(getContext(), ViewBookingActivity.class);
-                                                                            //DATI DA PASSARE AL ViewBookingActivity !!!!!!!!!!!!
-                                                                            //PARAMETRI ESPERIENZA
+
                                                                             i.putExtra("titolo", esperienza.getTitolo());
                                                                             i.putExtra("luogo", esperienza.getLuogo());
-                                                                            i.putExtra("ID_CREATORE", esperienza.getID_CREATORE());
-                                                                            i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
-                                                                            i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
-                                                                            i.putExtra("photoUri", esperienza.getPhotoUri());
                                                                             i.putExtra("descrizione", esperienza.getDescrizione());
-                                                                            i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
-                                                                            i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
-                                                                            //PARAMETRI CREATORE ESPERIENZA
-                                                                            i.putExtra("nome_utente", nome_utente_creatore);
-                                                                            i.putExtra("photo_url_creatore_esperienza", photo_url_creatore_esperienza);
-                                                                            i.putExtra("photo_url_prenotante_esperienza", "images/"+ID_PRENOTANTE+"/foto_profilo");
-                                                                            //PARAMETRI PRENOTAZIONE
-                                                                            i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
-                                                                            i.putExtra("prezzo", prezzo);
-                                                                            i.putExtra("isAccepted", isAccepted);
-                                                                            i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
-                                                                            //la data viene caricata come stringa, serve solo per essere mostrata all'utente
-                                                                            //      String tempDate = "";
-                                                                            //      if (data_prenotazione.get(Calendar.DAY_OF_MONTH) < 10)
-                                                                            //          tempDate += "0";
-                                                                            //      tempDate += data_prenotazione.get(Calendar.DAY_OF_MONTH) + "/";
-                                                                            //      if (data_prenotazione.get(Calendar.MONTH) < 10)
-                                                                            //          tempDate += "0";
-                                                                            //      tempDate += data_prenotazione.get(Calendar.MONTH) + "/" + data_prenotazione.get(Calendar.YEAR);
-                                                                            SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
-                                                                            String currentYear = formatYear.format(data_prenotazione.getTime());
-                                                                            i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10)+" " +currentYear);
-
+                                                                            i.putExtra("ID_PRENOTAZIONE", esperienza.getID_PRENOTAZIONE_ASSOCIATA());
+                                                                            i.putExtra("photoUri", esperienza.getPhotoUri());
                                                                             startActivity(i);
                                                                         }
                                                                     });
@@ -625,10 +599,10 @@ public class ExperiencesFragment extends Fragment {
                                                                     final String photoUri = (String) document.get("photoUri");
                                                                     String ID_ESPERIENZA =(String) document.getId();
 
-                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA);
+                                                                    e = new Esperienza(titolo, descrizione, luogo, ID_PRENOTANTE, prezzo, categorie, data_prenotazione, ore, minuti, nPostiDisponibili, photoUri, ID_ESPERIENZA, ID_PRENOTAZIONE);
                                                                     esperienze.add(e);
 
-
+                                                                    //FINE QUERY UTENTE_CREATORE
                                                                     //ARRIVATO A QUESTO PUNTO, PROCESSO TUTTI I DATI
                                                                     //STAMPA SU ADAPTER E INVIO DATI UTILI TRAMITE INTENT
                                                                     RVAdapterExperienceRicevuta adapter = new RVAdapterExperienceRicevuta(esperienze, new RVAdapterExperienceRicevuta.OnItemClickListener() {                                                                        @Override
@@ -638,31 +612,14 @@ public class ExperiencesFragment extends Fragment {
                                                                         //PARAMETRI ESPERIENZA
                                                                         i.putExtra("titolo", esperienza.getTitolo());
                                                                         i.putExtra("luogo", esperienza.getLuogo());
-                                                                        i.putExtra("ID_CREATORE", ID_CREATORE);
                                                                         i.putExtra("descrizione", esperienza.getDescrizione());
-                                                                        i.putExtra("ID_PRENOTANTE", ID_PRENOTANTE);
-                                                                        i.putExtra("ore", Long.toString(esperienza.getOre()));   //Prendo ore e minuti dall'esperienza presa dal database perchè potrebbero essere stati aggiornati o modficati se in un futuro permetteremo la modifica di alcunidati di una esperienza
-                                                                        i.putExtra("minuti", Long.toString(esperienza.getMinuti()));
+                                                                        i.putExtra("ID_PRENOTAZIONE", esperienza.getID_PRENOTAZIONE_ASSOCIATA());
                                                                         i.putExtra("photoUri", esperienza.getPhotoUri());
-                                                                        i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
-                                                                        //PARAMETRI CREATORE ESPERIENZA
-                                                                        i.putExtra("nome_utente", nome_utente); //prenotante
-                                                                        i.putExtra("photo_url_prenotante_esperienza", photo_url_prenotante_esperienza); //prenotante
-                                                                        i.putExtra("photo_url_creatore_esperienza", "images/"+esperienza.getID_CREATORE()+"/foto_profilo");
-                                                                        //PARAMETRI PRENOTAZIONE
-                                                                        i.putExtra("posti_prenotati", Long.toString(posti_prenotati));
-                                                                        i.putExtra("prezzo", prezzo);
-                                                                        i.putExtra("isAccepted", isAccepted);
-                                                                        i.putExtra("ID_PRENOTAZIONE", ID_PRENOTAZIONE);
-                                                                        //la data viene caricata come stringa, serve solo per essere mostrata all'utente
-                                                                        SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
-                                                                        String currentYear = formatYear.format(data_prenotazione.getTime());
-                                                                        i.putExtra("data_prenotazione", data_prenotazione.toString().substring(0,10)+" " +currentYear);
 
                                                                         startActivity(i);
-                                                                    }
-                                                                    });
+                                                                    }});
                                                                     rv2.setAdapter(adapter);
+
                                                                 } else {
                                                                     Log.d("ERROR_DOCUMENT", "No such document");
                                                                 }
@@ -671,6 +628,8 @@ public class ExperiencesFragment extends Fragment {
                                                             }
                                                         }
                                                     }); //FINE QUERY ESPERIENZA
+
+
                                                 } else {
                                                     Log.d("ERROR_DOCUMENT", "No such document");
                                                 }
@@ -680,7 +639,7 @@ public class ExperiencesFragment extends Fragment {
                                         }
                                     }
                                 });
-                                //FINE QUERY UTENTE_CREATORE
+
                             }
 
 
@@ -688,6 +647,7 @@ public class ExperiencesFragment extends Fragment {
                             Log.d("ERROR_DOCUMENT", "No such document");
                         }
                     }
+
                 } else {
                     Log.d("ERROR_TASK", "get failed with ", task.getException());
                 }

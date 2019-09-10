@@ -10,6 +10,7 @@ public class Esperienza {
     private long ore, minuti, nPostiDisponibili;
     private String photoUri;
     private String ID_ESPERIENZA;
+    private String ID_PRENOTAZIONE_ASSOCIATA;
 
     private Date data_prenotazione;
 
@@ -45,7 +46,28 @@ public class Esperienza {
         this.ID_ESPERIENZA=ID_ESPERIENZA;
     }
 
+    public Esperienza(String titolo, String descrizione, String luogo, String ID_CREATORE, String prezzo, ArrayList<String> categorie, Date data_prenotazione, long ore, long minuti, long nPostiDisponibili, String photoUri, String ID_ESPERIENZA, String ID_PRENOTAZIONE_ASSOCIATA) {
+        this.titolo = titolo;
+        this.descrizione = descrizione;
+        this.luogo = luogo;
+        this.ID_CREATORE = ID_CREATORE;
+        this.prezzo = prezzo;
+        this.categorie = categorie;
+        this.ore = ore;
+        this.minuti = minuti;
+        this.nPostiDisponibili = nPostiDisponibili;
+        this.photoUri = photoUri;
+        this.ID_ESPERIENZA = ID_ESPERIENZA;
+        this.ID_PRENOTAZIONE_ASSOCIATA = ID_PRENOTAZIONE_ASSOCIATA;
+        this.data_prenotazione = data_prenotazione;
+    }
     // GETTERS & SETTERS
+
+
+    public String getID_PRENOTAZIONE_ASSOCIATA() {
+        return ID_PRENOTAZIONE_ASSOCIATA;
+    }
+
     public String getID_ESPERIENZA() { return ID_ESPERIENZA; }
 
     public String getPhotoUri() { return photoUri; }
