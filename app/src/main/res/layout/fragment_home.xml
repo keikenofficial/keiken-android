@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:elevation="0dp"
+        app:title="Keiken"
+        app:titleTextColor="#ffffff"
         android:background="@color/colorPrimary">
 
         <LinearLayout
@@ -21,18 +23,19 @@
             android:orientation="horizontal"
             android:gravity="center">
 
+
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
                 android:id="@+id/title"
-                android:textColorHint="#70ffffff"
+                android:textAlignment="center"
                 android:text="Keiken"
                 android:textSize="24sp"
-                android:layout_marginBottom="3dp"
+                android:paddingLeft="10dp"
                 android:gravity="center"
-                android:layout_weight="0.8"
-                android:visibility="invisible"/>
+                android:layout_weight="0.8"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/filter_button"
@@ -103,8 +106,15 @@
                 android:textColorHint="#70ffffff"
                 android:drawableLeft="@drawable/ic_search"
                 android:drawablePadding="4dp"
-                android:layout_marginBottom="3dp"
                 android:layout_weight="0.8"
+                android:layout_marginVertical="10dp"
+                android:layout_marginHorizontal="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#40ffffff"
+                android:padding="15dp"
                 android:layout_marginHorizontal="15dp"/>
 
             <TextView
@@ -270,12 +280,13 @@
                 android:id="@+id/posti_selezionati"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:np_textSize="17sp"
+                app:np_textSize="13sp"
                 app:np_max="99"
                 app:np_min="1"
                 app:np_value="1"
                 android:layout_marginHorizontal="15dp"
-                android:orientation="horizontal"/>
+                android:layout_marginVertical="10dp"
+                app:np_orientation="horizontal"/>
 
             <View
                 android:layout_width="match_parent"

@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -48,6 +47,7 @@ import com.keiken.view.activity.CreateExperienceActivity;
 import com.keiken.view.activity.ViewExperienceActivity;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
+import com.shawnlin.numberpicker.NumberPicker;
 
 import java.io.IOException;
 import java.sql.Array;
@@ -326,7 +326,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
         Toolbar toolbar = c.findViewById(R.id.toolbar);
         toolbar.setElevation(0);
-        toolbar.setTitle("");
+        toolbar.setTitle("Keiken");
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
@@ -427,7 +427,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         final com.shawnlin.numberpicker.NumberPicker numberPicker = (com.shawnlin.numberpicker.NumberPicker) c.findViewById(R.id.posti_selezionati);
         numberPicker.setDividerColorResource(R.color.White);
         numberPicker.setSelectedTextColorResource(R.color.White);
-        numberPicker.setSelectedTextColorResource(R.color.Gray);
+        numberPicker.setTextColorResource(R.color.colorPrimaryLight);
 
 
         final DateRangeCalendarView dateDRCV = c.findViewById(R.id.calendar);
