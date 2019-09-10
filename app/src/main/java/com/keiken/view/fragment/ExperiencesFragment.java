@@ -471,6 +471,7 @@ public class ExperiencesFragment extends Fragment {
                                                                             i.putExtra("descrizione", esperienza.getDescrizione());
                                                                             i.putExtra("ID_PRENOTAZIONE", esperienza.getID_PRENOTAZIONE_ASSOCIATA());
                                                                             i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                                            i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
                                                                             startActivity(i);
                                                                         }
                                                                     });
@@ -615,6 +616,7 @@ public class ExperiencesFragment extends Fragment {
                                                                         i.putExtra("descrizione", esperienza.getDescrizione());
                                                                         i.putExtra("ID_PRENOTAZIONE", esperienza.getID_PRENOTAZIONE_ASSOCIATA());
                                                                         i.putExtra("photoUri", esperienza.getPhotoUri());
+                                                                        i.putExtra("ID_ESPERIENZA", esperienza.getID_ESPERIENZA());
 
                                                                         startActivity(i);
                                                                     }});
