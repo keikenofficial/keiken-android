@@ -127,7 +127,6 @@ public class ViewExperienceActivity extends AppCompatActivity {
         orarioTV.setText(ore+":"+minuti);
 
         
-        ChipGroup categorieCP = findViewById(R.id.categorie);
         Chip culturaC = findViewById(R.id.cultura);
         Chip sportC = findViewById(R.id.sport);
         Chip musicaC = findViewById(R.id.musica);
@@ -136,19 +135,19 @@ public class ViewExperienceActivity extends AppCompatActivity {
         for(String categoria : categorie){
             switch (categoria){
                 case "Cultura":
-                    culturaC.setText(categoria);
+                    culturaC.setVisibility(View.VISIBLE);
                     break;
                 case "Sport":
-                    sportC.setText(categoria);
+                    sportC.setVisibility(View.VISIBLE);
                     break;
                 case "Musica":
-                    musicaC.setText(categoria);
+                    musicaC.setVisibility(View.VISIBLE);
                     break;
                 case "Cibo":
-                    ciboC.setText(categoria);
+                    ciboC.setVisibility(View.VISIBLE);
                     break;
                 case "Divertimento":
-                    divertimentoC.setText(categoria);
+                    divertimentoC.setVisibility(View.VISIBLE);
                     break;
             }
 

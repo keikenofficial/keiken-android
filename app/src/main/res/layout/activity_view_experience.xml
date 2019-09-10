@@ -122,7 +122,7 @@
                 <com.google.android.material.chip.ChipGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginVertical="10dp"
                     android:id="@+id/categorie">
 
                     <com.google.android.material.chip.Chip
@@ -131,10 +131,10 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/cultura"
                         android:text="@string/cultura"
-                        app:checkedIcon="@drawable/ic_check_black"
                         android:textSize="17dp"
                         android:layout_marginHorizontal="3dp"
                         android:visibility="gone"
+                        app:rippleColor="#00000000"
                         android:checkable="false"/>
 
                     <com.google.android.material.chip.Chip
@@ -143,10 +143,10 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/sport"
                         android:text="@string/sport"
-                        app:checkedIcon="@drawable/ic_check_black"
                         android:textSize="17dp"
                         android:layout_marginHorizontal="3dp"
                         android:visibility="gone"
+                        app:rippleColor="#00000000"
                         android:checkable="false"/>
 
 
@@ -156,10 +156,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/musica"
                         android:id="@+id/musica"
-                        app:checkedIcon="@drawable/ic_check_black"
                         android:textSize="17dp"
                         android:layout_marginHorizontal="3dp"
                         android:visibility="gone"
+                        app:rippleColor="#00000000"
                         android:checkable="false"/>
 
                     <com.google.android.material.chip.Chip
@@ -168,10 +168,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/cibo"
                         android:id="@+id/cibo"
-                        app:checkedIcon="@drawable/ic_check_black"
                         android:textSize="17dp"
                         android:layout_marginHorizontal="3dp"
                         android:visibility="gone"
+                        app:rippleColor="#00000000"
                         android:checkable="false"/>
 
                     <com.google.android.material.chip.Chip
@@ -180,10 +180,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/divertimento"
                         android:id="@+id/divertimento"
-                        app:checkedIcon="@drawable/ic_check_black"
                         android:textSize="17dp"
                         android:layout_marginHorizontal="3dp"
                         android:visibility="gone"
+                        app:rippleColor="#00000000"
                         android:checkable="false"/>
 
 
