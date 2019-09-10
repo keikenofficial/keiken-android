@@ -201,9 +201,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
                                         android:textColor="#000000"
-                                        android:textSize="16dp"
-                                        android:id="@+id/email"
-                                        android:text="email"
+                                        android:textSize="24dp"
+                                        android:id="@+id/user_name"
+                                        android:text="Nome"
                                         android:gravity="center"
                                         android:layout_marginBottom="7dp"/>
 
@@ -324,9 +324,39 @@
 
 
                             </LinearLayout>
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="#dddddd"
+                                android:layout_marginHorizontal="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="5dp"/>
 
+                            <TextView
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000000"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:text="Esperienze"
+                                android:layout_marginBottom="5dp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/esperienze"
+                                android:nestedScrollingEnabled="false"/>
+
+
+                            <com.keiken.view.RecyclerViewHeader
+                                android:id="@+id/rvHeader"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                            </com.keiken.view.RecyclerViewHeader>
 
                         </LinearLayout>
+
 
 
                     </ScrollView>

@@ -169,6 +169,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
                     final ImageView profile_pic = findViewById(R.id.profile_pic);
                     final String photoUrl = (String) document.get("photoUrl");
                     final String nome_utente = (String) document.get("name");
+                    final String cognome_utente = (String) document.get("surname");
                     profilo.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -178,6 +179,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
                             i.putExtra("ID_PROFILO", ID_CREATORE);
                             i.putExtra("profile_pic", photoUrl);
                             i.putExtra("name", nome_utente);
+                            i.putExtra("surname", cognome_utente);
 
                             startActivity(i);
                         }
