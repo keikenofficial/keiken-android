@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -124,14 +126,15 @@ public class ViewExperienceActivity extends AppCompatActivity {
             minuti ="0" + min;
         orarioTV.setText(ore+":"+minuti);
 
+        
+        ChipGroup categorieCP = findViewById(R.id.categorie);
 
-        //STAMPA CATEGORIE
-        //
-        //
-        //DA FARE
-        //
-        //
-        ////////////////////////
+        for(int i = 0; i<categorie.size(); i++){
+            Chip chip = new Chip(getApplicationContext());
+            chip.setChipText(categorie.get(i));
+            chip.setCloseIconEnabled(false);
+            categorieCP.addView(chip);
+        }
 
         ArrayList<Date> dateList = new ArrayList<Date>(dateMap.keySet());
         Collections.sort(dateList);
