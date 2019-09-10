@@ -152,12 +152,12 @@
                 android:background="#ffffff">
 
 
-                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/swiperefresh_my_experiences"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent">
 
-                <FrameLayout
+                    <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -405,7 +405,7 @@
 
                 </FrameLayout>
 
-                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 

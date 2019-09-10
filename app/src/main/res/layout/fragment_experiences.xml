@@ -100,12 +100,10 @@
                     android:layout_height="1dp"
                     android:background="#dddddd"/>
 
-
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
+            <!--And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)-->
             <!--Layer contente body-->
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:orientation="vertical"
@@ -155,9 +153,9 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:clickable="true"
-                android:paddingVertical="8dp"
+                android:paddingTop="8dp"
                 android:paddingHorizontal="15dp"
                 android:layout_marginTop="24dp"
                 android:elevation="6dp"
@@ -197,6 +195,8 @@
 
                 </FrameLayout>
 
+
+                <!-- lineetta divisore-->
                 <View
                     android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
@@ -206,12 +206,13 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <!--And finally this is the body of the backdrop's content. You can add here whatever you need inside a view group (LinearLayout, RelativeLayout, SwipeRefreshLayout, ConstraintLayout, etc.)-->
+            <!--Layer contente body-->
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:orientation="vertical"
                 android:id="@+id/swiperefresh_received"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:behavior_peekHeight="64dp"
+
                 android:elevation="6dp"
                 android:background="#ffffff">
 
