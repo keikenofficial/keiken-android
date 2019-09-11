@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:elevation="0dp"
+        android:background="@color/colorPrimary">
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <!--Backdrop back layer-->
+        <LinearLayout
+            android:id="@+id/background_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="0dp"
+            android:padding="10dp">
+        </LinearLayout>
+
+        <!--Backdrop first layer  -->
+        <com.keiken.view.backdrop.BackdropFrontLayer
+            android:id="@+id/backdrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:elevation="1dp"
+            app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
+
+            <!--Layer subheader-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="8dp"
+                android:background="@drawable/backdrop_background"
+                app:behavior_peekHeight="56dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/titolo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Esperienza"
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+
+                    <ImageView
+                        android:id="@+id/up_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/white_to_black_up_arrow"
+                        android:layout_gravity="right"/>
+
+
+                </FrameLayout>
+
+                <View
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dddddd"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <!--Layer contente body-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:id="@+id/swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff">
+
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="15dp"
+                        android:paddingTop="5dp"
+                        android:gravity="center_horizontal">
+
+
+
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="3dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_location"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginHorizontal="5dp"/>
+
+                            <TextView
+                                android:id="@+id/luogo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:textColor="@android:color/black" />
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="100"
+                            android:layout_marginTop="15dp">
+
+
+                            <!--date-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="35"
+                                android:orientation="vertical"
+                                android:padding="3dp"
+                                android:gravity="center"
+                                android:layout_gravity="center">
+
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAlignment="center"
+                                    android:text="Data:"
+                                    android:textSize="17sp"
+                                    android:textColor="@color/Black"
+                                    android:layout_marginStart="5dp" />
+
+                                <NumberPicker
+                                    android:id="@+id/date_selection"
+                                    android:textAlignment="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="8dp"
+                                    android:theme="@style/NumberPickerTheme"
+                                    android:layout_gravity="center"/>
+
+
+                            </LinearLayout>
+
+
+
+
+                            <!--posti disponibili-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="65"
+                                android:gravity="center"
+                                android:layout_marginHorizontal="10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAlignment="center"
+                                    android:text="Posti"
+                                    android:textSize="17sp"
+                                    android:textColor="@color/Black"
+                                    android:layout_marginStart="5dp" />
+
+                                <NumberPicker
+                                    android:id="@+id/posti_disponibili"
+                                    android:textAlignment="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="8dp"
+                                    android:theme="@style/NumberPickerTheme"
+                                    android:layout_gravity="center"/>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center"
+                            android:padding="3dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_clock"
+                                android:layout_marginHorizontal="5dp"/>
+
+                            <TextView
+                                android:id="@+id/orario"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:textColor="@android:color/black" />
+
+
+                        </LinearLayout>
+
+
+
+                        <TextView
+                            android:id="@+id/prezzo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Prezzo a persona: 5€"
+                            android:textSize="17sp"
+                            android:textColor="@android:color/black"
+                            android:layout_marginBottom="3dp"/>
+
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/prenota_esperienza"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:text="Prenota esperienza"
+                            android:textAllCaps="false"
+                            app:rippleColor="#40ffffff"
+                            android:textColor="#ffffff"
+                            android:textSize="17sp"
+                            android:layout_marginVertical="6dp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:theme="@style/Widget.MaterialComponents.Button.Icon"
+                            app:backgroundTint="#00000000"
+                            android:layout_width="44dp"
+                            android:layout_height="56dp"
+                            app:cornerRadius="100dp"
+                            android:id="@+id/like"
+                            app:icon="@drawable/ic_heart_white"
+                            app:iconTint="@android:color/black"
+                            app:iconPadding="0dp"
+                            app:iconGravity="textStart"
+                            android:visibility="gone"/>
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+
+
+
+
+                <!--The content's body goes here-->
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.keiken.view.backdrop.BackdropFrontLayer>
+
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+</FrameLayout>

@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:elevation="0dp"
+        android:background="@color/colorPrimary">
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <!--Backdrop back layer-->
+        <LinearLayout
+            android:id="@+id/background_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:elevation="0dp"
+            android:padding="10dp">
+        </LinearLayout>
+
+        <!--Backdrop first layer  -->
+        <com.keiken.view.backdrop.BackdropFrontLayer
+            android:id="@+id/backdrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:elevation="1dp"
+            app:layout_behavior="com.keiken.view.backdrop.BackdropFrontLayerBehavior">
+
+            <!--Layer subheader-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clickable="true"
+                android:paddingHorizontal="15dp"
+                android:paddingTop="8dp"
+                android:background="@drawable/backdrop_background"
+                app:behavior_peekHeight="56dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Esperienza"
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
+
+
+                    <ImageView
+                        android:id="@+id/up_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/white_to_black_up_arrow"
+                        android:layout_gravity="right"/>
+
+
+                </FrameLayout>
+
+                <View
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dddddd"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <!--Layer contente body-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:id="@+id/swiperefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff">
+
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginHorizontal="15dp"
+                        android:paddingTop="5dp">
+
+                        <!--titolo-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/titolo"
+                            app:hintAnimationEnabled="true">
+
+                            <EditText
+                                android:id="@+id/titolo_edit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:inputType="textCapSentences"
+                                android:lines="1"
+                                android:maxLength="20"
+                                android:theme="@style/AppTheme.EditText.Black"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--descrizione-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/descrizione"
+                            app:hintAnimationEnabled="true">
+
+                            <EditText
+                                android:id="@+id/descrizione_edit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:inputType="textCapSentences|textAutoCorrect"
+                                android:lines="5"
+                                android:maxLength="500"
+                                android:theme="@style/AppTheme.EditText.Black"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--luogo-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/luogo"
+                            app:hintAnimationEnabled="true">
+
+                            <EditText
+                                android:id="@+id/luogo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:inputType="textCapSentences"
+                                android:lines="1"
+                                android:maxLength="20"
+                                android:theme="@style/AppTheme.EditText.Black"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <!--prezzo-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/prezzo"
+                            app:hintAnimationEnabled="true">
+
+                            <EditText
+                                android:id="@+id/prezzo"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:inputType="numberDecimal"
+                                android:lines="1"
+                                android:theme="@style/AppTheme.EditText.Black"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                        <!--categorie-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="15dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/categorie"
+                                android:textSize="17sp"
+                                android:textColor="@color/Black"
+                                android:layout_marginStart="5dp" />
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="15dp">
+
+
+                                <com.google.android.material.chip.ChipGroup
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:id="@+id/categorie">
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/cultura"
+                                        app:checkedIcon="@drawable/ic_check_black"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/sport"
+                                        app:checkedIcon="@drawable/ic_check_black"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/musica"
+                                        app:checkedIcon="@drawable/ic_check_black"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/cibo"
+                                        app:checkedIcon="@drawable/ic_check_black"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+                                    <com.google.android.material.chip.Chip
+                                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/divertimento"
+                                        app:checkedIcon="@drawable/ic_check_black"
+                                        android:textSize="17dp"
+                                        android:layout_marginHorizontal="3dp"/>
+
+                                </com.google.android.material.chip.ChipGroup>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+
+                        <!--date-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/date"
+                            android:textSize="17sp"
+                            android:textColor="@color/Black"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="10dp"/>
+
+                        <com.applandeo.materialcalendarview.CalendarView
+                            android:id="@+id/calendarView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="5dp"
+                            app:type="many_days_picker"
+                            app:headerColor="@color/colorPrimary"
+                            app:selectionColor="@color/colorPrimary"/>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="100"
+                            android:layout_marginTop="15dp">
+
+
+                            <!--orario-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="35"
+                                android:gravity="center"
+                                android:layout_marginHorizontal="10dp">
+
+                                <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/orario"
+                                        android:textSize="17sp"
+                                        android:textColor="@color/Black"
+                                        android:layout_marginStart="5dp"/>
+
+                                <TimePicker
+                                   android:layout_width="wrap_content"
+                                    android:id = "@+id/timePicker"
+                                   android:layout_height="wrap_content"
+                                    android:timePickerMode="spinner"
+                                    android:numbersSelectorColor="@color/Black"
+                                    android:theme="@style/NumberPickerTheme"/>
+
+                            </LinearLayout>
+
+
+
+
+                            <!--posti disponibili-->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:layout_weight="65"
+                                android:gravity="center"
+                                android:layout_marginHorizontal="10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAlignment="center"
+                                    android:text="@string/nPostiDisponibili"
+                                    android:textSize="17sp"
+                                    android:textColor="@color/Black"
+                                    android:layout_marginStart="5dp" />
+
+                                <NumberPicker
+                                    android:id="@+id/posti_disponibili"
+                                    android:textAlignment="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="8dp"
+                                    android:theme="@style/NumberPickerTheme"
+                                    android:layout_gravity="center"/>
+
+                            </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+
+
+                        <!--foto-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/foto"
+                                android:textSize="17sp"
+                                android:textColor="@color/Black"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginBottom="5dp"/>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="100">
+
+                                <ImageView
+                                    android:id = "@+id/photo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="300dp"
+                                    android:layout_weight="30"
+                                    android:scaleType="fitCenter"
+                                    android:adjustViewBounds="true"
+                                    android:src="@mipmap/placeholder"/>
+
+                                <FrameLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="70">
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:theme="@style/Widget.MaterialComponents.Button.Icon"
+                                        app:backgroundTint="@color/colorPrimary"
+                                        android:layout_width="44dp"
+                                        android:layout_height="56dp"
+                                        app:cornerRadius="100dp"
+                                        android:layout_gravity="center"
+                                        android:id="@+id/change_photo"
+                                        app:icon="@drawable/ic_photo"
+                                        android:paddingLeft="24dp"
+                                        app:iconGravity="textStart" />
+
+                                </FrameLayout>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/confirm_crea_esperienza"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_gravity="bottom|end"
+                            android:layout_width="wrap_content"
+                            android:paddingStart="14dp"
+                            android:paddingEnd="14dp"
+                            android:layout_height="wrap_content"
+                            android:text="Crea Esperienza"
+                            android:textAllCaps="false"
+                            android:textColor="#ffffff"
+                            android:textSize="17sp"/>
+
+
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+
+
+
+
+
+                <!--The content's body goes here-->
+
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </com.keiken.view.backdrop.BackdropFrontLayer>
+
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+</FrameLayout>

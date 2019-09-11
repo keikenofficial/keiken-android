@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">Keiken</string>
+
+    <!--Facebook-->
+    <string name="facebook_app_id">419212508697049</string>
+    <string name="fb_login_protocol_scheme">fb419212508697049</string>
+
+
+    <!--LauncherActivity-->
+    <string name="facebook_login">Continua con Facebook</string>
+    <string name="google_login">Continua con Google</string>
+    <string name="signup">Registrati</string>
+    <string name="login">Accedi</string>
+    <string name="condizioni">Registrandoti dichiari di accettare i nostri <u>Termini e Condizioni di utilizzo</u>.</string>
+
+    <!--SignupActivity-->
+    <string name="name">Nome</string>
+    <string name="surname">Cognome</string>
+    <string name="day">Giorno</string>
+    <string name="month">Mese</string>
+    <string name="year">Anno</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+
+    <!--Categorie-->
+    <string name="cultura">Cultura</string>
+    <string name="sport">Sport</string>
+    <string name="musica">Musica</string>
+    <string name="cibo">Cibo</string>
+    <string name="divertimento">Divertimento</string>
+
+
+    <!--HomeActivity-->
+    <string name="newPassword">Nuova password</string>
+    <string name="newPassword2">Conferma nuova password</string>
+
+    <!--ProfileFragment-->
+    <string name="bio">Biografia</string>
+
+    <!--CreateExperienceActivity-->
+    <string name="titolo">Titolo</string>
+    <string name="luogo">Località</string>
+    <string name="descrizione">Descrizione</string>
+    <string name="categorie">Categorie:</string>
+    <string name="date">Date:</string>
+    <string name="orario">Orario:</string>
+    <string name="nPostiDisponibili">Posti disponibili:</string>
+    <string name="prezzo">Prezzo</string>
+    <string name="foto">Foto esperienza:</string>
+
+
+    <!--LoginActivity-->
+    <string name="forgot_password"><u>Password dimenticata?</u></string>
+
+    <!--ForgotPasswordActivity-->
+    <string name="send_email_forgot_password">Invia email per recupero password</string>
+
+    <string name="reviews"><u>Visualizza recensioni</u></string>
+    <string name="write_review"><u>Scrivi recensione</u></string>
+
+
+    <string name="termini_e_condizioni_titolo"><u>Termini e Condizioni</u></string>
+
+    <string name="termini_e_condizioni">Il presente documento riporta i termini e le condizioni generali sulla base dei quali viene offerto agli utenti l\'uso dell\'applicazione Keiken che offre creazione e prenotazione di "esperienze".\n\n\n<u>1. Definizioni\n\n</u>Per consentire una completa comprensione e accettazione dei presenti termini e condizioni, i seguenti termini, al singolare e al plurale, avranno il significato di seguito indicato:\nApplicazione: l\'applicazione Keiken.\nUtente: qualunque soggetto che accede e utilizza Applicazione.\nCondizioni: il presente contratto che disciplina rapporti tra il Titolare e gli Utenti.\n\n\n<u>2. Informazioni dettagliate sull\'offerta dell\'Applicazione</u>\n\nKeiken è un applicativo che ha lo scopo di collegare gli utenti tramite creazione e prenotazione di “esperienze”.\nL\'utente, dopo la registrazione, può accedere ad un proprio profilo con tutte le informazioni di base per farsi conoscere. Avrà la possibilità di prenotare esperienze organizzate dagli altri utenti dell\'applicazione. \nAvrà accesso ad una lista di esperienze con possibilità di filtrare per contenuto, luogo, date, numero di partecipanti, etc. \nConclusa l\'esperienza potrà recensire l\'organizzatore lasciando un commento visibile sull\'esperienza e sul profilo di questi. Potrà inoltre creare e modificare, previa verifica dei dati personali da parte di Keiken, le proprie esperienze.  \nCosì che, per esempio, uno studente di Bologna potrà utilizzare il servizio per prenotare una visita turistica di Varsavia, oppure un corso di pasta sfoglia sotto le due torri. Allo stesso tempo potrà lui stesso offrire esperienze ad altri utenti.  \n\n\n<u>3 Ambito di applicazione delle Condizioni\n\n</u>L\'uso dell\'Applicazione comporta l\'Accettazione delle condizioni da parte dell\'Utente.\n Qualora L\'Utente non intenda accettare le Condizioni e/o qualsiasi altra nota, aviso legale, informativa pubblicati o ivi richiamati non potrà utilizzare l\'applicazione nè i relativi servizi.\nLe Condizioni possono essere modificate in ogni momento. Eventuali modifiche saranno in vigore dal momento della loro pubblicazione sul Applicazione.\nPrima di utilizzare l\'applicazione, l\'Uterte è tenuto a leggere attentamente le Condizioni e a salvarle o stamparle per future consultazioni.\nIl Titolare si riserva il diritto di variare a propria discrezione, in qualunque momento, l\'interfaccia grafica dell\'Applicazione,Contenuti e la loro organizzazione, nonché ogni altro aspetto che caratterizza la funzionalità e la gestione dell\'Applicazione, comunicando all\'Utente, ove occorrenti, le relative istruzioni.\n\n\n<u>4. Licenza Creative Commons</u>\n\nI Contenuti e/o materiali disponibile sull\'Applicazione sono messi a disposizione sulla base del termini della presente licenza Creative Commons Public Licence CC BY 4.0 T (di seguito "Licenza" Contenuti e/o i materiali disponibili sull\'Applicazione sono protetti dal diritto d\'autore, dagli altri diritti attribuiti dalla legge sul diritto d\'autore (diritti connessi, diritti sulle banche dati, etc.) e/o delle altre leggi applicabili. Ogni utilizzazione dei contenuti e/o dei materiali disponibili sull\'Applicazione che non sia autorizzata ai sensi della Licenza elo delle altre leggi applicabili è proibita.\nll Titolare concede all\'Utente diritti di seguito elencati a condizione che lo stesso accetti di rispettare termini e le condizioni della Licenza.\nIl Titolare consente all\'Utente di produrre, distribuire, comunicare al pubblico, rappresentare, eseguire, recitare, trasformare contenuti elo materiali disponibili sull\'Applicazione con qualsiasi mezzo e formato per qualsiasi fine, anche commerciale, e condizione che utente riconosca la paternità dell\'opera al Titolare e fornisca un link alla licenza e indichi se sono state effettuate delle modifiche. La Licenza integrale e consultabile a questo indirizzo: https://creativecommons.org/licenses/by/4.0/legalcode.\n\n\n<u>5. Esclusione della garanzia</u>\n\nL\'Applicazione viene fornita "cosi come è e come è disponibile e il Titolare non fornisce alcuna garanzia esplicita o implicita in relazione all\'Applicazione, né fornisce alcuna garanzia che l\'Applicazione potrà soddisfare le esigenze degli Utenti o che non avrà mai interruzioni o sarà priva di errori o che sarà priva di virus o bug.\nll Titolare si adopererà per assicurare che l\'Applicazione sia disponibile ininterrottamente 24 ore al giorno, ma non potra in alcunmodo essere ritenuto responsabile se, per qualsiasi motivo, l\'Applicazione non fosse accessible e/o operativa in qualsiasi momento o per qualsiasi periodo. L\'accesso all\'Applicazione può essere sospeso temporaneamente e senza preavviso in caso di maggiore o guasto del sistema.\n\n<u>6. Limitazione della Responsabilità</u>\n\nll Titolare non potrà ritenersi responsabile verso l\'Utente, salvo caso di dolo o colpa grave, pet disservizi o malfunzionamenti connessi allutilizzo della rete internet al di fuori del controllo proprio o di suoi fornitori.\nIl Titolare non sarà inoltre responsabile in merito a danni, perdite e costi subiti dall\'Utente a seguito della mancata esecuzione del contratto per cause alui non imputabili.\nIl Titolare non si assume alcuna responsabilità per l\'eventuale uso fraudolento e illecito che possa essere fatto da parte di terzi delle carte di credito altri mezzi di pagamento.\nIl Titolare non sara responsabile per eventuali perdite di opportunità commerciale e qualsiasi altra perdita, anche indiretta, eventualmente subita dalUtente che non siano conseguenza diretta della violazione del contratto da parte del Titolare o per errato o inidoneo utilizzo dell Applicazione da parte degli utenti o di terzi.\nIn nessun caso il Titolare può essere ritenuto responsabile per una somma superiore al doppio del costo pagato dall\'Utente.\n\n\n<u>7. Forza maggiore</u>\n\nIL Titolare non potrà essere considerato responsabile per il mancato o ritardato adempimento dele proprie obbligazioni, per circostanze al di fuori del controllo ragionevole del Titolare dovute ad eventi di forza maggiore o comunque ad eventi imprevisti ed imprevedibili e, comunque, indipendenti dalla sua volontà.\nL\'adempimento delle obbligazioni da parte del Titolare si intenderà sospeso per il periodo in cui si verificano eventi di forza maggiore.\nIl Titolare compirà qualsiasi atto in suo potere al fine di individuare soluzioni che consentano il corretto adempimento delle proprie obbligazioni nonostante la persistenza di eventi di forza maggiore.\n\n\n<u>8. Collegamento a siti di terzi</u>\n\nL\'applicazione potrebbe contenere collegamenti a siti applicazioni di terzi. Il Titolare non esercita alcun controio su di essi, pertanto, non è in alcun modo responsable per contenuti di questi siti o applicazioni.Alcuni di questi collegamenti potrebbero rinviare a siti o applicazioni di terzi che forniscono servizi attraverso l\'Applicazione. In questi casi ai singoli servizi si applicheranno le condizioni generali per uso del\'Applicazione e per la fruizione del servizio predisposte dal terzo, rispetto alle quali il Titolare non assume alcuna responsabilità.\n\n\n<u>9. Privacy</u>\n\nLa tutela e il trattamento dei dati personali verranno in conformita all\'informativa sulla Privacy.\n\n\n<u>10. Legge applicabile e foro competente</u>\n\nLe Condizioni sono soggette alla legge italiana.\nPer ogni controversia relativa alla applicazione, esecuzione e interpretazione delle presenti Condizioni è competente il foro del luogo in cui ha sede il Titolare.\n\nBologna, 09/09/2019\n\n</string>
+
+
+</resources>
