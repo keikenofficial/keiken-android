@@ -169,6 +169,8 @@ public class ViewBookingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 accetta_esperienza.setEnabled(false);
                 rifiuta_esperienza.setEnabled(false);
+                Toast.makeText(getApplicationContext(), "Hai rifiutato la prenotazione.", Toast.LENGTH_LONG).show();
+                onBackPressed();
 
 
                 //prendo i posti prenotati
@@ -292,6 +294,8 @@ public class ViewBookingActivity extends AppCompatActivity {
                                         final String nome_utente_prenotante = (String) document.get("name");
                                         final String foto_utente_prenotante = (String) document.get("photoUrl");
                                         final String cognome_utente_prenotante = (String) document.get("surname");
+                                        final String bio = (String) document.get("bio");
+
 
                                         user_name.setText(nome_utente_prenotante);
 
@@ -321,6 +325,8 @@ public class ViewBookingActivity extends AppCompatActivity {
                                                 i.putExtra("profile_pic", foto_utente_prenotante);
                                                 i.putExtra("name", nome_utente_prenotante);
                                                 i.putExtra("surname", cognome_utente_prenotante);
+                                                i.putExtra("bio", bio);
+
 
                                                 startActivity(i);
                                             }
