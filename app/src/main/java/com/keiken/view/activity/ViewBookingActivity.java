@@ -169,6 +169,8 @@ public class ViewBookingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 accetta_esperienza.setEnabled(false);
                 rifiuta_esperienza.setEnabled(false);
+                Toast.makeText(getApplicationContext(), "Hai rifiutato la prenotazione.", Toast.LENGTH_LONG).show();
+                onBackPressed();
 
 
                 //prendo i posti prenotati

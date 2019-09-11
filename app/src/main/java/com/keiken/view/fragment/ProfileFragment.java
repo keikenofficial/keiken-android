@@ -582,8 +582,10 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                             if ((day != null) && (month != null) && (year != null) && !day.equals("") && !month.equals("") && !year.equals(""))
                                 date.setText(document.getString("day")+"/"+document.getString("month")+"/"+document.getString("year"));
                             String biografia = document.getString("bio");
-                            if (biografia != null)
-                                bio.setText(document.getString("bio"));
+                            if (biografia != null) {
+                                bio.setVisibility(View.VISIBLE);
+                                bio.setText(biografia);
+                            }
                         }
                         catch (Exception e) {}
 
