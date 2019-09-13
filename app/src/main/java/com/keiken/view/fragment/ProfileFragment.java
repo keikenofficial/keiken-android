@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -107,10 +108,6 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
-    private String userID;
-
-    private RecyclerView rv;
-    private RecyclerViewHeader headerRV;
 
 
     static final int REQUEST_PHOTO = 1889;
@@ -205,6 +202,17 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
         Button editProfileButton = c.findViewById(R.id.edit_profile);
         Button fab = c.findViewById(R.id.fab);
         final Button  confirmEditProfile= c.findViewById(R.id.confirm_edit_profile);
+
+        Switch switchNome = c.findViewById(R.id.switch_nome);
+        switchNome.setChecked(true);
+        switchNome.setSelected(true);
+        switchNome.setClickable(false);
+
+        Switch switchBio = c.findViewById(R.id.switch_bio);
+        switchBio.setChecked(true);
+        switchBio.setSelected(true);
+        switchBio.setClickable(false);
+
 
 
         final EditText nameEditText = c.findViewById(R.id.name_edit);

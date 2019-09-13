@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -76,10 +77,12 @@ public class ViewExperienceActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingToolbarLayout);
         collapsingToolbarLayout.setTitle(titolo);
 
+        collapsingToolbarLayout.setStatusBarScrimColor(Color.TRANSPARENT);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         mAuth=FirebaseAuth.getInstance();
 
@@ -126,7 +129,7 @@ public class ViewExperienceActivity extends AppCompatActivity {
             minuti ="0" + min;
         orarioTV.setText(ore+":"+minuti);
 
-        
+
         Chip culturaC = findViewById(R.id.cultura);
         Chip sportC = findViewById(R.id.sport);
         Chip musicaC = findViewById(R.id.musica);
@@ -192,6 +195,10 @@ public class ViewExperienceActivity extends AppCompatActivity {
                     final String nome_utente = (String) document.get("name");
                     final String cognome_utente = (String) document.get("surname");
                     final String bio = (String) document.get("bio");
+                    final String email = (String) document.get("email");
+                    final String day = (String) document.get("day");
+                    final String month = (String) document.get("month");
+                    final String year = (String) document.get("year");
 
                     profilo.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -208,6 +215,15 @@ public class ViewExperienceActivity extends AppCompatActivity {
                                 i.putExtra("name", nome_utente);
                                 i.putExtra("surname", cognome_utente);
                                 i.putExtra("bio", bio);
+                                i.putExtra("email", email);
+                                i.putExtra("day", day);
+                                i.putExtra("month", month);
+                                i.putExtra("year", year);
+
+
+
+
+
 
 
                                 startActivity(i);

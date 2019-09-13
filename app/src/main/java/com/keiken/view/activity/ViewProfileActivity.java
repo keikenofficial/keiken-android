@@ -42,6 +42,7 @@ import com.keiken.R;
 import com.keiken.controller.ImageController;
 import com.keiken.model.Esperienza;
 import com.keiken.view.RVAdapterProfile;
+import com.keiken.view.RecyclerViewHeader;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 
@@ -184,13 +185,21 @@ public class ViewProfileActivity extends AppCompatActivity {
         String profile_pic = getIntent().getStringExtra("profile_pic");
         String name = getIntent().getStringExtra("name");
         String surname = getIntent().getStringExtra("surname");
+        String email = getIntent().getStringExtra("email");
         String bio = getIntent().getStringExtra("bio");
+        String day = getIntent().getStringExtra("day");
+        String month = getIntent().getStringExtra("month");
+        String year = getIntent().getStringExtra("year");
 
 
-        TextView nameTV = findViewById(R.id.user_name);
+
+
+
+        //TextView nameTV = findViewById(R.id.user_name);
         final ImageView profile_picIV = findViewById(R.id.profile_pic);
 
-        nameTV.setText(name+" "+surname);
+        //nameTV.setText(name+" "+surname);
+        toolbar.setTitle(name + " " + surname);
 
 
         TextView bioTV = findViewById(R.id.bio);
@@ -198,6 +207,12 @@ public class ViewProfileActivity extends AppCompatActivity {
             bioTV.setText(bio);
             bioTV.setVisibility(View.VISIBLE);
         }
+
+
+        TextView emailTv = findViewById(R.id.email);
+        emailTv.setText(email);
+        TextView dateTv = findViewById(R.id.date);
+        dateTv.setText(day + "/" + month + "/" + year);
 
 
 
@@ -220,9 +235,12 @@ public class ViewProfileActivity extends AppCompatActivity {
 
 
         //init recycleView
+        final RecyclerViewHeader headerRV = findViewById(R.id.rvHeader);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         final RecyclerView rv = findViewById(R.id.esperienze);
         rv.setLayoutManager(llm);
+        headerRV.attachTo(rv);
+
 
         rv.setFocusable(false);
         rv.setHasFixedSize(true);
