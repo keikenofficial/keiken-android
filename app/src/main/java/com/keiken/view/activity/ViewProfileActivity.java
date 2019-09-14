@@ -191,6 +191,10 @@ public class ViewProfileActivity extends AppCompatActivity {
         String month = getIntent().getStringExtra("month");
         String year = getIntent().getStringExtra("year");
 
+        boolean publicSurname  = getIntent().getBooleanExtra("publicSurname", false);
+        boolean publicEmail = getIntent().getBooleanExtra("publicEmail", false);
+        boolean publicDate = getIntent().getBooleanExtra("publicDate", false);
+
 
 
 
@@ -198,8 +202,10 @@ public class ViewProfileActivity extends AppCompatActivity {
         //TextView nameTV = findViewById(R.id.user_name);
         final ImageView profile_picIV = findViewById(R.id.profile_pic);
 
+
         //nameTV.setText(name+" "+surname);
-        toolbar.setTitle(name + " " + surname);
+        if (publicSurname) toolbar.setTitle(name + " " + surname);
+        else toolbar.setTitle(name);
 
 
         TextView bioTV = findViewById(R.id.bio);
@@ -210,9 +216,11 @@ public class ViewProfileActivity extends AppCompatActivity {
 
 
         TextView emailTv = findViewById(R.id.email);
-        emailTv.setText(email);
+        if (publicEmail) emailTv.setText(email);
+        else emailTv.setVisibility(View.GONE);
         TextView dateTv = findViewById(R.id.date);
-        dateTv.setText(day + "/" + month + "/" + year);
+        if (publicDate) dateTv.setText(day + "/" + month + "/" + year);
+        else dateTv.setVisibility(View.GONE);
 
 
 

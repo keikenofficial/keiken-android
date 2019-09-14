@@ -258,7 +258,7 @@
                                                 android:textColor="#000000"
                                                 android:textSize="16dp"
                                                 android:id="@+id/email"
-                                                android:text="mail"
+                                                android:text=""
                                                 android:layout_marginBottom="7dp"/>
 
                                             <TextView

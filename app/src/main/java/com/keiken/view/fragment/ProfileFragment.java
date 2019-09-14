@@ -205,13 +205,18 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
         Switch switchNome = c.findViewById(R.id.switch_nome);
         switchNome.setChecked(true);
-        switchNome.setSelected(true);
         switchNome.setClickable(false);
 
         Switch switchBio = c.findViewById(R.id.switch_bio);
         switchBio.setChecked(true);
-        switchBio.setSelected(true);
         switchBio.setClickable(false);
+
+        final Switch switchCognome = c.findViewById(R.id.switch_cognome);
+        final Switch switchEmail = c.findViewById(R.id.switch_email);
+        final Switch switchData = c.findViewById(R.id.switch_data);
+
+
+
 
 
 
@@ -525,6 +530,13 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                                 bio = document.getString("bio");
                                 if(bio != null)
                                     biografiaEditText.setText(bio);
+                                boolean publicSurname = document.getBoolean("publicSurname");
+                                if (publicSurname) switchCognome.setChecked(true);
+                                boolean publicEmail = document.getBoolean("publicEmail");
+                                if (publicEmail) switchEmail.setChecked(true);
+                                boolean publicDate = document.getBoolean("publicDate");
+                                if (publicDate) switchData.setChecked(true);
+
                             }
                             catch (Exception e) {};
 
@@ -625,6 +637,11 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
                 final String password = passwordEditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
 
+                final boolean publicSurname = switchCognome.isChecked();
+                final boolean publicEmail = switchEmail.isChecked();
+                final boolean publicDate = switchData.isChecked();
+
+
 
 
 
@@ -707,6 +724,16 @@ public class ProfileFragment extends Fragment implements IOnBackPressed {
 
                                         }
                                         bio.setText(biografia);
+
+
+
+                                    Map<Object, Boolean> map2 = new HashMap<>();
+
+                                    map2.put("publicSurname", publicSurname);
+                                    map2.put("publicEmail", publicEmail);
+                                    map2.put("publicDate", publicDate);
+                                    yourCollRef.document(document.getId()).set(map2, SetOptions.merge());
+
 
 
 

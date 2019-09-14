@@ -199,6 +199,10 @@ public class ViewExperienceActivity extends AppCompatActivity {
                     final String day = (String) document.get("day");
                     final String month = (String) document.get("month");
                     final String year = (String) document.get("year");
+                    final boolean publicSurname = (boolean) document.get("publicSurname");
+                    final boolean publicEmail = (boolean) document.get("publicEmail");
+                    final boolean publicDate = (boolean) document.get("publicDate");
+
 
                     profilo.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -219,10 +223,9 @@ public class ViewExperienceActivity extends AppCompatActivity {
                                 i.putExtra("day", day);
                                 i.putExtra("month", month);
                                 i.putExtra("year", year);
-
-
-
-
+                                i.putExtra("publicSurname", publicSurname);
+                                i.putExtra("publicEmail", publicEmail);
+                                i.putExtra("publicDate", publicDate);
 
 
 
