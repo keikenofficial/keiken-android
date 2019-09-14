@@ -263,7 +263,7 @@ public class ViewBookingActivity extends AppCompatActivity {
                         posti_prenotatiTV.setText("Posti prenotati: " + posti_prenotati);
                         descrizioneTV.setText(descrizione);
                         luogoTV.setText(luogo);
-                        SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
+                        final SimpleDateFormat formatYear = new SimpleDateFormat("YYYY");
                         String currentYear = formatYear.format(data_prenotazione.getTime());
                         dateTV.setText(data_prenotazione.toString().substring(0,10)+" " +currentYear);
                         if (photoUri != null) {
@@ -295,6 +295,14 @@ public class ViewBookingActivity extends AppCompatActivity {
                                         final String foto_utente_prenotante = (String) document.get("photoUrl");
                                         final String cognome_utente_prenotante = (String) document.get("surname");
                                         final String bio = (String) document.get("bio");
+                                        final String email = (String ) document.get("email");
+                                        final String day = (String ) document.get("day");
+                                        final String month = (String ) document.get("month");
+                                        final String year = (String ) document.get("year");
+                                        final boolean publicSurname = (boolean) document.get("publicSurname");
+                                        final boolean publicEmail = (boolean) document.get("publicEmail");
+                                        final boolean publicDate = (boolean) document.get("publicDate");
+
 
 
                                         user_name.setText(nome_utente_prenotante);
@@ -326,6 +334,15 @@ public class ViewBookingActivity extends AppCompatActivity {
                                                 i.putExtra("name", nome_utente_prenotante);
                                                 i.putExtra("surname", cognome_utente_prenotante);
                                                 i.putExtra("bio", bio);
+                                                i.putExtra("email", email);
+                                                i.putExtra("day", day);
+                                                i.putExtra("month", month);
+                                                i.putExtra("year", year);
+                                                i.putExtra("publicSurname", publicSurname);
+                                                i.putExtra("publicEmail", publicEmail);
+                                                i.putExtra("publicDate", publicDate);
+
+
 
 
                                                 startActivity(i);

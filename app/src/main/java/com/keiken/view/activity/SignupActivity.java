@@ -123,6 +123,10 @@ public class SignupActivity extends AppCompatActivity {
                             userDb.put("email", email);
                             userDb.put("id", user.getUid());
 
+                            userDb.put("publicSurname", false);
+                            userDb.put("publicEmail", false);
+                            userDb.put("publicDate", false);
+
 
 
 

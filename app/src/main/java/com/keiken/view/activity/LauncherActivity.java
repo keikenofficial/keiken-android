@@ -308,6 +308,11 @@ public class LauncherActivity extends AppCompatActivity {
                         userDb.put("email", user.getEmail());
                         userDb.put("id", user.getUid());
 
+                        userDb.put("publicSurname", false);
+                        userDb.put("publicEmail", false);
+                        userDb.put("publicDate", false);
+
+
                         //carico foto utente sul database
                         Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();
 
