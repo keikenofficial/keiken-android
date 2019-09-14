@@ -70,20 +70,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:strokeWidth="0dp"
                 app:rippleColor="#10ffffff"
-                android:text="Contatta assistenza"
-                android:textColor="#ffffff"
-                android:textAllCaps="false"
-                android:textSize="17sp"
-                android:gravity="left"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/logout"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeWidth="0dp"
-                app:rippleColor="#10ffffff"
-                android:text="Logout"
+                android:text="Segnala utente"
                 android:textColor="#ffffff"
                 android:textAllCaps="false"
                 android:textSize="17sp"
@@ -221,19 +208,7 @@
                                                     android:scaleType="centerCrop"
                                                     android:src="@mipmap/avatar"/>
                                             </androidx.cardview.widget.CardView>
-
-                                            <com.google.android.material.button.MaterialButton
-                                                android:theme="@style/Widget.MaterialComponents.Button.Icon"
-                                                app:backgroundTint="@color/colorPrimary"
-                                                android:layout_width="44dp"
-                                                android:layout_height="56dp"
-                                                android:layout_marginTop="112dp"
-                                                android:layout_marginLeft="118dp"
-                                                app:cornerRadius="100dp"
-                                                android:id="@+id/change_photo"
-                                                app:icon="@drawable/ic_photo"
-                                                android:paddingLeft="24dp"
-                                                app:iconGravity="textStart"/>
+                                            
 
                                         </FrameLayout>
                                     </FrameLayout>
