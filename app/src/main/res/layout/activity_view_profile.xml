@@ -64,7 +64,7 @@
             android:padding="10dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/contacts"
+                android:id="@+id/report_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"

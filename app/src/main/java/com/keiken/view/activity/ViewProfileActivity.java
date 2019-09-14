@@ -1,5 +1,6 @@
 package com.keiken.view.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -11,12 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +36,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -49,6 +54,7 @@ import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ViewProfileActivity extends AppCompatActivity {
 
@@ -57,6 +63,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private int peekHeight = 0;
     private MaterialButton menuButton;
     private ImageView upArrow;
+    private MaterialButton report_user;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -179,9 +186,11 @@ public class ViewProfileActivity extends AppCompatActivity {
         });
 
 
+        report_user = findViewById(R.id.report_user);
+
 
         //Importo i dati
-        String ID_PROFILO = getIntent().getStringExtra("ID_PROFILO");
+        final String ID_PROFILO = getIntent().getStringExtra("ID_PROFILO");
         String profile_pic = getIntent().getStringExtra("profile_pic");
         String name = getIntent().getStringExtra("name");
         String surname = getIntent().getStringExtra("surname");
@@ -240,6 +249,65 @@ public class ViewProfileActivity extends AppCompatActivity {
             });
         }
 
+        //REPORT BUTTON
+        report_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //multiple choice between report types
+                String reason = null;
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setTitle(R.string.report_dialog_title)
+                        .setItems(R.array.report_reasons, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // The 'which' argument contains the index position
+                                // of the selected item
+                                String[] report_reasons = getResources().getStringArray(R.array.report_reasons);
+                                String reason = report_reasons[which];
+
+                                //create report
+                                final Map<String, Object> reportDb = new HashMap<>();
+                                reportDb.put("ID_USER_REPORTED", ID_PROFILO);
+                                reportDb.put("ID_USER_REPORTING", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                reportDb.put("reason", reason);
+
+                                if(reason.equals(report_reasons[report_reasons.length-1])){
+                                    //Set edittext. user can upload text
+                                    final EditText editText = new EditText(getApplicationContext());
+                                    editText.setHint(R.string.report_dialog_other_reason_edit_text_hint);
+                                    builder.setView(editText);
+                                    builder.setPositiveButton(R.string.send_report, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            if(!editText.getText().toString().equals("")){
+                                                //add editText to reportDB
+                                                String other_reason_text = editText.getText().toString();
+                                                reportDb.put("other_reason_text", other_reason_text);
+
+                                                //upload
+                                                db.collection("report").add(reportDb).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                        Toast.makeText(getApplicationContext(),R.string.report_sent, Toast.LENGTH_SHORT);
+                                                    }
+                                                });
+                                            } else
+                                                Toast.makeText(getApplicationContext(),R.string.empty_report_editText, Toast.LENGTH_LONG);
+                                        }
+                                    });
+                                } else {
+                                    //upload
+                                    db.collection("report").add(reportDb).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            Toast.makeText(getApplicationContext(),R.string.report_sent, Toast.LENGTH_SHORT);
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                builder.create();
+            }
+        });
 
 
         //init recycleView
