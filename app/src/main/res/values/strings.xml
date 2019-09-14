@@ -74,8 +74,8 @@
                 <item>Spam</item>
                 <item>Vendite non autorizzate</item>
                 <item>Frode</item>
-                <item>Incitamento all'odio</item>
-                <item name="report_reason_altro">Altro</item>
+                <item>Incitamento all\'odio</item>
+                <item>Altro</item>
             </string-array>
 
             <string name="send_report">Invia segnalazione</string>
