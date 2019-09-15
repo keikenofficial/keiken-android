@@ -333,6 +333,22 @@ public class CreateExperienceActivity extends AppCompatActivity {
                                         Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
 
                                         String ID_ESPERIENZA = documentReference.getId();
+
+                                        String updatedPhotoUri = "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+ID_ESPERIENZA;
+
+                                        //change photoUri to match  ID_EXPERIENCE
+                                        try {
+                                            db.collection("esperienze").document(ID_ESPERIENZA).update("photoUri", updatedPhotoUri).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.w("","updated photoUri");
+                                                }
+                                            });
+                                        } catch (NullPointerException e) {
+                                            Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
+                                        }
+
                                         //INIZIALIZZAZIONE DATI
 
                                         CollectionReference dates = db.collection("esperienze").document(ID_ESPERIENZA).collection("date");
@@ -362,7 +378,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
 
 
                                             } catch (NullPointerException e) {
-                                                Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, prova a fare di nuovo il login.", Toast.LENGTH_LONG).show();
                                                 startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
                                             }
 
