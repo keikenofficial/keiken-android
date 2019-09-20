@@ -12,13 +12,13 @@ Così che, per esempio, uno studente di Bologna potrà utilizzare il servizio pe
 
 External libraries used: 
 
-Blurry: [![](https://jitpack.io/v/wasabeef/Blurry.svg)](https://jitpack.io/#wasabeef/Blurry)
+[Blurry](https://github.com/wasabeef/Blurry): [![](https://jitpack.io/v/wasabeef/Blurry.svg)](https://jitpack.io/#wasabeef/Blurry)
 
-Range Seekbar: [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
+[Range Seekbar](https://github.com/Jay-Goo/RangeSeekBar): [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
 
-Calendar Date Range Picker: [![](https://jitpack.io/v/ArchitShah248/CalendarDateRangePicker.svg)](https://jitpack.io/#ArchitShah248/CalendarDateRangePicker)
+[Calendar Date Range Picker](https://github.com/dangrossman/daterangepicker): [![](https://jitpack.io/v/ArchitShah248/CalendarDateRangePicker.svg)](https://jitpack.io/#ArchitShah248/CalendarDateRangePicker)
 
-Material Calendar View: [![](https://jitpack.io/v/Applandeo/Material-Calendar-View.svg)](https://jitpack.io/#Applandeo/Material-Calendar-View)
+[Material Calendar View](https://github.com/Applandeo/Material-Calendar-View): [![](https://jitpack.io/v/Applandeo/Material-Calendar-View.svg)](https://jitpack.io/#Applandeo/Material-Calendar-View)
 
-Number Picker: [![](https://jitpack.io/v/ShawnLin013/NumberPicker.svg)](https://jitpack.io/#ShawnLin013/NumberPicker)
+[Number Picker](https://github.com/ShawnLin013/NumberPicker): [![](https://jitpack.io/v/ShawnLin013/NumberPicker.svg)](https://jitpack.io/#ShawnLin013/NumberPicker)
 
