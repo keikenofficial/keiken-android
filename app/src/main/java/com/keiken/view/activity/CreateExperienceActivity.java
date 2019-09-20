@@ -295,7 +295,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
 
                 final NumberPicker pickerPosti = findViewById(R.id.posti_disponibili);
 
-                String uri = "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+titolo;
+                String uri = "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/" + titolo;
 
 
 
@@ -517,7 +517,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
             final EditText titoloEditText = findViewById(R.id.titolo_edit);
             String titolo =  titoloEditText.getText().toString();
 
-            final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+titolo);
+            final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/" + titolo);
             ref.putFile(uriCompressed);
         }
 

@@ -144,20 +144,20 @@ public class LauncherActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //checks permission to access file
-                if(isCameraPermissionAllowed())
+                if(isGalleryPermissionAllowed())
                     signIn();
                 else
-                    Toast.makeText(getApplicationContext(),"Servono i permessi di accesso alla galleria ed alla fotocamera per continuare",Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(),"Servono i permessi di accesso alla galleria per continuare",Toast.LENGTH_SHORT);
             }
         });
 
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isCameraPermissionAllowed())
+                if(isGalleryPermissionAllowed())
                     LoginManager.getInstance().logInWithReadPermissions(LauncherActivity.this, Arrays.asList("public_profile", "email"));
                 else
-                    Toast.makeText(getApplicationContext(),"Servono i permessi di accesso alla galleria ed alla fotocamera per continuare",Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(),"Servono i permessi di accesso alla galleria per continuare",Toast.LENGTH_SHORT);
             }
         });
 
@@ -292,18 +292,15 @@ public class LauncherActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isCameraPermissionAllowed(){
+    private boolean isGalleryPermissionAllowed(){
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getApplicationContext()),
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
 
                 || ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-
-                || ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
             requestPermissions(
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     0);
 
             
@@ -311,10 +308,7 @@ public class LauncherActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
 
                     || ContextCompat.checkSelfPermission(getApplicationContext(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-
-                    || ContextCompat.checkSelfPermission(getApplicationContext(),
-                    Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                 return true;
             else
                 return false;
