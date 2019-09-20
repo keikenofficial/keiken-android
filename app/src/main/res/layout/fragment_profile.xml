@@ -647,8 +647,7 @@
                             android:orientation="vertical"
                             android:layout_marginStart="30dp"
                             android:layout_marginEnd="30dp"
-                            android:gravity="center"
-                            android:layout_marginBottom="35dp">
+                            android:gravity="center">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -847,26 +846,132 @@
 
                                 </com.google.android.material.textfield.TextInputLayout>
 
+
+
                             </LinearLayout>
 
 
                         </FrameLayout>
 
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/confirm_edit_profile"
-                            android:layout_gravity="bottom|end"
-                            android:layout_width="wrap_content"
-                            android:paddingStart="14dp"
-                            android:paddingEnd="14dp"
-                            android:layout_marginEnd="30dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Modifica Profilo"
-                            android:textAllCaps="false"
-                            android:textColor="#ffffff"
-                            android:textSize="17sp"/>
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:orientation="vertical">
 
 
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:textColor="#000000"
+                                android:textSize="18sp"
+                                android:text="Scegli quali informazioni rendere pubbliche"
+                                android:layout_marginBottom="5dp"/>
+
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:text="Nome: "
+                                    android:textColor="#000000"/>
+                                <Switch
+                                    android:id="@+id/switch_nome"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:text="Cognome: "
+                                    android:textColor="#000000"/>
+                                <Switch
+                                    android:id="@+id/switch_cognome"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:text="Data di nascita: "
+                                    android:textColor="#000000"/>
+                                <Switch
+                                    android:id="@+id/switch_data"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:text="Email: "
+                                    android:textColor="#000000"/>
+                                <Switch
+                                    android:id="@+id/switch_email"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp"
+                                    android:text="Biografia: "
+                                    android:textColor="#000000"/>
+                                <Switch
+                                    android:id="@+id/switch_bio"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content" />
+                            </LinearLayout>
+
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/confirm_edit_profile"
+                                android:layout_gravity="end"
+                                android:layout_width="wrap_content"
+                                android:paddingStart="14dp"
+                                android:paddingEnd="14dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_height="wrap_content"
+                                android:text="Modifica Profilo"
+                                android:textAllCaps="false"
+                                android:textColor="#ffffff"
+                                android:textSize="17sp"/>
+
+
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

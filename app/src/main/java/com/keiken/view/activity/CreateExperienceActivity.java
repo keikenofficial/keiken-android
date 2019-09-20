@@ -295,14 +295,13 @@ public class CreateExperienceActivity extends AppCompatActivity {
 
                 final NumberPicker pickerPosti = findViewById(R.id.posti_disponibili);
 
-                String uri = "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+titolo;
+                String uri = "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/" + titolo;
 
 
 
                 if(verifyInformations(titolo, descrizione, luogo) && isPrezzoValid(prezzo) && isCategorieValid(categorie) && isDateValid(selectedDates, ore, minuti) && isPhotoValid()) {
                     confirmCreaEsperienza.setEnabled(false);
                     //upload dell'immagine da eseguire previa verifica di tutti i dati
-                    uploadEsperienzaImage(uri_definitivo);
 
                     CollectionReference esperienze = db.collection("esperienze");
                     // Create a new experience
@@ -333,6 +332,25 @@ public class CreateExperienceActivity extends AppCompatActivity {
                                         Log.d("", "DocumentSnapshot added with ID: " + documentReference.getId());
 
                                         String ID_ESPERIENZA = documentReference.getId();
+
+
+                                        String updatedPhotoUri = "images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+ID_ESPERIENZA;
+
+                                        //change photoUri to match  ID_EXPERIENCE
+                                        try {
+                                            db.collection("esperienze").document(ID_ESPERIENZA).update("photoUri", updatedPhotoUri).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.w("","updated photoUri");
+                                                }
+                                            });
+                                        } catch (NullPointerException e) {
+                                            Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
+                                        }
+
+                                        uploadEsperienzaImage(uri_definitivo, ID_ESPERIENZA);
+
                                         //INIZIALIZZAZIONE DATI
 
                                         CollectionReference dates = db.collection("esperienze").document(ID_ESPERIENZA).collection("date");
@@ -362,7 +380,7 @@ public class CreateExperienceActivity extends AppCompatActivity {
 
 
                                             } catch (NullPointerException e) {
-                                                Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, porva a fare di nuovo il login.", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getApplicationContext(), "Errore nel raggiungere il server, prova a fare di nuovo il login.", Toast.LENGTH_LONG).show();
                                                 startActivity(new Intent(CreateExperienceActivity.this, HomeActivity.class));
                                             }
 
@@ -493,15 +511,14 @@ public class CreateExperienceActivity extends AppCompatActivity {
         }
     }
 
-    private void uploadEsperienzaImage(Uri filePath) {
+    private void uploadEsperienzaImage(Uri filePath, String ID_ESPERIENZA) {
         Bitmap bitmap = getImageResized(getApplicationContext(), filePath);
         Uri uriCompressed = createImageFileEsperienza(bitmap);
 
         if (uriCompressed != null) {
             final EditText titoloEditText = findViewById(R.id.titolo_edit);
             String titolo =  titoloEditText.getText().toString();
-
-            final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+titolo);
+            final StorageReference ref = storageReference.child("images/" + Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid().concat("/")+"esperienze/"+ ID_ESPERIENZA);
             ref.putFile(uriCompressed);
         }
 

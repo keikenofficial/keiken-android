@@ -1,6 +1,8 @@
 package com.keiken.view.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +54,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class LauncherActivity extends AppCompatActivity {
 
@@ -140,14 +143,21 @@ public class LauncherActivity extends AppCompatActivity {
         googleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn();
+                //checks permission to access file
+                if(isGalleryPermissionAllowed())
+                    signIn();
+                else
+                    Toast.makeText(getApplicationContext(),"Servono i permessi di accesso alla galleria per continuare",Toast.LENGTH_SHORT);
             }
         });
 
         facebookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginManager.getInstance().logInWithReadPermissions(LauncherActivity.this, Arrays.asList("public_profile", "email"));
+                if(isGalleryPermissionAllowed())
+                    LoginManager.getInstance().logInWithReadPermissions(LauncherActivity.this, Arrays.asList("public_profile", "email"));
+                else
+                    Toast.makeText(getApplicationContext(),"Servono i permessi di accesso alla galleria per continuare",Toast.LENGTH_SHORT);
             }
         });
 
@@ -282,6 +292,30 @@ public class LauncherActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isGalleryPermissionAllowed(){
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getApplicationContext()),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+
+                || ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    0);
+
+            
+            if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getApplicationContext()),
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+
+                    || ContextCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                return true;
+            else
+                return false;
+        } else
+            return true;
+    }
+
 
 
     private void uploadUserToDb(final String name, final String surname){ //facebook and google
@@ -307,6 +341,11 @@ public class LauncherActivity extends AppCompatActivity {
                         userDb.put("surname", surname);
                         userDb.put("email", user.getEmail());
                         userDb.put("id", user.getUid());
+
+                        userDb.put("publicSurname", false);
+                        userDb.put("publicEmail", false);
+                        userDb.put("publicDate", false);
+
 
                         //carico foto utente sul database
                         Uri uri = FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl();

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:paddingStart="40dp"
+    android:paddingEnd="40dp"
+    android:background="@color/White">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Segnala utente"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/Black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scegli una motivazione:"
+        android:textSize="17sp"
+        android:textColor="@color/Black"
+        android:layout_marginBottom="10dp" />
+
+
+   <RadioGroup
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/report_reasons">
+
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Nudo"
+           android:buttonTint="@color/colorPrimary"/>
+
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Violenza"
+           android:buttonTint="@color/colorPrimary"/>
+
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Comportamento intimidatorio"
+           android:buttonTint="@color/colorPrimary"/>
+
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Spam"
+           android:buttonTint="@color/colorPrimary"/>
+
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Vendite non autorizzate"
+           android:buttonTint="@color/colorPrimary" />
+
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Frode"
+           android:buttonTint="@color/colorPrimary"/>
+
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Incitamento all'odio"
+           android:buttonTint="@color/colorPrimary"/>
+
+       <RadioButton
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Altro"
+           android:buttonTint="@color/colorPrimary"/>
+
+   </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descrizione"
+        app:hintAnimationEnabled="true"
+        android:layout_marginTop="20dp">
+
+        <EditText
+            android:id="@+id/report_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:inputType="textCapSentences"
+            android:lines="1"
+            android:maxLength="32"
+            android:theme="@style/AppTheme.EditText.Black"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/report_button"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content"
+        android:text="Invia Segnalazione"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="17sp"/>
+
+</LinearLayout>
+
