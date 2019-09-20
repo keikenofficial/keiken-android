@@ -11,3 +11,6 @@ Così che, per esempio, uno studente di Bologna potrà utilizzare il servizio pe
 
 
 [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
+[![](https://github.com/wasabeef/Blurry)](https://jitpack.io/#wasabeef/Blurry)
+
+
