@@ -1,5 +1,8 @@
 package com.keiken.view.activity;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -11,12 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +38,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -45,10 +52,12 @@ import com.keiken.view.RVAdapterProfile;
 import com.keiken.view.RecyclerViewHeader;
 import com.keiken.view.backdrop.BackdropFrontLayer;
 import com.keiken.view.backdrop.BackdropFrontLayerBehavior;
+import com.keiken.view.fragment.ReportUserDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ViewProfileActivity extends AppCompatActivity {
 
@@ -57,6 +66,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     private int peekHeight = 0;
     private MaterialButton menuButton;
     private ImageView upArrow;
+    private MaterialButton report_user;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -179,9 +189,11 @@ public class ViewProfileActivity extends AppCompatActivity {
         });
 
 
+        report_user = findViewById(R.id.report_user);
+
 
         //Importo i dati
-        String ID_PROFILO = getIntent().getStringExtra("ID_PROFILO");
+        final String ID_PROFILO = getIntent().getStringExtra("ID_PROFILO");
         String profile_pic = getIntent().getStringExtra("profile_pic");
         String name = getIntent().getStringExtra("name");
         String surname = getIntent().getStringExtra("surname");
@@ -240,6 +252,15 @@ public class ViewProfileActivity extends AppCompatActivity {
             });
         }
 
+        //REPORT BUTTON
+        report_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ReportUserDialogFragment dialogFragment = ReportUserDialogFragment.newInstance(ID_PROFILO);
+                dialogFragment.show(getSupportFragmentManager(), "Segnala utente");
+                onBackPressed();
+            }
+        });
 
 
         //init recycleView
