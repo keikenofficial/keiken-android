@@ -10,13 +10,15 @@ Avrà accesso ad una lista di esperienze con possibilità di filtrare per conten
 Così che, per esempio, uno studente di Bologna potrà utilizzare il servizio per prenotare una visita turistica di Varsavia, oppure un corso di pasta sfoglia sotto le due torri. Allo stesso tempo potrà lui stesso offrire esperienze ad altri utenti. 
 
 
-[![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
+External libraries used: 
 
-[![](https://jitpack.io/v/wasabeef/Blurry.svg)](https://jitpack.io/#wasabeef/Blurry)
+Range Seekbar: [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
 
-[![](https://jitpack.io/v/ArchitShah248/CalendarDateRangePicker.svg)](https://jitpack.io/#ArchitShah248/CalendarDateRangePicker)
+Blurry: [![](https://jitpack.io/v/wasabeef/Blurry.svg)](https://jitpack.io/#wasabeef/Blurry)
 
-[![](https://jitpack.io/v/Applandeo/Material-Calendar-View.svg)](https://jitpack.io/#Applandeo/Material-Calendar-View)
+Calendar Date Range Picker: [![](https://jitpack.io/v/ArchitShah248/CalendarDateRangePicker.svg)](https://jitpack.io/#ArchitShah248/CalendarDateRangePicker)
 
-[![](https://jitpack.io/v/ShawnLin013/NumberPicker.svg)](https://jitpack.io/#ShawnLin013/NumberPicker)
+Material Calendar View: [![](https://jitpack.io/v/Applandeo/Material-Calendar-View.svg)](https://jitpack.io/#Applandeo/Material-Calendar-View)
+
+Number Picker: [![](https://jitpack.io/v/ShawnLin013/NumberPicker.svg)](https://jitpack.io/#ShawnLin013/NumberPicker)
 
