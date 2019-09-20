@@ -18,8 +18,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import com.archit.calendardaterangepicker.customviews.DateRangeCalendarView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,6 +60,7 @@ import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -75,7 +74,7 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
     private BackdropFrontLayerBehavior sheetBehavior;
     private MaterialButton filterButton;
     private ImageView upArrow;
-    private TextView header1;
+    private LinearLayoutCompat header;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -146,9 +145,9 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
         storageReference = storage.getReference();
 
 
+        header = c.findViewById(R.id.header);
 
 
-        header1 = c.findViewById(R.id.header1);
 
         final BackdropFrontLayer contentLayout = c.findViewById(R.id.backdrop);
         contentLayout.setTouchIntercept(BackdropFrontLayer.NONE);
@@ -345,23 +344,23 @@ public class HomeFragment extends Fragment implements IOnBackPressed {
 
 
 
-        upArrow.setOnClickListener(new View.OnClickListener() {
+        header.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-               filterButton.setIcon(getResources().getDrawable(R.drawable.cross_to_filter));
-               AnimatedVectorDrawable ic =  (AnimatedVectorDrawable)filterButton.getIcon();
-               ic.start();
+               if (sheetBehavior.getState()==BottomSheetBehavior.STATE_COLLAPSED) {
+                   sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-
-               upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
-               AnimatedVectorDrawable ic2 =  (AnimatedVectorDrawable)upArrow.getDrawable();
-               ic2.start();
+                   filterButton.setIcon(getResources().getDrawable(R.drawable.cross_to_filter));
+                   AnimatedVectorDrawable ic = (AnimatedVectorDrawable) filterButton.getIcon();
+                   ic.start();
 
 
-
-
+                   upArrow.setImageDrawable((getResources().getDrawable(R.drawable.black_to_white_up_arrow)));
+                   AnimatedVectorDrawable ic2 = (AnimatedVectorDrawable) upArrow.getDrawable();
+                   ic2.start();
+               }
+               
            }
        });
 

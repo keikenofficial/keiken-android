@@ -367,6 +367,7 @@
 
         <!--This is the backdrop's header with a title and icon-->
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -381,7 +382,6 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/header1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Esperienze"
@@ -389,108 +389,6 @@
                     android:textColor="#000000"
                     android:textStyle="bold"/>
 
-
-                <LinearLayout
-                    android:id="@+id/header3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginRight="30dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Filtri:  "
-                        android:textSize="17sp"
-                        android:textColor="#000000"
-                        android:textStyle="bold"/>
-
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <com.google.android.material.chip.ChipGroup
-                            android:layout_width="match_parent"
-                            android:layout_height="26dp">
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Bologna"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0 - 50€"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Viaggi"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Arte"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sport"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="5 persone"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                            <com.google.android.material.chip.Chip
-                                style="@style/Chip"
-                                app:closeIconVisible="true"
-                                android:textAppearance="@style/Chip"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="10/01/2019 - 15/01/2019"
-                                android:textColor="#000000"
-                                android:layout_gravity="center_vertical"/>
-
-                        </com.google.android.material.chip.ChipGroup>
-
-                    </HorizontalScrollView>
-
-
-                </LinearLayout>
 
 
                 <!--arrow to collapse backdrop-->
