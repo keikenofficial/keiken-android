@@ -12,9 +12,9 @@ Così che, per esempio, uno studente di Bologna potrà utilizzare il servizio pe
 
 External libraries used: 
 
-Range Seekbar: [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
-
 Blurry: [![](https://jitpack.io/v/wasabeef/Blurry.svg)](https://jitpack.io/#wasabeef/Blurry)
+
+Range Seekbar: [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
 
 Calendar Date Range Picker: [![](https://jitpack.io/v/ArchitShah248/CalendarDateRangePicker.svg)](https://jitpack.io/#ArchitShah248/CalendarDateRangePicker)
 
