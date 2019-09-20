@@ -1,5 +1,9 @@
 # Keiken
 
+Keiken is an Andorid app that connect users by letting them create and book "experiences".
+Keiken experiences are activities and events created by the users available in the whole world.
+
+
 Keiken è un'applicazione Android che ha lo scopo di collegare gli utenti tramite creazione e prenotazione di “esperienze”.
 
 L'utente, dopo la registrazione, può accedere ad un proprio profilo con tutte le informazioni di base per farsi conoscere. Avrà la possibilità di prenotare esperienze organizzate dagli altri utenti dell'applicazione. 
