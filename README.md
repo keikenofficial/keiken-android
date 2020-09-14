@@ -1,7 +1,7 @@
 # Keiken
 
 
-[Keiken](https://keikenofficial.github.io/keiken-web/) is an [Andorid app](https://keiken.org/keiken.apk) that connect users by letting them create and book "experiences".
+[Keiken](https://keikenofficial.github.io/keiken-web/) is an [Andorid app](https://keikenofficial.github.io/keiken-web/keiken.apk) that connect users by letting them create and book "experiences".
 Keiken experiences are activities and events created by the users available in the whole world.
 
 
