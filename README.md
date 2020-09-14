@@ -1,7 +1,7 @@
 # Keiken
 
 
-[Keiken](https://keiken.org/) is an [Andorid app](https://keiken.org/keiken.apk) that connect users by letting them create and book "experiences".
+[Keiken](https://keikenofficial.github.io/keiken-web/) is an [Andorid app](https://keiken.org/keiken.apk) that connect users by letting them create and book "experiences".
 Keiken experiences are activities and events created by the users available in the whole world.
 
 
@@ -10,7 +10,7 @@ L'utente, dopo la registrazione, può accedere ad un proprio profilo con tutte l
 Avrà accesso ad una lista di esperienze con possibilità di filtrare per contenuto, luogo, date, numero di partecipanti, etc. Conclusa l'esperienza potrà recensire l'organizzatore lasciando un commento visibile sull'esperienza e sul profilo di questi. Potrà inoltre creare e modificare, previa verifica dei dati personali da parte di Keiken, le proprie esperienze.  
 Così che, per esempio, uno studente di Bologna potrà utilizzare il servizio per prenotare una visita turistica di Varsavia, oppure un corso di pasta sfoglia sotto le due torri. Allo stesso tempo potrà lui stesso offrire esperienze ad altri utenti. 
 
-![Keiken](https://keiken.org/images/logo_full.png)
+![Keiken](https://keikenofficial.github.io/keiken-web/images/logo_full.png)
 
 External libraries used: 
 
